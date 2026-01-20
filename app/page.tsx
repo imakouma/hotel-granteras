@@ -1056,6 +1056,8 @@ export default function Home() {
   const [showOtherLanguages, setShowOtherLanguages] = useState(false);
   const languageDropdownRef = useRef<HTMLDivElement>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const servicesGridRef = useRef<HTMLDivElement>(null);
+  const [visibleServices, setVisibleServices] = useState<Set<string>>(new Set());
 
   const heroImages = [
     '/hotel-front-annex.jpg',
@@ -1073,6 +1075,33 @@ export default function Home() {
 
     return () => clearInterval(interval);
   }, [heroImages.length]);
+
+  // サービスアイコンのスクロールアニメーション
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const serviceId = entry.target.getAttribute('data-service-id');
+            if (serviceId) {
+              setVisibleServices((prev) => new Set(prev).add(serviceId));
+            }
+          }
+        });
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px',
+      }
+    );
+
+    const serviceElements = servicesGridRef.current?.querySelectorAll('[data-service-id]');
+    serviceElements?.forEach((el) => observer.observe(el));
+
+    return () => {
+      serviceElements?.forEach((el) => observer.unobserve(el));
+    };
+  }, []);
 
   // ドロップダウン外をクリックした時に閉じる
   useEffect(() => {
@@ -1337,7 +1366,7 @@ export default function Home() {
                   }`}
                   title="Other Languages"
                 >
-                  <span className="flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 lg:w-10 lg:h-10 xl:w-12 xl:h-12 text-base sm:text-lg md:text-2xl lg:text-3xl xl:text-4xl leading-none">🌐</span>
+                  <span className="flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 lg:w-20 lg:h-20 xl:w-24 xl:h-24 text-base sm:text-lg md:text-2xl lg:text-[5rem] xl:text-[6rem] leading-none">🌐</span>
                   <span className="text-[8px] sm:text-[10px] md:text-xs text-gray-700 leading-tight mt-0.5 hidden sm:block">Another</span>
                 </button>
 
@@ -1361,7 +1390,7 @@ export default function Home() {
                           }`}
                           title={lang.label}
                         >
-                          <span className="text-xl sm:text-2xl leading-none mb-1">{lang.flag}</span>
+                          <span className="text-base sm:text-lg md:text-2xl lg:text-[5rem] xl:text-[6rem] leading-none mb-1">{lang.flag}</span>
                           <span className="text-[10px] sm:text-xs text-gray-700 leading-tight text-center">{lang.label}</span>
                         </button>
                       ))}
@@ -1384,7 +1413,7 @@ export default function Home() {
                     }`}
                     title={lang.label}
                   >
-                    <span className="flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 lg:w-10 lg:h-10 xl:w-12 xl:h-12 text-base sm:text-lg md:text-2xl lg:text-3xl xl:text-4xl leading-none">{lang.flag}</span>
+                    <span className="flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 lg:w-20 lg:h-20 xl:w-24 xl:h-24 text-base sm:text-lg md:text-2xl lg:text-[5rem] xl:text-[6rem] leading-none">{lang.flag}</span>
                     <span className="text-[8px] sm:text-[10px] md:text-xs text-gray-700 leading-tight mt-0.5 hidden sm:block">{lang.label}</span>
                   </button>
                 ))}
@@ -1428,7 +1457,7 @@ export default function Home() {
           {/* オーバーレイ */}
           <div className="absolute inset-0 bg-black/40 flex items-center justify-center z-10">
             <div className="text-center p-8 sm:p-12">
-              <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold text-white drop-shadow-2xl">
+              <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white drop-shadow-2xl">
                 {t.heroTitle}
               </h2>
             </div>
@@ -1450,18 +1479,24 @@ export default function Home() {
       {/* サービスグリッド */}
       <section className="bg-white py-12">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
-            {services.map((service) => (
+          <div ref={servicesGridRef} className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
+            {services.map((service, index) => (
               service.id === 'dinner' ? (
                 <Link
                   key={service.id}
+                  data-service-id={service.id}
                   href="https://preview.studio.site/live/Kwa5nV0GWX/coupon"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-3 sm:p-4 md:p-6 rounded-lg transition-shadow flex flex-col items-center justify-center min-h-[100px] sm:min-h-[120px] md:min-h-[140px]"
+                  className={`p-3 sm:p-4 md:p-6 rounded-lg transition-all duration-700 ease-out flex flex-col items-center justify-center min-h-[100px] sm:min-h-[120px] md:min-h-[140px] ${
+                    visibleServices.has(service.id)
+                      ? 'opacity-100 translate-y-0'
+                      : 'opacity-0 translate-y-4'
+                  }`}
                   style={{ 
                     backgroundColor: '#304E84',
-                    boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2)'
+                    boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2)',
+                    transitionDelay: visibleServices.has(service.id) ? `${index * 100}ms` : '0ms'
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.boxShadow = '0 25px 50px -12px rgba(0, 0, 0, 0.4), 0 15px 15px -5px rgba(0, 0, 0, 0.3)';
@@ -1480,8 +1515,16 @@ export default function Home() {
               ) : service.id === 'lighting' ? (
                 <button
                   key={service.id}
+                  data-service-id={service.id}
                   onClick={() => setSelectedService(service.id)}
-                  className="bg-white border-2 border-blue-600 p-3 sm:p-4 md:p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow flex flex-col items-center justify-center min-h-[100px] sm:min-h-[120px] md:min-h-[140px]"
+                  className={`bg-white border-2 border-blue-600 p-3 sm:p-4 md:p-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-700 ease-out flex flex-col items-center justify-center min-h-[100px] sm:min-h-[120px] md:min-h-[140px] ${
+                    visibleServices.has(service.id)
+                      ? 'opacity-100 translate-y-0'
+                      : 'opacity-0 translate-y-4'
+                  }`}
+                  style={{
+                    transitionDelay: visibleServices.has(service.id) ? `${index * 100}ms` : '0ms'
+                  }}
                 >
                   <div className="mb-3 sm:mb-4 flex justify-center items-center shrink-0">
                     {service.icon}
@@ -1493,8 +1536,16 @@ export default function Home() {
               ) : service.id === 'bath' ? (
                 <button
                   key={service.id}
+                  data-service-id={service.id}
                   onClick={() => setSelectedService(service.id)}
-                  className="bg-white p-3 sm:p-4 md:p-6 rounded-lg shadow-xl hover:shadow-2xl transition-shadow flex flex-col items-center justify-center min-h-[100px] sm:min-h-[120px] md:min-h-[140px]"
+                  className={`bg-white p-3 sm:p-4 md:p-6 rounded-lg shadow-xl hover:shadow-2xl transition-all duration-700 ease-out flex flex-col items-center justify-center min-h-[100px] sm:min-h-[120px] md:min-h-[140px] ${
+                    visibleServices.has(service.id)
+                      ? 'opacity-100 translate-y-0'
+                      : 'opacity-0 translate-y-4'
+                  }`}
+                  style={{
+                    transitionDelay: visibleServices.has(service.id) ? `${index * 100}ms` : '0ms'
+                  }}
                 >
                   <div className="mb-3 sm:mb-4 flex justify-center items-center shrink-0">
                     {service.icon}
@@ -1506,8 +1557,16 @@ export default function Home() {
               ) : (
                 <button
                   key={service.id}
+                  data-service-id={service.id}
                   onClick={() => setSelectedService(service.id)}
-                  className="bg-white p-3 sm:p-4 md:p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow flex flex-col items-center justify-center min-h-[100px] sm:min-h-[120px] md:min-h-[140px]"
+                  className={`bg-white p-3 sm:p-4 md:p-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-700 ease-out flex flex-col items-center justify-center min-h-[100px] sm:min-h-[120px] md:min-h-[140px] ${
+                    visibleServices.has(service.id)
+                      ? 'opacity-100 translate-y-0'
+                      : 'opacity-0 translate-y-4'
+                  }`}
+                  style={{
+                    transitionDelay: visibleServices.has(service.id) ? `${index * 100}ms` : '0ms'
+                  }}
                 >
                   <div className="mb-3 sm:mb-4 flex justify-center items-center shrink-0">
                     {service.icon}
