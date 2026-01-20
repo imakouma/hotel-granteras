@@ -1055,8 +1055,24 @@ export default function Home() {
   const [selectedService, setSelectedService] = useState<string | null>(null);
   const [showOtherLanguages, setShowOtherLanguages] = useState(false);
   const languageDropdownRef = useRef<HTMLDivElement>(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const heroImages = [
+    '/hotel-front-annex.jpg',
+    '/hotel-bath.png',
+    '/mornig.png',
+  ];
 
   const t = translations[selectedLanguage as keyof typeof translations] || translations['en'];
+
+  // 画像のスライドショー（4秒ごとに切り替え）
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % heroImages.length);
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, [heroImages.length]);
 
   // ドロップダウン外をクリックした時に閉じる
   useEffect(() => {
@@ -1391,16 +1407,26 @@ export default function Home() {
       {/* ヒーローセクション */}
       <section className="relative bg-gray-900">
         <div className="relative h-96 sm:h-[500px] overflow-hidden">
-        <Image
-            src="/427809.jpg"
-            alt="HOTEL ドーミーイン Dormy inn"
-            fill
-            className="object-cover"
-          priority
-            sizes="100vw"
-          />
+          {heroImages.map((src, index) => (
+            <div
+              key={src}
+              className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+                index === currentImageIndex ? 'opacity-100' : 'opacity-0'
+              }`}
+            >
+              <Image
+                src={src}
+                alt="HOTEL ドーミーイン Dormy inn"
+                fill
+                className="object-cover"
+                priority={index === 0}
+                sizes="100vw"
+                unoptimized
+              />
+            </div>
+          ))}
           {/* オーバーレイ */}
-          <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+          <div className="absolute inset-0 bg-black/40 flex items-center justify-center z-10">
             <div className="text-center p-8 sm:p-12">
               <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold text-white drop-shadow-2xl">
                 {t.heroTitle}
