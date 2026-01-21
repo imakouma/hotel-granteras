@@ -1308,14 +1308,26 @@ export default function Home() {
       <header className="bg-white/98 backdrop-blur-sm sticky top-0 z-50 shadow-sm">
         <div className="max-w-7xl mx-auto px-2 sm:px-4 md:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 sm:h-20 gap-1 sm:gap-2">
-            {/* 左側：ホテル名 */}
-            <div className="shrink-0 min-w-0 flex-1 sm:flex-none sm:max-w-none">
-              <p className="text-[10px] sm:text-xs md:text-sm text-gray-900 leading-tight font-bold wrap-break-word">
-                {t.hotelName}
-              </p>
-              <h1 className="text-xs sm:text-sm md:text-base lg:text-lg font-bold text-gray-900 leading-tight tracking-normal wrap-break-word">
-                {t.hotelTitle}
-              </h1>
+            {/* 左側：ロゴとホテル名 */}
+            <div className="flex items-center gap-2 sm:gap-3 shrink-0 min-w-0 flex-1 sm:flex-none sm:max-w-none">
+              <div className="relative w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 shrink-0">
+                <Image
+                  src="/icon-dormy.jpg"
+                  alt="Dormy Hotels & Resorts"
+                  fill
+                  className="object-contain"
+                  sizes="(max-width: 640px) 48px, (max-width: 768px) 56px, 64px"
+                  unoptimized
+                />
+              </div>
+              <div className="min-w-0">
+                <p className="text-[10px] sm:text-xs md:text-sm text-gray-900 leading-tight font-bold wrap-break-word">
+                  {t.hotelName}
+                </p>
+                <h1 className="text-xs sm:text-sm md:text-base lg:text-lg font-bold text-gray-900 leading-tight tracking-normal wrap-break-word">
+                  {t.hotelTitle}
+                </h1>
+              </div>
             </div>
 
             {/* 中央：ナビゲーションタブ（デスクトップのみ） */}
