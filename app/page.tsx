@@ -69,7 +69,7 @@ const translations = {
     longstayTitle: '連泊のお客様へ',
     sheetExchange: 'シーツ・布団カバー・枕カバーの交換をご希望のお客様は「WECOカード」をベッド上にご提示をお願い致します。カードのご提示が無い場合は交換を行いませんので、予めご了承下さいませ。(タオル類や部屋着の交換は行います。)',
     noCleaning: '清掃不要のお客様は、入り口ドアの内側にある緑色の「WECO」カードを廊下側にご提示くださいませ。その場合清掃を行わず入室も致しません。',
-    officialHP: '公式HP',
+    officialHP: '公式HPはこちら',
     preparing: '詳細情報は準備中です。',
   },
   en: {
@@ -1584,18 +1584,6 @@ export default function Home() {
       {/* ウェルカムメッセージ */}
       <section className="bg-white py-8">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="mb-4 flex justify-center">
-            <div className="relative w-24 h-24 sm:w-32 sm:h-32">
-              <Image
-                src="/bird.png"
-                alt={selectedLanguage === 'ja' ? '鳥のキャラクター' : selectedLanguage === 'en' ? 'Bird Character' : selectedLanguage === 'zh' ? '鸟角色' : selectedLanguage === 'ko' ? '새 캐릭터' : 'Bird Character'}
-                fill
-                className="object-contain"
-                sizes="(max-width: 640px) 96px, 128px"
-                unoptimized
-              />
-            </div>
-          </div>
           <p className="text-gray-700 text-sm sm:text-base leading-relaxed">
             {t.welcomeMessage}
             <br className="hidden sm:block" />
