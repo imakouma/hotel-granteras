@@ -1630,7 +1630,7 @@ export default function Home() {
                 </p>
                 <button
                   onClick={() => setSelectedService(null)}
-                  className="mt-6 w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 sm:py-2.5 rounded-lg text-sm sm:text-base font-medium transition-colors"
+                  className="mt-6 w-full bg-white hover:bg-gray-50 text-gray-600 border border-gray-300 px-4 py-2 sm:py-2.5 rounded-lg text-sm sm:text-base font-medium transition-colors"
                 >
                   {t.close}
                 </button>
@@ -1690,7 +1690,7 @@ export default function Home() {
 
                 <button
                   onClick={() => setSelectedService(null)}
-                  className="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
+                  className="w-full bg-white hover:bg-gray-50 text-gray-600 border border-gray-300 px-4 py-2 rounded-lg font-medium transition-colors"
                 >
                   {t.close}
                 </button>
@@ -1757,7 +1757,7 @@ export default function Home() {
 
                 <button
                   onClick={() => setSelectedService(null)}
-                  className="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
+                  className="w-full bg-white hover:bg-gray-50 text-gray-600 border border-gray-300 px-4 py-2 rounded-lg font-medium transition-colors"
                 >
                   {t.close}
                 </button>
@@ -1925,7 +1925,7 @@ export default function Home() {
 
                 <button
                   onClick={() => setSelectedService(null)}
-                  className="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
+                  className="w-full bg-white hover:bg-gray-50 text-gray-600 border border-gray-300 px-4 py-2 rounded-lg font-medium transition-colors"
                 >
                   {t.close}
                 </button>
@@ -1941,7 +1941,7 @@ export default function Home() {
                 </p>
                 <button
                   onClick={() => setSelectedService(null)}
-                  className="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
+                  className="w-full bg-white hover:bg-gray-50 text-gray-600 border border-gray-300 px-4 py-2 rounded-lg font-medium transition-colors"
                 >
                   {t.close}
                 </button>
