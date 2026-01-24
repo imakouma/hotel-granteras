@@ -1365,9 +1365,9 @@ export default function Home() {
             </nav>
 
             {/* 右側：言語選択と飲食店クーポンボタン */}
-            <div className="flex items-center shrink-0 space-x-0.5 sm:space-x-1 md:space-x-2 lg:space-x-3">
+            <div className="flex items-center shrink-0 space-x-0.5 sm:space-x-1 md:space-x-2 lg:space-x-3 flex-nowrap">
               {/* 言語選択 */}
-              <div ref={languageDropdownRef} className="flex items-center space-x-0 sm:space-x-0.5 md:space-x-1 relative">
+              <div ref={languageDropdownRef} className="flex items-center space-x-0 sm:space-x-0.5 md:space-x-1 relative flex-nowrap shrink-0">
                 {/* Another Language ボタン */}
                 <button
                   onClick={() => setShowOtherLanguages(!showOtherLanguages)}
@@ -1378,7 +1378,7 @@ export default function Home() {
                   }`}
                   title="Other Languages"
                 >
-                  <span className="flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 lg:w-20 lg:h-20 xl:w-24 xl:h-24 text-base sm:text-lg md:text-2xl lg:text-[5rem] xl:text-[6rem] leading-none">🌐</span>
+                  <span className="flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 text-base sm:text-lg md:text-2xl leading-none">🌐</span>
                   <span className="text-[8px] sm:text-[10px] md:text-xs text-gray-700 leading-tight mt-0.5 hidden sm:block">Another</span>
                 </button>
 
@@ -1402,7 +1402,7 @@ export default function Home() {
                           }`}
                           title={lang.label}
                         >
-                          <span className="text-base sm:text-lg md:text-2xl lg:text-[5rem] xl:text-[6rem] leading-none mb-1">{lang.flag}</span>
+                          <span className="text-base sm:text-lg md:text-2xl leading-none mb-1">{lang.flag}</span>
                           <span className="text-[10px] sm:text-xs text-gray-700 leading-tight text-center">{lang.label}</span>
                         </button>
                       ))}
@@ -1425,7 +1425,7 @@ export default function Home() {
                     }`}
                     title={lang.label}
                   >
-                    <span className="flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 lg:w-20 lg:h-20 xl:w-24 xl:h-24 text-base sm:text-lg md:text-2xl lg:text-[5rem] xl:text-[6rem] leading-none">{lang.flag}</span>
+                    <span className="flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 text-base sm:text-lg md:text-2xl leading-none">{lang.flag}</span>
                     <span className="text-[8px] sm:text-[10px] md:text-xs text-gray-700 leading-tight mt-0.5 hidden sm:block">{lang.label}</span>
                   </button>
                 ))}
