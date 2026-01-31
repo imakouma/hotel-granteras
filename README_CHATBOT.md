@@ -12,7 +12,24 @@ GEMINI_API_KEY=あなたのAPIキー
 
 ※ `.env.local` は git に含めないでください（既に .gitignore に含まれています）。
 
-### 2. パッケージのインストール
+### 2. ネット公開（Vercel など）でチャットボットを動かす場合
+
+**ローカルでは動くが、本番（Vercel など）で「APIキーが設定されていません」と出る原因**  
+`.env.local` は **Git に含まれない**ため、デプロイ先のサーバーには存在しません。そのため `GEMINI_API_KEY` が未設定になり、チャット API がエラーを返します。
+
+**対処（Vercel の例）**
+
+1. [Vercel Dashboard](https://vercel.com/dashboard) で対象プロジェクトを開く  
+2. **Settings** → **Environment Variables** を開く  
+3. 次のように追加する  
+   - **Name**: `GEMINI_API_KEY`  
+   - **Value**: ローカルの `.env.local` に書いているのと同じ API キー  
+   - **Environment**: Production（必要なら Preview / Development も選択）  
+4. **Save** 後、**Deployments** から **Redeploy** で再デプロイする（環境変数を変えたあとは再デプロイが必要です）
+
+他のホスティング（Netlify, Railway など）でも、そのサービス用の「環境変数」設定画面で `GEMINI_API_KEY` を同じ名前・同じ値で設定すれば動作します。
+
+### 3. パッケージのインストール
 
 ```bash
 npm install
