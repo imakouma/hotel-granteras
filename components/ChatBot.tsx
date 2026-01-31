@@ -108,7 +108,7 @@ export default function ChatBot() {
 
       {/* チャット窓 */}
       {isOpen && (
-        <div className="fixed bottom-24 right-6 z-50 flex h-[420px] w-[360px] max-w-[calc(100vw-3rem)] flex-col overflow-hidden rounded-xl border border-gray-200 bg-white shadow-xl">
+        <div className="fixed bottom-24 right-6 z-50 flex h-[420px] max-h-[min(420px,80dvh)] w-[360px] max-w-[calc(100vw-3rem)] flex-col overflow-hidden rounded-xl border border-gray-200 bg-white shadow-xl">
           {/* ヘッダー */}
           <div className="flex items-center justify-between border-b border-gray-100 bg-[#304E84] px-4 py-3 text-white">
             <span className="font-semibold">館内案内チャット</span>
@@ -159,9 +159,9 @@ export default function ChatBot() {
             <div ref={messagesEndRef} />
           </div>
 
-          {/* 入力エリア */}
-          <div className="border-t border-gray-100 bg-white p-3">
-            <div className="flex gap-2">
+          {/* 入力エリア（iOSでフォーカス時にズームしないよう text-base 16px 指定） */}
+          <div className="border-t border-gray-100 bg-white p-3 touch-manipulation">
+            <div className="flex gap-2 items-end">
               <textarea
                 ref={inputRef}
                 value={input}
@@ -171,7 +171,8 @@ export default function ChatBot() {
                 rows={2}
                 disabled={isLoading}
                 readOnly={isLoading}
-                className="flex-1 resize-none rounded-lg border border-gray-200 px-3 py-2 text-sm placeholder-gray-400 focus:border-[#304E84] focus:outline-none focus:ring-1 focus:ring-[#304E84] disabled:bg-gray-50 disabled:cursor-not-allowed"
+                className="flex-1 min-h-0 resize-none rounded-lg border border-gray-200 px-3 py-2 text-base placeholder-gray-400 focus:border-[#304E84] focus:outline-none focus:ring-1 focus:ring-[#304E84] disabled:bg-gray-50 disabled:cursor-not-allowed"
+                style={{ fontSize: "16px" }}
               />
               <button
                 type="button"
