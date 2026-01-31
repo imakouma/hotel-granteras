@@ -3,8 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-
-type LanguageCode = 'ja' | 'en' | 'zh' | 'ko' | 'fr' | 'de' | 'es' | 'it' | 'th' | 'vi' | 'id' | 'pt' | 'tl' | 'ms' | 'zh-TW';
+import { useLanguage, type LanguageCode } from '@/contexts/LanguageContext';
 
 const translations = {
   ja: {
@@ -1050,7 +1049,7 @@ const translations = {
 };
 
 export default function Home() {
-  const [selectedLanguage, setSelectedLanguage] = useState<LanguageCode>('ja');
+  const { language: selectedLanguage, setLanguage: setSelectedLanguage } = useLanguage();
   const [activeTab, setActiveTab] = useState('dinner');
   const [selectedService, setSelectedService] = useState<string | null>(null);
   const [showOtherLanguages, setShowOtherLanguages] = useState(false);

@@ -33,9 +33,28 @@ export async function POST(request: NextRequest) {
     );
   }
 
+  const languageNames: Record<string, string> = {
+    ja: "日本語",
+    en: "English",
+    zh: "简体中文",
+    "zh-TW": "繁體中文",
+    ko: "한국어",
+    fr: "Français",
+    de: "Deutsch",
+    es: "Español",
+    it: "Italiano",
+    th: "ไทย",
+    vi: "Tiếng Việt",
+    id: "Bahasa Indonesia",
+    pt: "Português",
+    tl: "Tagalog",
+    ms: "Bahasa Melayu",
+  };
+
   try {
     const body = await request.json();
     const userMessage = body.message as string | undefined;
+    const language = (body.language as string) || "ja";
     if (typeof userMessage !== "string" || !userMessage.trim()) {
       return NextResponse.json(
         { error: "message を送信してください。" },
@@ -43,9 +62,11 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const responseLang = languageNames[language] || languageNames.ja;
     const hotelInfo = loadHotelInfo();
     const genAI = new GoogleGenerativeAI(apiKey);
-    const fullPrompt = `${SYSTEM_PROMPT_PREFIX}\n${hotelInfo}\n\n---\n上記のホテル情報を参照して、以下のお客様の質問に答えてください。\n\n【質問】\n${userMessage.trim()}`;
+    const languageInstruction = `【重要】回答は必ず「${responseLang}」で行ってください。お客様がその言語で質問している場合は、同じ言語で簡潔に答えてください。`;
+    const fullPrompt = `${SYSTEM_PROMPT_PREFIX}\n${hotelInfo}\n\n---\n${languageInstruction}\n\n上記のホテル情報を参照して、以下のお客様の質問に答えてください。\n\n【質問】\n${userMessage.trim()}`;
 
     const modelIds = ["gemini-1.5-flash", "gemini-1.5-flash-latest", "gemini-2.0-flash"] as const;
     const maxRetries = 3;
