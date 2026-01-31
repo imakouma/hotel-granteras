@@ -1966,7 +1966,7 @@ export default function Home() {
               </div>
               <div className="mt-6">
                 <Link
-                  href="https://dormy-hotels.com/dormyinn/hotels/sendaiekimae/"
+                  href="https://dormy-hotels.com/dormyinn/hotels/sendai_ax/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex flex-col items-center space-y-2 hover:opacity-80 transition-opacity"
