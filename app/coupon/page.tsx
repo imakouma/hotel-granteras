@@ -304,12 +304,40 @@ const couponTranslations: Record<
 const shopsBase = [
   {
     nameKey: "shop1" as const,
-    imageSrc: shopImages[2],
+    imageSrc: shopImages[0],
     branches: [
-      { name: "利久 中央通り店", address: "仙台市青葉区中央2-2-16", tel: "022-716-9233", lat: 38.2608, lng: 140.881 },
-      { name: "利久 本町店", address: "仙台市青葉区本町2-6-13", tel: "022-712-3567", lat: 38.2595, lng: 140.8795 },
-      { name: "利久 名掛丁店", address: "仙台市青葉区中央1-8-29 JYビル", tel: "022-713-9677", lat: 38.2612, lng: 140.8825 },
-      { name: "利久 西口本店", address: "仙台市青葉区中央1-6-1 ハーブ仙台ビル5F", tel: "022-266-5077", lat: 38.26, lng: 140.8815 },
+      {
+        name: "利久 中央通り店",
+        address: "仙台市青葉区中央2-2-16",
+        tel: "022-716-9233",
+        lat: 38.2608,
+        lng: 140.881,
+        placeUrl: "https://www.google.com/maps/place/%E7%89%9B%E3%81%9F%E3%82%93%E7%82%AD%E7%84%BC+%E5%88%A9%E4%B9%85+%E4%B8%AD%E5%A4%AE%E9%80%9A%E3%82%8A%E5%BA%97/@38.2610177,140.8741262,17z/data=!4m15!1m8!3m7!1s0x5f8a28232a42fccf:0x34bbe757ba4e02bd!2z44CSOTgwLTAwMjEg5a6u5Z-O55yM5LuZ5Y-w5biC6Z2S6JGJ5Yy65Lit5aSu77yS5LiB55uu77yS4oiS77yR77yW!3b1!8m2!3d38.2610518!4d140.8763534!16s%2Fg%2F12hksj2jg!3m5!1s0x5f8a28232a432029:0xcf3eb1f583b91381!8m2!3d38.2610177!4d140.8763149!16s%2Fg%2F1tg6kccw?entry=ttu",
+      },
+      {
+        name: "利久 本町店",
+        address: "仙台市青葉区本町2-6-13",
+        tel: "022-712-3567",
+        lat: 38.2595,
+        lng: 140.8795,
+        placeUrl: "https://www.google.com/maps/place/%E7%89%9B%E3%81%9F%E3%82%93%E7%82%AD%E7%84%BC+%E5%88%A9%E4%B9%85+%E6%9C%AC%E7%94%BA%E5%BA%97/@38.263533,140.8727457,17z/data=!3m1!5s0x5f8a282491f2ffd3:0x6685ba0449279b48!4m15!1m8!3m7!1s0x5f8a2824921951dd:0x700409cb5dcededf!2z44CSOTgwLTAwMTQg5a6u5Z-O55yM5LuZ5Y-w5biC6Z2S6JGJ5Yy65pys55S677yS5LiB55uu77yW4oiS77yR77yTIOadieacrOWutuODk-ODqw!3b1!8m2!3d38.2635263!4d140.874953!16s%2Fg%2F12hrmq_bd!3m5!1s0x5f8a2824921ba961:0xdff4a21fcbc44a9b!8m2!3d38.263533!4d140.8749344!16s%2Fg%2F1tcz_bb7?entry=ttu",
+      },
+      {
+        name: "利久 名掛丁店",
+        address: "仙台市青葉区中央1-8-29 JYビル",
+        tel: "022-713-9677",
+        lat: 38.2612,
+        lng: 140.8825,
+        placeUrl: "https://www.google.com/maps/place/%E7%89%9B%E3%81%9F%E3%82%93%E7%82%AD%E7%84%BC+%E5%88%A9%E4%B9%85+%E5%90%8D%E6%8E%9B%E4%B8%81%E5%BA%97/@38.261763,140.880035,18z/data=!3m2!4b1!5s0x5f8a28225ac32e11:0xefb41ce7ca43bc5a!4m6!3m5!1s0x5f8a282251d045a1:0xd7b632116dda7828!8m2!3d38.261763!4d140.880035!16s%2Fg%2F1tg7rv7b?entry=ttu",
+      },
+      {
+        name: "利久 西口本店",
+        address: "仙台市青葉区中央1-6-1 ハーブ仙台ビル5F",
+        tel: "022-266-5077",
+        lat: 38.26,
+        lng: 140.8815,
+        placeUrl: "https://www.google.com/maps/place/%E5%88%A9%E4%B9%85+%E8%A5%BF%E5%8F%A3%E6%9C%AC%E5%BA%97/@38.2626758,140.8792835,18z/data=!3m1!5s0x5f8a2823cc6a1dc9:0x99676402b736675f!4m10!1m2!2m1!1z5LuZ5Y-w5biC6Z2S6JGJ5Yy65Lit5aSuMS02LTEg44OP44O844OW5LuZ5Y-w44OT44OrNUY!3m6!1s0x5f8a2823cc701739:0x7fc151ed26a5fea1!8m2!3d38.2626758!4d140.8803778!15sCjXku5nlj7DluILpnZLokYnljLrkuK3lpK4xLTYtMSDjg4_jg7zjg5bku5nlj7Djg5Pjg6s1Rlo_Ij3ku5nlj7Ag5biCIOmdkuiRiSDljLog5Lit5aSuIDEgNiAxIOODj-ODvOODliDku5nlj7Ag44OT44OrIDVmkgERdG9uZ3VlX3Jlc3RhdXJhbnSaAURDaTlEUVVsUlFVTnZaRU5vZEhsalJqbHZUMnBGTTFRd09XOU5hazVVVDFoVmQxWkVWazFOUmpnelZHMVpNbUZyUlJBQuABAPoBBQi0ARAd!16s%2Fg%2F1th81rys?entry=ttu",
+      },
     ],
     hours: "営)共通11:30~14:30、17:00~23:00",
     holiday: "休)年中無休",
@@ -319,8 +347,26 @@ const shopsBase = [
     nameKey: "shop2" as const,
     imageSrc: shopImages[1],
     branches: [
-      { name: "晴れの日 名掛丁店", address: "仙台市青葉区中央1-8-25 マジェスティックビル3F", tel: "022-797-6971", lat: 38.261, lng: 140.8822, hours: "営)月~木曜\n17:00~23:00(L.O.22:00)\n金・土曜・祝前日\n16:00~24:00(L.O.23:00)\n日曜・祝日\n16:00~23:00(L.O.22:00)", holiday: "休)不定休" },
-      { name: "晴れの日 稲荷小路店", address: "仙台市青葉区一番町4-3-5 都ビル2F", tel: "022-217-9660", lat: 38.2598, lng: 140.8785, hours: "営)16:30~23:00(L.O.22:00)", holiday: "休)不定休" },
+      {
+        name: "晴れの日 名掛丁店",
+        address: "仙台市青葉区中央1-8-25 マジェスティックビル3F",
+        tel: "022-797-6971",
+        lat: 38.261,
+        lng: 140.8822,
+        hours: "営)月~木曜\n17:00~23:00(L.O.22:00)\n金・土曜・祝前日\n16:00~24:00(L.O.23:00)\n日曜・祝日\n16:00~23:00(L.O.22:00)",
+        holiday: "休)不定休",
+        placeUrl: "https://www.google.com/maps/place/%E7%9F%B3%E5%B7%BB%E7%8B%90%E5%B4%8E%E6%BC%81%E6%B8%AF+%E6%99%B4%E3%82%8C%E3%81%AE%E6%97%A5+%E5%90%8D%E6%8E%9B%E4%B8%81%E5%BA%97/@38.2618179,140.8775567,17z/data=!3m1!5s0x5f8a28225a688d6f:0xb60995574b0aca6b!4m10!1m2!2m1!1z5LuZ5Y-w5biC6Z2S6JGJ5Yy65Lit5aSuMS04LTI1IOODnuOCuOOCp-OCueODhuOCo-ODg-OCr-ODk-ODqzNG!3m6!1s0x5f8a282250c4d71f:0xc3d0757489e57438!8m2!3d38.2618179!4d140.8797454!15sCj_ku5nlj7DluILpnZLokYnljLrkuK3lpK4xLTgtMjUg44Oe44K444Kn44K544OG44Kj44OD44Kv44OT44OrM0ZaSCJG5LuZ5Y-wIOW4giDpnZLokYkg5Yy6IOS4reWkriAxIDggMjUg44Oe44K444Kn44K544OG44Kj44OD44KvIOODk-ODqyAzZpIBG2phcGFuZXNlX2l6YWtheWFfcmVzdGF1cmFudJoBRENpOURRVWxSUVVOdlpFTm9kSGxqUmpsdlQyeHdjbE5GWkZwWk1XOTNaVU14ZW1GRmRGTlNhMFpOWVVWd2RsTnJSUkFC4AEA-gEFCN0CECI!16s%2Fg%2F11b6vdczm2?entry=ttu",
+      },
+      {
+        name: "晴れの日 稲荷小路店",
+        address: "仙台市青葉区一番町4-3-5 都ビル2F",
+        tel: "022-217-9660",
+        lat: 38.2598,
+        lng: 140.8785,
+        hours: "営)16:30~23:00(L.O.22:00)",
+        holiday: "休)不定休",
+        placeUrl: "https://www.google.com/maps/place/%E7%84%BC%E9%B3%A5%E3%81%A8%E5%AE%AE%E5%9F%8E%E3%81%AE%E6%97%A8%E3%81%84%E3%82%82%E3%81%AE+%E6%99%B4%E3%82%8C%E3%81%AE%E6%97%A5/@38.2624707,140.8686461,17z/data=!3m1!5s0x5f8a283b16ad851d:0x431c43f81ddc40ff!4m10!1m2!2m1!1z5LuZ5Y-w5biC6Z2S6JGJ5Yy65LiA55Wq55S6NC0zLTUg6YO944OT44OrMkY!3m6!1s0x5f8a283b16c58571:0xb568c7c07b3e00af!8m2!3d38.2624707!4d140.8708348!15sCizku5nlj7DluILpnZLokYnljLrkuIDnlarnlLo0LTMtNSDpg73jg5Pjg6syRlo3IjXku5nlj7Ag5biCIOmdkuiRiSDljLog5LiAIOeVqiDnlLogNCAzIDUg6YO9IOODk-ODqyAyZpIBE3lha2l0b3JpX3Jlc3RhdXJhbnSaAURDaTlEUVVsUlFVTnZaRU5vZEhsalJqbHZUMnR3WVdWSVJuVk9SVXAyWlZNeGFXUnNTbEZTTWs0MVkwVm9VVlZJWXhBQuABAPoBBQicARAJ!16s%2Fg%2F11xfz77f4?entry=ttu",
+      },
     ],
     hours: undefined,
     holiday: undefined,
@@ -328,7 +374,7 @@ const shopsBase = [
   },
   {
     nameKey: "shop3" as const,
-    imageSrc: shopImages[0],
+    imageSrc: shopImages[2],
     branches: [
       { name: null, address: "仙台市青葉区中央2-11-11", tel: "022-265-8118", lat: 38.2605, lng: 140.8805 },
     ],
@@ -674,16 +720,10 @@ export default function CouponPage() {
                   {shop.branches.map((branch, branchIndex) => {
                     const branchAddress = branch.address;
                     const branchMapUrl =
-                      "lat" in branch && branch.lat != null && "lng" in branch && branch.lng != null
-                        ? `https://www.google.com/maps?q=${branch.lat},${branch.lng}&z=18`
+                      "placeUrl" in branch && typeof branch.placeUrl === "string"
+                        ? branch.placeUrl
                         : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(branchAddress)}`;
-                    const branchMapEmbedUrl =
-                      "lat" in branch &&
-                      branch.lat != null &&
-                      "lng" in branch &&
-                      branch.lng != null
-                        ? `https://www.google.com/maps?q=${branch.lat},${branch.lng}&z=17&output=embed`
-                        : `https://www.google.com/maps?q=${encodeURIComponent(branchAddress)}&z=16&output=embed`;
+                    const branchMapEmbedUrl = `https://www.google.com/maps?q=${encodeURIComponent(branchAddress)}&z=17&output=embed`;
                     const branchLabel = "name" in branch && branch.name != null ? branch.name : `${modalName} ${branchIndex + 1}`;
                     return (
                       <div
