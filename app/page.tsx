@@ -1128,7 +1128,7 @@ export default function Home() {
       icon: (
         <div className="relative w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 flex items-center justify-center">
           <Image
-            src="/icon-carry.png"
+            src="/icon-matome/icon-carry.png"
             alt={t.checkInOut}
             width={112}
             height={112}
@@ -1145,7 +1145,7 @@ export default function Home() {
       icon: (
         <div className="relative w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 flex items-center justify-center">
           <Image
-            src="/icon-bath.png"
+            src="/icon-matome/icon-bath.png"
             alt={t.bath}
             width={112}
             height={112}
@@ -1162,7 +1162,7 @@ export default function Home() {
       icon: (
         <div className="relative w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 flex items-center justify-center">
           <Image
-            src="/icon-food.png"
+            src="/icon-matome/icon-food.png"
             alt={t.breakfast}
             width={112}
             height={112}
@@ -1179,7 +1179,7 @@ export default function Home() {
       icon: (
         <div className="relative w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 flex items-center justify-center">
           <Image
-            src="/icon-beer.png"
+            src="/icon-matome/icon-beer.png"
             alt={t.dinner}
             width={112}
             height={112}
@@ -1197,7 +1197,7 @@ export default function Home() {
       icon: (
         <div className="relative w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 flex items-center justify-center">
           <Image
-            src="/icon-washmachine.png"
+            src="/icon-matome/icon-washmachine.png"
             alt={t.service}
             width={112}
             height={112}
@@ -1214,7 +1214,7 @@ export default function Home() {
       icon: (
         <div className="relative w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 flex items-center justify-center">
           <Image
-            src="/icon-Wifi.png"
+            src="/icon-matome/icon-Wifi.png"
             alt={t.wifi}
             width={112}
             height={112}
@@ -1231,7 +1231,7 @@ export default function Home() {
       icon: (
         <div className="relative w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 flex items-center justify-center">
           <Image
-            src="/icon-light.png"
+            src="/icon-matome/icon-light.png"
             alt={t.lighting}
             width={112}
             height={112}
@@ -1248,7 +1248,7 @@ export default function Home() {
       icon: (
         <div className="relative w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 flex items-center justify-center">
           <Image
-            src="/icon-bed.png"
+            src="/icon-matome/icon-bed.png"
             alt={t.longstay}
             width={112}
             height={112}
@@ -1265,7 +1265,7 @@ export default function Home() {
       icon: (
         <div className="relative w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 flex items-center justify-center">
           <Image
-            src="/icon-tool.png"
+            src="/icon-matome/icon-tool.png"
             alt={t.lost}
             width={112}
             height={112}
@@ -1302,7 +1302,7 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-[#f9f2d4]">
       {/* ヘッダー */}
       <header className="bg-white/98 backdrop-blur-sm sticky top-0 z-50 shadow-sm">
         <div className="max-w-7xl mx-auto px-2 sm:px-4 md:px-6 lg:px-8">
@@ -1311,7 +1311,7 @@ export default function Home() {
             <div className="flex items-center gap-2 sm:gap-3 shrink-0 min-w-0 flex-1 sm:flex-none sm:max-w-none">
               <div className="relative w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 shrink-0">
                 <Image
-                  src="/icon-dormy.jpg"
+                  src="/icon-matome/icon-dormy.jpg"
                   alt="Dormy Hotels & Resorts"
                   fill
                   className="object-contain"
