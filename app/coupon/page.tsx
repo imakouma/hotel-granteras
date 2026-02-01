@@ -10,7 +10,6 @@ const BANNER_ASPECT = "aspect-[4/3]";
 const CARD_IMAGE_ASPECT = "aspect-[4/3]";
 
 /** 参考画像の色（ご夕食クーポン!バナー） */
-const BANNER_BLUE = "#315286";
 const HEADER_BG = "#315286";
 const COUPON_BG = "#90846c";
 /** 本家のクーポン文言色（若干黄色みのクリーム） */
@@ -453,8 +452,24 @@ export default function CouponPage() {
       </header>
 
       <main className="mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-8">
-        {/* メインバナー（ご夕食クーポン!）・左上に館内案内に戻るを大きく配置 */}
+        {/* メインバナー（ご夕食クーポン!）・スマホでは館内案内に戻るを上に分離、PCでは左上にオーバーレイ */}
         <section className="mb-6 -mx-4 sm:-mx-6 relative">
+          {/* スマホ版：館内案内に戻るをバナー上に表示（重なり防止） */}
+          <Link
+            href="/"
+            className="sm:hidden mb-3 flex items-center gap-2 px-1 transition-opacity hover:opacity-90 hover:underline"
+            style={{ color: "#304E84" }}
+          >
+            <Image
+              src={encodeURI(backIconImage)}
+              alt=""
+              width={48}
+              height={48}
+              className="h-12 w-12 shrink-0 object-contain"
+              unoptimized
+            />
+            <span className="text-sm font-semibold leading-tight">{t.backToGuide}</span>
+          </Link>
           <div className={`relative w-full overflow-hidden ${BANNER_ASPECT} max-h-[380px] bg-[#f9f2d4] sm:max-h-[420px]`}>
             <Image
               src={encodeURI(bannerImage)}
@@ -464,10 +479,10 @@ export default function CouponPage() {
               sizes="100vw"
               unoptimized
             />
-            {/* バナー左上：枠なし・鳥アイコンを大きく＋その下に館内案内に戻る */}
+            {/* PC版：バナー左上に鳥アイコン＋館内案内に戻るをオーバーレイ */}
             <Link
               href="/"
-              className="absolute left-3 top-3 sm:left-4 sm:top-4 z-10 flex flex-col items-center gap-1.5 transition-opacity hover:opacity-90 hover:underline sm:gap-2"
+              className="hidden sm:flex absolute left-4 top-4 z-10 flex-col items-center gap-2 transition-opacity hover:opacity-90 hover:underline"
               style={{ color: "#304E84" }}
             >
               <Image
@@ -475,10 +490,10 @@ export default function CouponPage() {
                 alt=""
                 width={112}
                 height={112}
-                className="h-20 w-20 shrink-0 object-contain sm:h-24 sm:w-24"
+                className="h-24 w-24 shrink-0 object-contain"
                 unoptimized
               />
-              <span className="text-center text-xs font-semibold leading-tight sm:text-sm">{t.backToGuide}</span>
+              <span className="text-center text-sm font-semibold leading-tight">{t.backToGuide}</span>
             </Link>
           </div>
         </section>
