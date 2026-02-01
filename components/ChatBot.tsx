@@ -264,6 +264,7 @@ export default function ChatBot() {
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [hintDismissed, setHintDismissed] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
@@ -335,28 +336,55 @@ export default function ChatBot() {
 
   return (
     <>
-      {/* フローティングボタン */}
-      <button
-        type="button"
-        onClick={() => setIsOpen((o) => !o)}
-        className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[#304E84] text-white shadow-lg transition-all hover:bg-[#243a63] hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-[#304E84] focus:ring-offset-2"
-        aria-label={isOpen ? t.closeAria : t.openAria}
-      >
-        {isOpen ? (
-          <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        ) : (
-          <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-            />
-          </svg>
+      {/* フローティングボタンと説明文 */}
+      <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-1.5">
+        <button
+          type="button"
+          onClick={() => setIsOpen((o) => !o)}
+          className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-[#304E84] text-white shadow-lg transition-all hover:bg-[#243a63] hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-[#304E84] focus:ring-offset-2"
+          aria-label={isOpen ? t.closeAria : t.openAria}
+        >
+          {isOpen ? (
+            <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          ) : (
+            <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+              />
+            </svg>
+          )}
+        </button>
+        {!isOpen && !hintDismissed && (
+          <div className="relative max-w-[160px] rounded-lg border border-gray-200 bg-white px-3 py-2.5 pr-6 text-left text-[11px] leading-tight text-[#304E84] shadow-sm">
+            <button
+              type="button"
+              onClick={() => setHintDismissed(true)}
+              className="absolute right-1 top-1 flex h-5 w-5 items-center justify-center rounded text-gray-400 hover:bg-gray-100 hover:text-gray-600"
+              aria-label="閉じる"
+            >
+              <span className="text-base leading-none">×</span>
+            </button>
+            <p
+              role="button"
+              tabIndex={0}
+              onClick={() => setHintDismissed(true)}
+              onKeyDown={(e) => e.key === "Enter" && setHintDismissed(true)}
+              className="cursor-pointer"
+            >
+              分からないことが
+              <br />
+              ありましたらこちらで
+              <br />
+              お答えします。
+            </p>
+          </div>
         )}
-      </button>
+      </div>
 
       {/* チャット窓 */}
       {isOpen && (

@@ -1793,7 +1793,7 @@ export default function Home() {
                 </div>
                 <button
                   onClick={() => setSelectedService(null)}
-                  className="mt-6 w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
+                  className="mt-6 w-full bg-white hover:bg-gray-50 text-gray-600 border border-gray-300 px-4 py-2 rounded-lg font-medium transition-colors"
                 >
                   {t.close}
                 </button>
@@ -1816,7 +1816,7 @@ export default function Home() {
                 </div>
                 <button
                   onClick={() => setSelectedService(null)}
-                  className="mt-6 w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
+                  className="mt-6 w-full bg-white hover:bg-gray-50 text-gray-600 border border-gray-300 px-4 py-2 rounded-lg font-medium transition-colors"
                 >
                   {t.close}
                 </button>
@@ -1840,7 +1840,7 @@ export default function Home() {
                 </div>
                 <button
                   onClick={() => setSelectedService(null)}
-                  className="mt-6 w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
+                  className="mt-6 w-full bg-white hover:bg-gray-50 text-gray-600 border border-gray-300 px-4 py-2 rounded-lg font-medium transition-colors"
                 >
                   {t.close}
                 </button>
@@ -1874,7 +1874,7 @@ export default function Home() {
                 </div>
                 <button
                   onClick={() => setSelectedService(null)}
-                  className="mt-6 w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
+                  className="mt-6 w-full bg-white hover:bg-gray-50 text-gray-600 border border-gray-300 px-4 py-2 rounded-lg font-medium transition-colors"
                 >
                   {t.close}
                 </button>
