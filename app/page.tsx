@@ -1378,7 +1378,7 @@ export default function Home() {
                   title="Other Languages"
                 >
                   <span className="flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 text-base sm:text-lg md:text-2xl leading-none">🌐</span>
-                  <span className="text-[8px] sm:text-[10px] md:text-xs text-gray-700 leading-tight mt-0.5 hidden sm:block">Another</span>
+                  <span className="text-[8px] sm:text-[10px] md:text-xs text-gray-700 leading-tight mt-0.5">Another</span>
                 </button>
 
                 {/* 他の言語ドロップダウン */}
@@ -1425,16 +1425,14 @@ export default function Home() {
                     title={lang.label}
                   >
                     <span className="flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 text-base sm:text-lg md:text-2xl leading-none">{lang.flag}</span>
-                    <span className="text-[8px] sm:text-[10px] md:text-xs text-gray-700 leading-tight mt-0.5 hidden sm:block">{lang.label}</span>
+                    <span className="text-[8px] sm:text-[10px] md:text-xs text-gray-700 leading-tight mt-0.5">{lang.label}</span>
                   </button>
                 ))}
               </div>
 
-              {/* 飲食店クーポンボタン */}
+              {/* 飲食店クーポンボタン（内部ページ） */}
               <Link
-                href="https://preview.studio.site/live/Kwa5nV0GWX/coupon"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="/coupon"
                 className="bg-red-500 hover:bg-red-600 text-white px-1.5 sm:px-2 md:px-3 lg:px-4 py-1 sm:py-1.5 md:py-2 rounded-md text-[9px] sm:text-[10px] md:text-xs lg:text-sm font-semibold transition-colors whitespace-nowrap shadow-sm inline-block"
               >
                 {t.restaurantCoupon}
@@ -1496,9 +1494,7 @@ export default function Home() {
                 <Link
                   key={service.id}
                   data-service-id={service.id}
-                  href="https://preview.studio.site/live/Kwa5nV0GWX/coupon"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href="/coupon"
                   className={`p-3 sm:p-4 md:p-6 rounded-lg transition-all duration-700 ease-out flex flex-col items-center justify-center min-h-[100px] sm:min-h-[120px] md:min-h-[140px] ${
                     visibleServices.has(service.id)
                       ? 'opacity-100 translate-y-0'

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import Link from "next/link";
 import { useLanguage } from "@/contexts/LanguageContext";
 import type { LanguageCode } from "@/contexts/LanguageContext";
 
@@ -255,10 +256,13 @@ function getChatT(lang: LanguageCode) {
   return chatTranslations[lang] ?? chatTranslations.en;
 }
 
-/** メッセージ内のURLをクリック可能なリンクとして表示する */
+/** メッセージ内のURL・パスをクリック可能なリンクとして表示する */
 function renderMessageWithLinks(content: string, isUser: boolean) {
-  const urlRegex = /(https?:\/\/[^\s<>"\']+)/g;
-  const parts = content.split(urlRegex);
+  const linkRegex = /(https?:\/\/[^\s<>"\']+|\/[a-zA-Z0-9/_-]+)/g;
+  const parts = content.split(linkRegex);
+  const linkClass = isUser
+    ? "underline break-all opacity-90 hover:opacity-100"
+    : "text-[#304E84] underline break-all hover:opacity-80";
   return parts.map((part, i) => {
     if (part.startsWith("http://") || part.startsWith("https://")) {
       const href = part.replace(/[.,;:!)]+$/, "");
@@ -268,15 +272,21 @@ function renderMessageWithLinks(content: string, isUser: boolean) {
           href={href}
           target="_blank"
           rel="noopener noreferrer"
-          className={
-            isUser
-              ? "underline break-all opacity-90 hover:opacity-100"
-              : "text-[#304E84] underline break-all hover:opacity-80"
-          }
+          className={linkClass}
         >
           {href.includes("coupon") ? "詳細はこちら" : part}
         </a>
       );
+    }
+    if (part.startsWith("/")) {
+      const path = part.replace(/[.,;:!)\s]+$/, "").trim();
+      if (path) {
+        return (
+          <Link key={i} href={path} className={linkClass}>
+            詳細はこちら
+          </Link>
+        );
+      }
     }
     return part;
   });
