@@ -654,15 +654,15 @@ export default function CouponPage() {
                   </svg>
                 </button>
               </div>
-              <div className="flex-1 min-w-0 overflow-y-auto">
-                {/* モーダル用画像 */}
-                <div className="relative aspect-video w-full bg-gray-100">
+              <div className="flex-1 min-w-0 overflow-y-auto overflow-x-hidden">
+                {/* モーダル用画像（2枚並びなど横長画像も全体が見えるよう object-contain） */}
+                <div className="relative w-full min-h-[200px] overflow-hidden bg-gray-100" style={{ aspectRatio: "16/9" }}>
                   <Image
                     src={encodeURI(modalImage)}
                     alt={modalName}
                     fill
-                    className="object-cover"
-                    sizes="(max-width: 512px) 100vw, 512px"
+                    className="object-contain"
+                    sizes="(max-width: 576px) 100vw, 576px"
                     unoptimized
                   />
                 </div>
@@ -673,7 +673,10 @@ export default function CouponPage() {
                   {/* 全店舗分を表示（利久は4店舗・晴れの日2店舗・ぼんてん1店舗） */}
                   {shop.branches.map((branch, branchIndex) => {
                     const branchAddress = branch.address;
-                    const branchMapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(branchAddress)}`;
+                    const branchMapUrl =
+                      "lat" in branch && branch.lat != null && "lng" in branch && branch.lng != null
+                        ? `https://www.google.com/maps?q=${branch.lat},${branch.lng}&z=18`
+                        : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(branchAddress)}`;
                     const branchMapEmbedUrl =
                       "lat" in branch &&
                       branch.lat != null &&
