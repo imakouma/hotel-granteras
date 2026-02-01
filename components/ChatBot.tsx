@@ -255,6 +255,33 @@ function getChatT(lang: LanguageCode) {
   return chatTranslations[lang] ?? chatTranslations.en;
 }
 
+/** メッセージ内のURLをクリック可能なリンクとして表示する */
+function renderMessageWithLinks(content: string, isUser: boolean) {
+  const urlRegex = /(https?:\/\/[^\s<>"\']+)/g;
+  const parts = content.split(urlRegex);
+  return parts.map((part, i) => {
+    if (part.startsWith("http://") || part.startsWith("https://")) {
+      const href = part.replace(/[.,;:!)]+$/, "");
+      return (
+        <a
+          key={i}
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={
+            isUser
+              ? "underline break-all opacity-90 hover:opacity-100"
+              : "text-[#304E84] underline break-all hover:opacity-80"
+          }
+        >
+          {href.includes("coupon") ? "詳細はこちら" : part}
+        </a>
+      );
+    }
+    return part;
+  });
+}
+
 export default function ChatBot() {
   const { language } = useLanguage();
   const t = getChatT(language);
@@ -418,7 +445,9 @@ export default function ChatBot() {
                       : "bg-white text-gray-800 shadow-sm border border-gray-100"
                   }`}
                 >
-                  <p className="whitespace-pre-wrap wrap-break-word">{msg.content}</p>
+                  <p className="whitespace-pre-wrap wrap-break-word">
+                    {renderMessageWithLinks(msg.content, msg.role === "user")}
+                  </p>
                 </div>
               </div>
             ))}
