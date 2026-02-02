@@ -22,6 +22,7 @@ const translations = {
     lighting: '室内照明',
     longstay: '連泊のお客様へ',
     lost: 'お忘れ物について',
+    quickCheckin: '快速チェックイン',
     dinnerTab: '夕食・お得なクーポン',
     serviceTab: 'サービスコーナー',
     close: '閉じる',
@@ -87,6 +88,7 @@ const translations = {
     lighting: 'Room Lighting',
     longstay: 'For Long-term Guests',
     lost: 'Lost & Found',
+    quickCheckin: 'Quick Check-in',
     dinnerTab: 'Dinner & Coupons',
     serviceTab: 'Service Corner',
     close: 'Close',
@@ -152,6 +154,7 @@ const translations = {
     lighting: '室内照明',
     longstay: '长期住宿客人',
     lost: '失物招领',
+    quickCheckin: '快速入住',
     dinnerTab: '晚餐・优惠券',
     serviceTab: '服务角',
     close: '关闭',
@@ -217,6 +220,7 @@ const translations = {
     lighting: '실내 조명',
     longstay: '장기 투숙 고객',
     lost: '분실물 안내',
+    quickCheckin: '퀵 체크인',
     dinnerTab: '석식・할인 쿠폰',
     serviceTab: '서비스 코너',
     close: '닫기',
@@ -282,6 +286,7 @@ const translations = {
     lighting: 'Éclairage intérieur',
     longstay: 'Pour les clients longue durée',
     lost: 'Objets trouvés',
+    quickCheckin: 'Check-in rapide',
     dinnerTab: 'Dîner & Coupons',
     serviceTab: 'Coin Service',
     close: 'Fermer',
@@ -347,6 +352,7 @@ const translations = {
     lighting: 'Raumbeleuchtung',
     longstay: 'Für Langzeitgäste',
     lost: 'Fundsachen',
+    quickCheckin: 'Schnell-Check-in',
     dinnerTab: 'Abendessen & Gutscheine',
     serviceTab: 'Service-Ecke',
     close: 'Schließen',
@@ -412,6 +418,7 @@ const translations = {
     lighting: 'Iluminación interior',
     longstay: 'Para huéspedes de larga estancia',
     lost: 'Objetos perdidos',
+    quickCheckin: 'Check-in rápido',
     dinnerTab: 'Cena & Cupones',
     serviceTab: 'Rincón de servicio',
     close: 'Cerrar',
@@ -477,6 +484,7 @@ const translations = {
     lighting: 'Illuminazione interna',
     longstay: 'Per ospiti soggiorno prolungato',
     lost: 'Oggetti smarriti',
+    quickCheckin: 'Check-in rapido',
     dinnerTab: 'Cena & Buoni',
     serviceTab: 'Angolo servizio',
     close: 'Chiudi',
@@ -542,6 +550,7 @@ const translations = {
     lighting: 'ไฟภายในห้อง',
     longstay: 'สำหรับแขกพักต่อเนื่อง',
     lost: 'ของหาย',
+    quickCheckin: 'เช็คอินด่วน',
     dinnerTab: 'อาหารเย็น & คูปอง',
     serviceTab: 'มุมบริการ',
     close: 'ปิด',
@@ -607,6 +616,7 @@ const translations = {
     lighting: 'Ánh sáng trong phòng',
     longstay: 'Dành cho khách lưu trú dài ngày',
     lost: 'Đồ thất lạc',
+    quickCheckin: 'Check-in nhanh',
     dinnerTab: 'Bữa tối & Phiếu giảm giá',
     serviceTab: 'Góc dịch vụ',
     close: 'Đóng',
@@ -672,6 +682,7 @@ const translations = {
     lighting: 'Pencahayaan dalam ruangan',
     longstay: 'Untuk tamu menginap lama',
     lost: 'Barang hilang',
+    quickCheckin: 'Check-in cepat',
     dinnerTab: 'Makan malam & Kupon',
     serviceTab: 'Sudut Layanan',
     close: 'Tutup',
@@ -737,6 +748,7 @@ const translations = {
     lighting: 'Iluminação interna',
     longstay: 'Para hóspedes de longa estadia',
     lost: 'Objetos perdidos',
+    quickCheckin: 'Check-in rápido',
     dinnerTab: 'Jantar & Cupons',
     serviceTab: 'Canto de Serviço',
     close: 'Fechar',
@@ -802,6 +814,7 @@ const translations = {
     lighting: 'Φωτισμός δωματίου',
     longstay: 'Για μακροπρόθεσμους επισκέπτες',
     lost: 'Χαμένα αντικείμενα',
+    quickCheckin: 'Γρήγορο Check-in',
     dinnerTab: 'Δείπνο και κουπόνια',
     serviceTab: 'Γωνία εξυπηρέτησης',
     close: 'Κλείσιμο',
@@ -867,6 +880,7 @@ const translations = {
     lighting: 'Ilaw sa Kwarto',
     longstay: 'Para sa Long-term Guests',
     lost: 'Nawawalang Bagay',
+    quickCheckin: 'Quick Check-in',
     dinnerTab: 'Hapunan at Coupons',
     serviceTab: 'Service Corner',
     close: 'Isara',
@@ -932,6 +946,7 @@ const translations = {
     lighting: 'Pencahayaan Bilik',
     longstay: 'Untuk Tetamu Jangka Panjang',
     lost: 'Barang Hilang',
+    quickCheckin: 'Check-in cepat',
     dinnerTab: 'Makan Malam & Kupon',
     serviceTab: 'Sudut Perkhidmatan',
     close: 'Tutup',
@@ -997,6 +1012,7 @@ const translations = {
     lighting: '室內照明',
     longstay: '長期住宿客人',
     lost: '遺失物品',
+    quickCheckin: '快速入住',
     dinnerTab: '晚餐・優惠券',
     serviceTab: '服務角',
     close: '關閉',
@@ -1278,6 +1294,23 @@ export default function Home() {
       id: 'lost',
       textColor: 'text-blue-800'
     },
+    { 
+      icon: (
+        <div className="relative w-28 h-28 sm:w-32 sm:h-32 md:w-36 md:h-36 flex items-center justify-center shrink-0">
+          <Image
+            src="/430254.jpg"
+            alt={t.quickCheckin}
+            width={144}
+            height={144}
+            className="w-full h-full object-contain"
+            unoptimized
+          />
+        </div>
+      ), 
+      titleKey: 'quickCheckin' as const,
+      id: 'quickCheckin',
+      textColor: 'text-blue-800'
+    },
   ];
 
   const mainLanguages = [
@@ -1519,12 +1552,35 @@ export default function Home() {
                     {t[service.titleKey]}
                   </div>
                 </Link>
+              ) : service.id === 'quickCheckin' ? (
+                <a
+                  key={service.id}
+                  data-service-id={service.id}
+                  href="https://dormy-hotels.com/information/k-checkin/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`bg-white p-3 sm:p-4 md:p-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-700 ease-out flex flex-col items-center justify-center min-h-[100px] sm:min-h-[120px] md:min-h-[140px] ${
+                    visibleServices.has(service.id)
+                      ? 'opacity-100 translate-y-0'
+                      : 'opacity-0 translate-y-4'
+                  }`}
+                  style={{
+                    transitionDelay: visibleServices.has(service.id) ? `${index * 100}ms` : '0ms'
+                  }}
+                >
+                  <div className="mb-0 flex justify-center items-center shrink-0">
+                    {service.icon}
+                  </div>
+                  <div className="-mt-5 sm:-mt-6 text-xs sm:text-sm font-semibold text-center leading-tight text-blue-800 wrap-break-word px-1">
+                    {t[service.titleKey]}
+                  </div>
+                </a>
               ) : service.id === 'lighting' ? (
                 <button
                   key={service.id}
                   data-service-id={service.id}
                   onClick={() => setSelectedService(service.id)}
-                  className={`bg-white border-2 border-blue-600 p-3 sm:p-4 md:p-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-700 ease-out flex flex-col items-center justify-center min-h-[100px] sm:min-h-[120px] md:min-h-[140px] ${
+                  className={`bg-white p-3 sm:p-4 md:p-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-700 ease-out flex flex-col items-center justify-center min-h-[100px] sm:min-h-[120px] md:min-h-[140px] ${
                     visibleServices.has(service.id)
                       ? 'opacity-100 translate-y-0'
                       : 'opacity-0 translate-y-4'
