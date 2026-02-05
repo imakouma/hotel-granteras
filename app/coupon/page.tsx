@@ -305,6 +305,21 @@ const couponTranslations: Record<
   },
 };
 
+function getCouponT(lang: LanguageCode) {
+  const base = couponTranslations.en as Record<string, unknown>;
+  const selected = (couponTranslations as Record<string, Record<string, unknown> | undefined>)[lang] ?? {};
+  const merged: Record<string, unknown> = { ...base, ...selected };
+
+  for (const key of Object.keys(base)) {
+    const val = selected[key];
+    if (typeof val === "string" && val.trim() === "") {
+      merged[key] = base[key];
+    }
+  }
+
+  return merged as typeof couponTranslations.en;
+}
+
 const shopsBase = [
   {
     nameKey: "shop1" as const,
@@ -404,7 +419,7 @@ export default function CouponPage() {
   const [showOtherLanguages, setShowOtherLanguages] = useState(false);
   const [openModalShopIndex, setOpenModalShopIndex] = useState<number | null>(null);
   const languageDropdownRef = useRef<HTMLDivElement>(null);
-  const t = couponTranslations[selectedLanguage] ?? couponTranslations.ja;
+  const t = getCouponT(selectedLanguage);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {

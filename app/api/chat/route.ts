@@ -6,6 +6,7 @@ import { join } from "path";
 const OFFICIAL_SITE_URL = "https://breezbay-group.com/hgt-s-kokubuncho/";
 const OFFICIAL_SITE_CACHE_TTL_MS = 1000 * 60 * 60; // 1 hour
 const OFFICIAL_SITE_TEXT_MAX_CHARS = 12000;
+const OFFICIAL_SITE_FETCH_TIMEOUT_MS = 8000;
 
 let officialSiteCache:
   | {
@@ -18,6 +19,7 @@ const SYSTEM_PROMPT_PREFIX = `あなたは「ホテルグランテラス仙台�
 以下のホテル情報を参照し、お客様の質問に丁寧かつ正確に答えてください。
 - 館内の基本情報（チェックイン・朝食の時間・料金・設備など）に加え、「近隣のおすすめ」や「独自の特典」についても、知識ベースに記載された範囲で案内してください。
 - 知識ベースに記載されている情報（料金・時間・内容など）は、そのまま具体的に答えてください。料金を聞かれた場合は、記載があれば金額を伝えてください。フロントへ案内するのは、知識ベースに本当に載っていない情報（暗証番号・パスワードなど）を聞かれた場合のみにしてください。
+- Wi-Fiのパスワードは、知識ベースに記載がある場合は回答して問題ありません。
 - 回答は簡潔に、必要な情報だけを伝えてください。観光案内の際は松島観光の拠点としての利便性をアピールしてください。
 
 ## ホテル情報（参照用）
@@ -65,12 +67,16 @@ async function loadOfficialSiteText(): Promise<string> {
     return officialSiteCache.text;
   }
   try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), OFFICIAL_SITE_FETCH_TIMEOUT_MS);
     const res = await fetch(OFFICIAL_SITE_URL, {
       headers: {
         "User-Agent": "hotel-guide-chatbot/1.0",
       },
       cache: "no-store",
+      signal: controller.signal,
     });
+    clearTimeout(timeout);
     if (!res.ok) {
       throw new Error(`Official site fetch failed: ${res.status} ${res.statusText}`);
     }

@@ -14,7 +14,7 @@ const translations = {
     welcomeMessage2: 'ご不明な点がございましたらフロントスタッフまでお気軽にお尋ねください。',
     restaurantCoupon: '飲食店クーポン',
     checkInOut: '入退館時間',
-    bath: '1階 ロビー・施設',
+    bath: 'ロビー・施設',
     breakfast: '朝食',
     dinner: '夕食・お得なクーポン',
     service: 'サービスコーナー',
@@ -29,7 +29,7 @@ const translations = {
     checkIn: 'チェックイン',
     checkOut: 'チェックアウト',
     planNote: '※プランによって時間が異なる場合がございます。',
-    bathTitle: '1階 ロビー・施設',
+    bathTitle: 'ロビー・施設',
     bathDescription: '男女別大浴場 9F',
     operatingHours: '営業時間:',
     bathHours: '15:00~翌10:00',
@@ -641,6 +641,21 @@ const translations = {
   },
 };
 
+function getTranslations(lang: LanguageCode) {
+  const base = translations.en as Record<string, unknown>;
+  const selected = (translations as Record<string, Record<string, unknown> | undefined>)[lang] ?? {};
+  const merged: Record<string, unknown> = { ...base, ...selected };
+
+  for (const key of Object.keys(base)) {
+    const val = selected[key];
+    if (typeof val === "string" && val.trim() === "") {
+      merged[key] = base[key];
+    }
+  }
+
+  return merged as typeof translations.en;
+}
+
 export default function Home() {
   const { language: selectedLanguage, setLanguage: setSelectedLanguage } = useLanguage();
   const [selectedService, setSelectedService] = useState<string | null>(null);
@@ -662,17 +677,13 @@ export default function Home() {
   ];
 
   const breakfastImages = [
+    '/morning-picture/breakfast001.jpg',
+    '/morning-picture/breakfast002.jpg',
     '/morning-picture/breakfast003.jpg',
-    '/morning-picture/breakfast004.jpg',
-    '/morning-picture/breakfast005.jpg',
-    '/morning-picture/breakfast006.jpg',
-    '/morning-picture/breakfast007.jpg',
-    '/morning-picture/breakfast008.jpg',
-    '/morning-picture/breakfast012.jpg',
     '/morning-picture/breakfast013.jpg',
   ];
 
-  const t = translations[selectedLanguage as keyof typeof translations] || translations['en'];
+  const t = getTranslations(selectedLanguage);
 
   // 画像のスライドショー（4秒ごとに切り替え）
   useEffect(() => {
@@ -761,7 +772,7 @@ export default function Home() {
     },
     { 
       icon: (
-        <div className="relative w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 flex items-center justify-center scale-90">
+        <div className="relative w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 flex items-center justify-center scale-75">
           <Image
             src="/icon-matome/file.svg"
             alt={t.bath}
@@ -1481,10 +1492,10 @@ return (
                   </p>
                   
                   {/* 図解の画像 */}
-                  <div className="mb-6 rounded-lg overflow-hidden">
+                  <div className="rounded-lg overflow-hidden border border-gray-200">
                     <div className="relative w-full h-auto">
                       <Image
-                        src="/key.png"
+                        src={encodeURI("/icon-matome/スクリーンショット 2026-02-06 2.56.04.png")}
                         alt={t.lightingTitle}
                         width={800}
                         height={600}
@@ -1638,7 +1649,7 @@ return (
           {/* コピーライト */}
           <div className="border-t border-gray-200 pt-8 text-center">
             <p className="text-xs text-gray-500">
-              © kyoritsugroup.co.jp All rights reserved.
+              Copyright © BREEZBAY HOTEL All Rights Reserved.
             </p>
           </div>
         </div>
