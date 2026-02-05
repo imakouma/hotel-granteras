@@ -19,17 +19,19 @@ const MAP_BTN_BG = "#F5A623";
 const COUPON_SITE = "/coupon-site";
 const bannerImage = `${COUPON_SITE}/スクリーンショット 2026-02-01 22.46.48.png`;
 const backIconImage = `${COUPON_SITE}/スクリーンショット 2026-02-01 22.54.27.png`;
+const parkingImage = `${COUPON_SITE}/スクリーンショット 2026-02-06 3.15.05.png`;
+const shop3Image = "/original-information/スクリーンショット 2026-02-06 3.07.42.png";
 const shopImages = [
   `${COUPON_SITE}/スクリーンショット 2026-02-01 22.43.17.png`,
   `${COUPON_SITE}/スクリーンショット 2026-02-01 22.43.06.png`,
-  `${COUPON_SITE}/スクリーンショット 2026-02-01 22.43.31.png`,
+  shop3Image,
 ];
 
 /** モーダル用の店舗詳細画像（MAP押下時に表示）［0=利久 1=晴れの日 2=ぼんてん漁港］ */
 const shopModalImages = [
   `${COUPON_SITE}/スクリーンショット 2026-02-01 23.09.25.png`,
   `${COUPON_SITE}/スクリーンショット 2026-02-01 23.10.55-903b6d91-1ead-4274-9bed-07cea68945a8.png`,
-  `${COUPON_SITE}/スクリーンショット 2026-02-01 23.12.13.png`,
+  shop3Image,
 ];
 
 /** モーダル用の店舗説明文（参考画像の雰囲気に合わせる） */
@@ -352,18 +354,26 @@ const shopsBase = [
     nameKey: "shop3" as const,
     imageSrc: shopImages[2],
     branches: [
-      { name: "（店名確認中）", address: "", tel: "022-797-3199", lat: 0, lng: 0, placeUrl: "https://www.google.com/maps/search/?api=1&query=022-797-3199" },
+      {
+        name: "たま 国分町店",
+        address: "仙台市青葉区国分町2丁目1-3 エニークス国分町ビル2F",
+        tel: "022-797-3199",
+        lat: 0,
+        lng: 0,
+        placeUrl:
+          "https://www.google.com/maps/search/?api=1&query=%E3%81%9F%E3%81%BE%20%E5%9B%BD%E5%88%86%E7%94%BA%E5%BA%97%20%E4%BB%99%E5%8F%B0",
+      },
     ],
     hours: undefined,
     holiday: undefined,
-    mapUrl: "https://www.google.com/maps/search/?api=1&query=022-797-3199",
+    mapUrl: "https://www.google.com/maps/search/?api=1&query=%E3%81%9F%E3%81%BE%20%E5%9B%BD%E5%88%86%E7%94%BA%E5%BA%97%20%E4%BB%99%E5%8F%B0",
   },
 ];
 
 const shopNames: Record<string, string> = {
   shop1: "とり鉄",
   shop2: "利久",
-  shop3: "（店名確認中）",
+  shop3: "たま",
 };
 
 const mainLanguages = [
@@ -639,6 +649,64 @@ export default function CouponPage() {
               </article>
             );
           })}
+        </section>
+
+        <section className="mt-10 rounded-lg border border-gray-200 bg-white p-4 shadow-sm sm:p-6">
+          <h2 className="text-base font-bold text-gray-900 sm:text-lg">提携駐車場のご案内</h2>
+          <div className="mt-4 overflow-hidden rounded-lg border border-gray-200 bg-gray-100">
+            <div className="relative w-full" style={{ aspectRatio: "16/9" }}>
+              <Image
+                src={encodeURI(parkingImage)}
+                alt="提携駐車場案内"
+                fill
+                className="object-contain"
+                sizes="(max-width: 768px) 100vw, 768px"
+                unoptimized
+              />
+            </div>
+          </div>
+          <div className="mt-4 space-y-6 text-sm text-gray-800">
+            <div>
+              <div className="font-semibold">1. パーキングタウンマギー</div>
+              <div className="mt-1 whitespace-pre-line">
+                仙台市青葉区国分町1丁目7-22
+                2022-261-3750
+                ■駐車料金2,000円
+                ■高さ制限2.40m
+                ■24h営業
+                ■割引適用時間 入庫から24h
+                ※ワゴン車・RV車・ルーフキャリアをお付けの車等は、こちらをご利用下さい。
+              </div>
+            </div>
+
+            <div>
+              <div className="font-semibold">2. いなりパーキング</div>
+              <div className="mt-1 whitespace-pre-line">
+                仙台市青葉区国分町2丁目2-9
+                2090-3120-2011
+                ■駐車料金1200円
+                ■高さ制限1.78m
+                ■24h営業
+                ■割引適用時間 入庫から24h（出し入れOK。申告制）
+              </div>
+            </div>
+
+            <div>
+              <div className="font-semibold">3. 大仙台駐車場</div>
+              <div className="mt-1 whitespace-pre-line">
+                仙台市青葉区立町1-23
+                8022-222-7643
+                ■駐車料金1,200円
+                ■高さ制限2.40m
+                ■24h営業
+                ■割引適用時間 入庫から最大36h（電話予約、出し入れOK。）
+                ※入庫から翌日19時までが1泊計算となります。（入庫は朝7時より可）
+                ※ワゴン車・AV車・ルーフキャリアをお付けの車等は、こちらをご利用下さい。
+                ※バイク（車前予約）1泊600円。
+                ※カーナビ検索の場合は022-223-3863の番号を入力して下さい。
+              </div>
+            </div>
+          </div>
         </section>
 
       </main>
