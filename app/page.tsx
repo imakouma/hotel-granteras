@@ -14,7 +14,7 @@ const translations = {
     welcomeMessage2: 'ご不明な点がございましたらフロントスタッフまでお気軽にお尋ねください。',
     restaurantCoupon: '飲食店クーポン',
     checkInOut: '入退館時間',
-    bath: '大浴場',
+    bath: '1階 ロビー・施設',
     breakfast: '朝食',
     dinner: '夕食・お得なクーポン',
     service: 'サービスコーナー',
@@ -29,7 +29,7 @@ const translations = {
     checkIn: 'チェックイン',
     checkOut: 'チェックアウト',
     planNote: '※プランによって時間が異なる場合がございます。',
-    bathTitle: '大浴場',
+    bathTitle: '1階 ロビー・施設',
     bathDescription: '男女別大浴場 9F',
     operatingHours: '営業時間:',
     bathHours: '15:00~翌10:00',
@@ -40,7 +40,7 @@ const translations = {
     freeService: '無料サービス',
     bathServiceDesc: '乳酸菌飲料とアイスキャンディーを無料で提供しております。',
     breakfastTitle: 'ご朝食 (1F レストラン)',
-    breakfastPrice: '■ご朝食 / 2,300円',
+    breakfastPrice: '大人 1,200円（税込）／子供（小学生）800円（税込）',
     breakfastHours: '6:15~9:30 (最終入店9:00)',
     breakfastNote1: '※満席の場合はお待ちいただくことがございます。',
     breakfastNote2: '※混雑状況により営業時間を変更させていただく場合がございます。',
@@ -643,7 +643,6 @@ const translations = {
 
 export default function Home() {
   const { language: selectedLanguage, setLanguage: setSelectedLanguage } = useLanguage();
-  const [activeTab, setActiveTab] = useState('dinner');
   const [selectedService, setSelectedService] = useState<string | null>(null);
   const [showOtherLanguages, setShowOtherLanguages] = useState(false);
   const languageDropdownRef = useRef<HTMLDivElement>(null);
@@ -747,7 +746,7 @@ export default function Home() {
       icon: (
         <div className="relative w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 flex items-center justify-center">
           <Image
-            src="/icon-matome/icon-carry.png"
+            src="/icon-matome/icon-carry.svg"
             alt={t.checkInOut}
             width={112}
             height={112}
@@ -764,7 +763,7 @@ export default function Home() {
       icon: (
         <div className="relative w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 flex items-center justify-center">
           <Image
-            src="/icon-matome/icon-bath.png"
+            src="/icon-matome/icon-bath.svg"
             alt={t.bath}
             width={112}
             height={112}
@@ -781,7 +780,7 @@ export default function Home() {
       icon: (
         <div className="relative w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 flex items-center justify-center">
           <Image
-            src="/icon-matome/icon-food.png"
+            src="/icon-matome/icon-food.svg"
             alt={t.breakfast}
             width={112}
             height={112}
@@ -798,7 +797,7 @@ export default function Home() {
       icon: (
         <div className="relative w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 flex items-center justify-center">
           <Image
-            src="/icon-matome/icon-beer.png"
+            src="/icon-matome/icon-beer.svg"
             alt={t.dinner}
             width={112}
             height={112}
@@ -816,7 +815,7 @@ export default function Home() {
       icon: (
         <div className="relative w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 flex items-center justify-center">
           <Image
-            src="/icon-matome/icon-washmachine.png"
+            src="/icon-matome/icon-washmachine.svg"
             alt={t.service}
             width={112}
             height={112}
@@ -833,7 +832,7 @@ export default function Home() {
       icon: (
         <div className="relative w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 flex items-center justify-center">
           <Image
-            src="/icon-matome/icon-Wifi.png"
+            src="/icon-matome/icon-Wifi.svg"
             alt={t.wifi}
             width={112}
             height={112}
@@ -850,7 +849,7 @@ export default function Home() {
       icon: (
         <div className="relative w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 flex items-center justify-center">
           <Image
-            src="/icon-matome/icon-light.png"
+            src="/icon-matome/icon-light.svg"
             alt={t.lighting}
             width={112}
             height={112}
@@ -867,7 +866,7 @@ export default function Home() {
       icon: (
         <div className="relative w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 flex items-center justify-center">
           <Image
-            src="/icon-matome/icon-bed.png"
+            src={encodeURI('/icon-matome/icon-bed (1).svg')}
             alt={t.longstay}
             width={112}
             height={112}
@@ -884,7 +883,7 @@ export default function Home() {
       icon: (
         <div className="relative w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 flex items-center justify-center">
           <Image
-            src="/icon-matome/icon-tool.png"
+            src="/icon-matome/icon-tool.svg"
             alt={t.lost}
             width={112}
             height={112}
@@ -925,7 +924,7 @@ return (
     {/* ヘッダー */}
     <header className="bg-white/98 backdrop-blur-sm sticky top-0 z-50 shadow-sm">
       <div className="max-w-7xl mx-auto px-2 sm:px-4 md:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 sm:h-20 gap-1 sm:gap-2">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 py-2 sm:py-0">
           {/* 左側：ロゴとホテル名 */}
           <div className="flex items-center gap-2 sm:gap-3 shrink-0 min-w-0 flex-1 sm:flex-none sm:max-w-none">
             <div className="relative w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 shrink-0">
@@ -955,42 +954,8 @@ return (
             </div>
           </div>
 
-            {/* 中央：ナビゲーションタブ（デスクトップのみ） */}
-            <nav className="hidden lg:flex items-center space-x-1 mx-auto">
-              <button
-                onClick={() => setActiveTab('dinner')}
-                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                  activeTab === 'dinner'
-                    ? 'bg-blue-50 text-[#A387]'
-                    : 'text-gray-700 hover:bg-gray-50'
-                }`}
-              >
-                {t.dinnerTab}
-              </button>
-              <button
-                onClick={() => setActiveTab('service')}
-                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                  activeTab === 'service'
-                    ? 'bg-blue-50 text-[#A387]'
-                    : 'text-gray-700 hover:bg-gray-50'
-                }`}
-              >
-                {t.serviceTab}
-              </button>
-              <button
-                onClick={() => setActiveTab('wifi')}
-                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                  activeTab === 'wifi'
-                    ? 'bg-blue-50 text-[#A387]'
-                    : 'text-gray-700 hover:bg-gray-50'
-                }`}
-              >
-                {t.wifi}
-              </button>
-            </nav>
-
             {/* 右側：言語選択と飲食店クーポンボタン */}
-            <div className="flex items-center shrink-0 space-x-0.5 sm:space-x-1 md:space-x-2 lg:space-x-3 flex-nowrap">
+            <div className="flex items-center justify-end shrink-0 space-x-0.5 sm:space-x-1 md:space-x-2 lg:space-x-3 flex-nowrap w-full sm:w-auto">
               {/* 言語選択 */}
               <div ref={languageDropdownRef} className="flex items-center space-x-0 sm:space-x-0.5 md:space-x-1 relative flex-nowrap shrink-0">
                 {/* Another Language ボタン */}
@@ -1127,7 +1092,7 @@ return (
                       : 'opacity-0 translate-y-4'
                   }`}
                   style={{ 
-                    backgroundColor: '#304E84',
+                    backgroundColor: '#A3879D',
                     boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2)',
                     transitionDelay: visibleServices.has(service.id) ? `${index * 100}ms` : '0ms'
                   }}
@@ -1282,51 +1247,37 @@ return (
               <>
                 <h3 className="text-2xl font-bold text-gray-900 mb-4 text-center">{t.bathTitle}</h3>
                 <div className="border-t border-gray-200 pt-4 mb-4">
-                  <p className="text-gray-700 mb-2">
-                    {t.bathDescription}
-                  </p>
-                  <div className="space-y-2 mb-4">
-                    <div className="text-gray-700">
-                      <span className="font-semibold">{t.operatingHours}</span> {t.bathHours}
-                    </div>
-                    <div className="text-sm text-gray-600">
-                      {t.saunaNote}
-                    </div>
-                  </div>
-                </div>
-                
-                {/* 大浴場の画像 */}
-                <div className="mb-4 rounded-lg overflow-hidden">
-                  <div className="relative w-full h-64">
-            <Image
-                      src="/hotel-bath.png"
-                      alt={t.bathTitle}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 768px) 100vw, 672px"
-                      unoptimized
-                    />
+                  <div className="space-y-1 text-gray-700 leading-relaxed">
+                    <p>ヨーロピアン・アンティークの調度品が優雅なロビー。</p>
+                    <p>都会の謙遜を忘れる落ち着いた空間です。</p>
+                    <p>「スターバックス コーヒー」へはロビーから直接お入りいただけます。</p>
                   </div>
                 </div>
 
                 <div className="space-y-4 mb-6">
-                  <div>
-                    <h4 className="font-semibold text-gray-900 mb-2">{t.notice}</h4>
-                    <ul className="space-y-2 text-sm text-gray-700">
-                      <li>{t.bathNotice1}</li>
-                      <li>{t.bathNotice2}</li>
-                    </ul>
+                  <div className="rounded-lg overflow-hidden">
+                    <div className="relative w-full h-64">
+                      <Image
+                        src="/facility001.jpg"
+                        alt={t.bathTitle}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, 672px"
+                        unoptimized
+                      />
+                    </div>
                   </div>
-                  
-                  <div>
-                    <h4 className="font-semibold text-gray-900 mb-2">{t.freeService}</h4>
-                    <p className="text-sm text-gray-700 mb-2">
-                      {t.bathServiceDesc}
-                    </p>
-                    <ul className="space-y-1 text-sm text-gray-700">
-                      <li>★{selectedLanguage === 'ja' ? '乳酸菌飲料' : selectedLanguage === 'en' ? 'Lactic acid drink' : selectedLanguage === 'zh' ? '乳酸菌饮料' : '유산균 음료'}/5:00~10:00</li>
-                      <li>★{selectedLanguage === 'ja' ? 'アイスキャンディー' : selectedLanguage === 'en' ? 'Ice candy' : selectedLanguage === 'zh' ? '冰棒' : '아이스 캔디'}/15:00~翌1:00</li>
-                    </ul>
+                  <div className="rounded-lg overflow-hidden">
+                    <div className="relative w-full h-64">
+                      <Image
+                        src="/facility002.jpg"
+                        alt={t.bathTitle}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, 672px"
+                        unoptimized
+                      />
+                    </div>
                   </div>
                 </div>
 
@@ -1348,6 +1299,9 @@ return (
                 <div className="mb-6">
                   {selectedLanguage === 'ja' ? (
                     <div className="space-y-4 mb-4">
+                      <div className="text-gray-700">
+                        {t.breakfastPrice}
+                      </div>
                       <div>
                         <div className="text-xl font-bold text-gray-900">朝食会場</div>
                         <div className="text-gray-700">10階</div>

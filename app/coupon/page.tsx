@@ -20,15 +20,15 @@ const COUPON_SITE = "/coupon-site";
 const bannerImage = `${COUPON_SITE}/スクリーンショット 2026-02-01 22.46.48.png`;
 const backIconImage = `${COUPON_SITE}/スクリーンショット 2026-02-01 22.54.27.png`;
 const shopImages = [
-  `${COUPON_SITE}/スクリーンショット 2026-02-01 22.43.06.png`,
   `${COUPON_SITE}/スクリーンショット 2026-02-01 22.43.17.png`,
+  `${COUPON_SITE}/スクリーンショット 2026-02-01 22.43.06.png`,
   `${COUPON_SITE}/スクリーンショット 2026-02-01 22.43.31.png`,
 ];
 
 /** モーダル用の店舗詳細画像（MAP押下時に表示）［0=利久 1=晴れの日 2=ぼんてん漁港］ */
 const shopModalImages = [
-  `${COUPON_SITE}/スクリーンショット 2026-02-01 23.10.55-903b6d91-1ead-4274-9bed-07cea68945a8.png`,
   `${COUPON_SITE}/スクリーンショット 2026-02-01 23.09.25.png`,
+  `${COUPON_SITE}/スクリーンショット 2026-02-01 23.10.55-903b6d91-1ead-4274-9bed-07cea68945a8.png`,
   `${COUPON_SITE}/スクリーンショット 2026-02-01 23.12.13.png`,
 ];
 
