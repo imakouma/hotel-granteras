@@ -393,7 +393,7 @@ const shopNames: Record<string, string> = {
   shop3: "たま",
 };
 
-const mainLanguages = [
+const mainLanguages: Array<{ code: LanguageCode; flag: string; label: string }> = [
   { code: "en", flag: "🇺🇸", label: "English" },
   { code: "zh", flag: "🇨🇳", label: "中文" },
   { code: "zh-TW", flag: "🇹🇼", label: "繁體中文" },
@@ -401,7 +401,7 @@ const mainLanguages = [
   { code: "ja", flag: "🇯🇵", label: "日本語" },
 ];
 
-const otherLanguages = [
+const otherLanguages: Array<{ code: LanguageCode; flag: string; label: string }> = [
   { code: "th", flag: "🇹🇭", label: "ไทย" },
   { code: "vi", flag: "🇻🇳", label: "Tiếng Việt" },
   { code: "tl", flag: "🇵🇭", label: "Tagalog" },
@@ -464,8 +464,11 @@ export default function CouponPage() {
                   {otherLanguages.map((lang) => (
                     <button
                       key={lang.code}
-                      onClick={() => {
-                        setSelectedLanguage(lang.code as LanguageCode);
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        console.log('Language button clicked:', lang.code);
+                        setSelectedLanguage(lang.code);
                         setShowOtherLanguages(false);
                       }}
                       className={`flex flex-col items-center rounded p-1.5 sm:p-2 transition-colors ${
@@ -483,8 +486,11 @@ export default function CouponPage() {
             {mainLanguages.map((lang) => (
               <button
                 key={lang.code}
-                onClick={() => {
-                  setSelectedLanguage(lang.code as LanguageCode);
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  console.log('Language button clicked:', lang.code);
+                  setSelectedLanguage(lang.code);
                   setShowOtherLanguages(false);
                 }}
                 className={`flex flex-col items-center rounded p-0.5 sm:p-1 transition-colors ${
