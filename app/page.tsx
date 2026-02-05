@@ -1172,9 +1172,13 @@ export default function Home() {
   ];
 
   const breakfastImages = [
-    '/morning-picture/breakfast001.jpg',
-    '/morning-picture/breakfast002.jpg',
     '/morning-picture/breakfast003.jpg',
+    '/morning-picture/breakfast004.jpg',
+    '/morning-picture/breakfast005.jpg',
+    '/morning-picture/breakfast006.jpg',
+    '/morning-picture/breakfast007.jpg',
+    '/morning-picture/breakfast008.jpg',
+    '/morning-picture/breakfast012.jpg',
     '/morning-picture/breakfast013.jpg',
   ];
 
