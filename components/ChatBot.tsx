@@ -29,7 +29,7 @@ const chatTranslations: Record<
 > = {
   ja: {
     welcome:
-      "こんにちは。天然温泉 青葉の湯 ドーミーイン仙台ANNEXの館内案内です。チェックイン・朝食・大浴場・Wi-Fi・飲食店クーポンなど、ご不明な点がございましたらお気軽にどうぞ。",
+      "こんにちは。ホテルグランテラス仙台国分町の館内案内です。チェックイン・朝食・大浴場・Wi-Fi・飲食店クーポンなど、ご不明な点がございましたらお気軽にどうぞ。",
     headerTitle: "館内案内チャット",
     placeholder: "メッセージを入力...",
     placeholderSending: "送信中...",
@@ -44,7 +44,7 @@ const chatTranslations: Record<
   },
   en: {
     welcome:
-      "Hello. This is the in-house guide for Natural Hot Spring Aoba no Yu Dormy Inn Sendai ANNEX. Feel free to ask about check-in, breakfast, the public bath, Wi-Fi, restaurant coupons, and more.",
+      "Hello. This is the in-house guide. Feel free to ask about check-in, breakfast, the public bath, Wi-Fi, restaurant coupons, and more.",
     headerTitle: "Hotel Guide Chat",
     placeholder: "Type a message...",
     placeholderSending: "Sending...",
@@ -58,7 +58,7 @@ const chatTranslations: Record<
     closeLabel: "Close",
   },
   zh: {
-    welcome: "您好。这里是天然温泉青叶之汤 Dormy Inn 仙台 ANNEX 的馆内指南。如有关于入住、早餐、大浴场、Wi-Fi、餐饮优惠券等任何疑问，欢迎随时咨询。",
+    welcome: "您好。这里是馆内指南。如有关于入住、早餐、大浴场、Wi-Fi、餐饮优惠券等任何疑问，欢迎随时咨询。",
     headerTitle: "馆内指南聊天",
     placeholder: "输入消息...",
     placeholderSending: "发送中...",
@@ -72,7 +72,7 @@ const chatTranslations: Record<
     closeLabel: "关闭",
   },
   "zh-TW": {
-    welcome: "您好。這裡是天然溫泉青葉之湯 Dormy Inn 仙台 ANNEX 的館內指南。如有關於入住、早餐、大浴場、Wi-Fi、餐飲優惠券等任何疑問，歡迎隨時諮詢。",
+    welcome: "您好。這裡是館內指南。如有關於入住、早餐、大浴場、Wi-Fi、餐飲優惠券等任何疑問，歡迎隨時諮詢。",
     headerTitle: "館內指南聊天",
     placeholder: "輸入訊息...",
     placeholderSending: "傳送中...",
@@ -87,7 +87,7 @@ const chatTranslations: Record<
   },
   ko: {
     welcome:
-      "안녕하세요. 천연 온천 아오바노유 도미인 센다이 ANNEX 관내 안내입니다. 체크인, 조식, 대욕장, Wi-Fi, 식당 쿠폰 등 궁금한 점이 있으시면 편하게 문의해 주세요.",
+      "안녕하세요. 관내 안내입니다. 체크인, 조식, 대욕장, Wi-Fi, 식당 쿠폰 등 궁금한 점이 있으시면 편하게 문의해 주세요.",
     headerTitle: "관내 안내 채팅",
     placeholder: "메시지 입력...",
     placeholderSending: "전송 중...",
@@ -102,7 +102,7 @@ const chatTranslations: Record<
   },
   fr: {
     welcome:
-      "Bonjour. Bienvenue au guide de l'hôtel Dormy Inn Sendai ANNEX (source thermale Aoba no Yu). N'hésitez pas à nous demander des informations sur l'enregistrement, le petit-déjeuner, le bain, le Wi-Fi, les coupons restaurant, etc.",
+      "Bonjour. Bienvenue au guide de l'hôtel. N'hésitez pas à nous demander des informations sur l'enregistrement, le petit-déjeuner, le bain, le Wi-Fi, les coupons restaurant, etc.",
     headerTitle: "Chat d'accueil",
     placeholder: "Écrivez un message...",
     placeholderSending: "Envoi...",
@@ -117,7 +117,7 @@ const chatTranslations: Record<
   },
   de: {
     welcome:
-      "Guten Tag. Dies ist der Hausführer des Dormy Inn Sendai ANNEX (Natürliche heiße Quelle Aoba no Yu). Bei Fragen zu Check-in, Frühstück, Bad, WLAN, Restaurant-Gutscheinen usw. fragen Sie uns gerne.",
+      "Guten Tag. Dies ist der Hausführer des Hotels. Bei Fragen zu Check-in, Frühstück, Bad, WLAN, Restaurant-Gutscheinen usw. fragen Sie uns gerne.",
     headerTitle: "Hotel-Chat",
     placeholder: "Nachricht eingeben...",
     placeholderSending: "Wird gesendet...",
@@ -132,7 +132,7 @@ const chatTranslations: Record<
   },
   es: {
     welcome:
-      "Hola. Este es el guía del hotel Dormy Inn Sendai ANNEX (aguas termales Aoba no Yu). Puede preguntar sobre check-in, desayuno, baño, Wi-Fi, cupones de restaurante, etc.",
+      "Hola. Este es el guía del hotel. Puede preguntar sobre check-in, desayuno, baño, Wi-Fi, cupones de restaurante, etc.",
     headerTitle: "Chat de información",
     placeholder: "Escriba un mensaje...",
     placeholderSending: "Enviando...",
@@ -147,7 +147,7 @@ const chatTranslations: Record<
   },
   it: {
     welcome:
-      "Buongiorno. Questa è la guida dell'hotel Dormy Inn Sendai ANNEX (sorgente termale Aoba no Yu). Chiedete pure su check-in, colazione, bagno, Wi-Fi, coupon ristorante, ecc.",
+      "Buongiorno. Questa è la guida dell'hotel. Chiedete pure su check-in, colazione, bagno, Wi-Fi, coupon ristorante, ecc.",
     headerTitle: "Chat informazioni",
     placeholder: "Scrivi un messaggio...",
     placeholderSending: "Invio in corso...",
@@ -162,7 +162,7 @@ const chatTranslations: Record<
   },
   th: {
     welcome:
-      "สวัสดีครับ นี่คือคำแนะนำภายในโรงแรม Dormy Inn Sendai ANNEX (น้ำพุร้อน Aoba no Yu) สอบถามได้เกี่ยวกับเช็คอิน อาหารเช้า ห้องอาบน้ำ Wi-Fi คูปองร้านอาหาร ฯลฯ",
+      "สวัสดีครับ นี่คือคำแนะนำภายในโรงแรม สอบถามได้เกี่ยวกับเช็คอิน อาหารเช้า ห้องอาบน้ำ Wi-Fi คูปองร้านอาหาร ฯลฯ",
     headerTitle: "แชทข้อมูลโรงแรม",
     placeholder: "พิมพ์ข้อความ...",
     placeholderSending: "กำลังส่ง...",
@@ -177,11 +177,11 @@ const chatTranslations: Record<
   },
   vi: {
     welcome:
-      "Xin chào. Đây là hướng dẫn trong khách sạn Dormy Inn Sendai ANNEX (suối nước nóng Aoba no Yu). Vui lòng hỏi về check-in, bữa sáng, bồn tắm, Wi-Fi, phiếu giảm giá nhà hàng, v.v.",
+      "Xin chào. Đây là hướng dẫn trong khách sạn. Vui lòng hỏi về check-in, bữa sáng, bồn tắm, Wi-Fi, phiếu giảm giá nhà hàng, v.v.",
     headerTitle: "Chat hướng dẫn",
     placeholder: "Nhập tin nhắn...",
     placeholderSending: "Đang gửi...",
-    thinking: "Đang suy nghĩ...",
+    thinking: "Đang nghĩ...",
     error: "Đã xảy ra lỗi.",
     quotaExceeded: "Đã đạt giới hạn. Vui lòng thử lại sau khoảng một phút.",
     replyError: "Xin lỗi, không thể tạo câu trả lời.",
@@ -192,11 +192,11 @@ const chatTranslations: Record<
   },
   id: {
     welcome:
-      "Halo. Ini panduan dalam hotel Dormy Inn Sendai ANNEX (sumber air panas Aoba no Yu). Silakan tanya tentang check-in, sarapan, pemandian, Wi-Fi, kupon restoran, dll.",
+      "Halo. Ini panduan dalam hotel. Silakan tanya tentang check-in, sarapan, pemandian, Wi-Fi, kupon restoran, dll.",
     headerTitle: "Chat panduan",
     placeholder: "Ketik pesan...",
     placeholderSending: "Mengirim...",
-    thinking: "Memikirkan...",
+    thinking: "Berpikir...",
     error: "Terjadi kesalahan.",
     quotaExceeded: "Batas tercapai. Silakan coba lagi dalam satu menit.",
     replyError: "Maaf, tidak dapat membuat balasan.",
@@ -207,7 +207,7 @@ const chatTranslations: Record<
   },
   pt: {
     welcome:
-      "Olá. Este é o guia do hotel Dormy Inn Sendai ANNEX (fonte termal Aoba no Yu). Pergunte sobre check-in, pequeno-almoço, banho, Wi-Fi, cupons de restaurante, etc.",
+      "Olá. Este é o guia do hotel. Pergunte sobre check-in, pequeno-almoço, banho, Wi-Fi, cupons de restaurante, etc.",
     headerTitle: "Chat de informações",
     placeholder: "Escreva uma mensagem...",
     placeholderSending: "A enviar...",
@@ -222,7 +222,7 @@ const chatTranslations: Record<
   },
   tl: {
     welcome:
-      "Hello. Ito ang gabay ng Dormy Inn Sendai ANNEX (hot spring Aoba no Yu). Magtanong tungkol sa check-in, almusal, paliguan, Wi-Fi, coupon ng restaurant, atbp.",
+      "Hello. Ito ang gabay ng hotel. Magtanong tungkol sa check-in, almusal, paliguan, Wi-Fi, coupon ng restaurant, atbp.",
     headerTitle: "Chat gabay",
     placeholder: "Mag-type ng mensahe...",
     placeholderSending: "Nagse-send...",
@@ -237,7 +237,7 @@ const chatTranslations: Record<
   },
   ms: {
     welcome:
-      "Helo. Ini panduan dalam hotel Dormy Inn Sendai ANNEX (mata air panas Aoba no Yu). Sila tanya tentang daftar masuk, sarapan, mandi, Wi-Fi, kupon restoran, dll.",
+      "Helo. Ini panduan dalam hotel. Sila tanya tentang daftar masuk, sarapan, mandi, Wi-Fi, kupon restoran, dll.",
     headerTitle: "Chat panduan",
     placeholder: "Taip mesej...",
     placeholderSending: "Menghantar...",

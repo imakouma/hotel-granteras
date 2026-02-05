@@ -19,8 +19,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "天然温泉 青葉の湯 ドーミーイン仙台ANNEX - ホテル館内のご案内",
-  description: "天然温泉 青葉の湯 ドーミーイン仙台ANNEXの館内案内サイトです",
+  title: "ホテルグランテラス仙台国分町 - ホテル館内のご案内",
+  description: "ホテルグランテラス仙台国分町の館内案内サイトです",
   viewport: {
     width: "device-width",
     initialScale: 1,
