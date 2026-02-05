@@ -1434,16 +1434,16 @@ return (
     {/* ヘッダー */}
     <header className="bg-white/98 backdrop-blur-sm sticky top-0 z-50 shadow-sm">
       <div className="max-w-7xl mx-auto px-2 sm:px-4 md:px-6 lg:px-8">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 py-2 sm:py-0">
+        <div className="flex items-center justify-between gap-1 py-1.5 sm:gap-2 sm:py-2">
           {/* 左側：ロゴとホテル名 */}
-          <div className="flex items-center gap-2 sm:gap-3 shrink-0 min-w-0 flex-1 sm:flex-none sm:max-w-none">
-            <div className="relative w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 shrink-0">
+          <div className="flex items-center gap-1 sm:gap-2 shrink-0 min-w-0">
+            <div className="relative w-8 h-8 sm:w-12 sm:h-12 md:w-14 md:h-14 shrink-0">
               <Image
                 src={encodeURI('/スクリーンショット 2026-02-06 1.21.09.png')}
                 alt="GH"
                 fill
                 className="object-contain"
-                sizes="64px"
+                sizes="(max-width: 640px) 32px, (max-width: 768px) 48px, 56px"
                 unoptimized
               />
             </div>
@@ -1451,13 +1451,13 @@ return (
               <h1 className="sr-only">
                 {t.hotelName} {t.hotelTitle}
               </h1>
-              <div className="relative h-7 w-[240px] sm:h-8 sm:w-[280px] md:h-10 md:w-[360px]">
+              <div className="relative h-5 w-[160px] sm:h-7 sm:w-[240px] md:h-9 md:w-[320px]">
                 <Image
                   src={encodeURI('/スクリーンショット 2026-02-06 1.21.18.png')}
                   alt={`${t.hotelName} ${t.hotelTitle}`}
                   fill
                   className="object-contain object-left"
-                  sizes="(min-width: 768px) 360px, (min-width: 640px) 280px, 240px"
+                  sizes="(max-width: 640px) 160px, (max-width: 768px) 240px, 320px"
                   unoptimized
                 />
               </div>
@@ -1465,7 +1465,7 @@ return (
           </div>
 
             {/* 右側：言語選択と飲食店クーポンボタン */}
-            <div className="flex items-center justify-end shrink-0 space-x-0.5 sm:space-x-1 md:space-x-2 lg:space-x-3 flex-nowrap w-full sm:w-auto">
+            <div className="flex items-center justify-end shrink-0 space-x-0.5 sm:space-x-1 md:space-x-2 flex-nowrap">
               {/* 言語選択 */}
               <div ref={languageDropdownRef} className="flex items-center space-x-0 sm:space-x-0.5 md:space-x-1 relative flex-nowrap shrink-0">
                 {/* Another Language ボタン */}
@@ -1478,8 +1478,8 @@ return (
                   }`}
                   title="Other Languages"
                 >
-                  <span className="flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 text-base sm:text-lg md:text-2xl leading-none">🌐</span>
-                  <span className="text-[8px] sm:text-[10px] md:text-xs text-gray-700 leading-tight mt-0.5">Another</span>
+                  <span className="flex items-center justify-center w-4 h-4 sm:w-5 sm:h-5 md:w-7 md:h-7 text-sm sm:text-base md:text-xl leading-none">🌐</span>
+                  <span className="text-[7px] sm:text-[8px] md:text-[10px] text-gray-700 leading-tight mt-0.5">Another</span>
                 </button>
 
                 {/* 他の言語ドロップダウン */}
@@ -1512,7 +1512,7 @@ return (
                   </div>
                 )}
 
-                {/* 基本4言語 */}
+                {/* 基本5言語 */}
                 {mainLanguages.map((lang) => (
                   <button
                     key={lang.code}
@@ -1529,8 +1529,8 @@ return (
                     }`}
                     title={lang.label}
                   >
-                    <span className="flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 text-base sm:text-lg md:text-2xl leading-none">{lang.flag}</span>
-                    <span className="text-[8px] sm:text-[10px] md:text-xs text-gray-700 leading-tight mt-0.5">{lang.label}</span>
+                    <span className="flex items-center justify-center w-4 h-4 sm:w-5 sm:h-5 md:w-7 md:h-7 text-sm sm:text-base md:text-xl leading-none">{lang.flag}</span>
+                    <span className="text-[7px] sm:text-[8px] md:text-[10px] text-gray-700 leading-tight mt-0.5">{lang.label}</span>
                   </button>
                 ))}
               </div>
@@ -1538,7 +1538,7 @@ return (
               {/* 飲食店クーポンボタン（内部ページ） */}
               <Link
                 href="/coupon"
-                className="bg-red-500 hover:bg-red-600 text-white px-1.5 sm:px-2 md:px-3 lg:px-4 py-1 sm:py-1.5 md:py-2 rounded-md text-[9px] sm:text-[10px] md:text-xs lg:text-sm font-semibold transition-colors whitespace-nowrap shadow-sm inline-block"
+                className="bg-red-500 hover:bg-red-600 text-white px-1 sm:px-1.5 md:px-2.5 lg:px-3 py-0.5 sm:py-1 md:py-1.5 rounded-md text-[8px] sm:text-[9px] md:text-xs lg:text-sm font-semibold transition-colors whitespace-nowrap shadow-sm inline-block"
               >
                 {t.restaurantCoupon}
               </Link>
