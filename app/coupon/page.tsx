@@ -17,21 +17,23 @@ const COUPON_TEXT_COLOR = "#EEE3C4";
 const MAP_BTN_BG = "#F5A623";
 
 const COUPON_SITE = "/coupon-site";
-const bannerImage = `${COUPON_SITE}/スクリーンショット 2026-02-01 22.46.48.png`;
-const backIconImage = `${COUPON_SITE}/スクリーンショット 2026-02-01 22.54.27.png`;
+const bannerImage = `${COUPON_SITE}/スクリーンショット 2026-02-06 5.10.38.png`;
 const parkingImage = `${COUPON_SITE}/スクリーンショット 2026-02-06 3.15.05.png`;
-const shop3Image = "/original-information/スクリーンショット 2026-02-06 3.07.42.png";
+const shop3Image = `${COUPON_SITE}/スクリーンショット 2026-02-06 5.42.29.png`;
 const shopImages = [
-  `${COUPON_SITE}/スクリーンショット 2026-02-01 22.43.17.png`,
+  `${COUPON_SITE}/スクリーンショット 2026-02-06 5.32.17.png`,
   `${COUPON_SITE}/スクリーンショット 2026-02-01 22.43.06.png`,
   shop3Image,
 ];
 
-/** モーダル用の店舗詳細画像（MAP押下時に表示）［0=利久 1=晴れの日 2=ぼんてん漁港］ */
-const shopModalImages = [
-  `${COUPON_SITE}/スクリーンショット 2026-02-01 23.09.25.png`,
-  `${COUPON_SITE}/スクリーンショット 2026-02-01 23.10.55-903b6d91-1ead-4274-9bed-07cea68945a8.png`,
-  shop3Image,
+/** モーダル用の店舗詳細画像（MAP押下時に表示） */
+const shopModalImages: string[][] = [
+  [
+    `${COUPON_SITE}/スクリーンショット 2026-02-06 5.32.43.png`,
+    `${COUPON_SITE}/スクリーンショット 2026-02-06 5.32.32.png`,
+  ],
+  [`${COUPON_SITE}/スクリーンショット 2026-02-01 23.10.55-903b6d91-1ead-4274-9bed-07cea68945a8.png`],
+  [`${COUPON_SITE}/スクリーンショット 2026-02-06 5.42.41.png`, `${COUPON_SITE}/スクリーンショット 2026-02-06 5.42.52.png`],
 ];
 
 /** モーダル用の店舗説明文（参考画像の雰囲気に合わせる） */
@@ -63,7 +65,7 @@ const couponTranslations: Record<
 > = {
   ja: {
     pageTitle: "飲食店クーポン",
-    backToGuide: "← 館内案内に戻る",
+    backToGuide: "館内案内へ戻る",
     usageMessage: "チェックイン時にお渡ししたクーポン券を必ずご持参の上、ご注文時にスタッフへお渡しください。",
     usageNote: "※利用条件等は配布のクーポン券をご確認ください。",
     bringCoupon: "配布のクーポン券を持参で",
@@ -79,7 +81,7 @@ const couponTranslations: Record<
   },
   en: {
     pageTitle: "Restaurant Coupon",
-    backToGuide: "← Back to facility guide",
+    backToGuide: "Back to facility guide",
     usageMessage: "Please bring the coupon ticket provided at check-in and hand it to the staff when ordering.",
     usageNote: "*Please check the distributed coupon for terms and conditions.",
     bringCoupon: "With your coupon ticket",
@@ -95,7 +97,7 @@ const couponTranslations: Record<
   },
   zh: {
     pageTitle: "餐饮优惠券",
-    backToGuide: "← 返回馆内指南",
+    backToGuide: "返回馆内指南",
     usageMessage: "请务必携带入住时发放的优惠券，点餐时交给工作人员。",
     usageNote: "*使用条件等请参阅所发优惠券。",
     bringCoupon: "持发放的优惠券",
@@ -111,7 +113,7 @@ const couponTranslations: Record<
   },
   "zh-TW": {
     pageTitle: "餐飲優惠券",
-    backToGuide: "← 返回館內指南",
+    backToGuide: "返回館內指南",
     usageMessage: "請務必攜帶入住時發放的優惠券，點餐時交給工作人員。",
     usageNote: "*使用條件等請參閱所發優惠券。",
     bringCoupon: "持發放的優惠券",
@@ -127,7 +129,7 @@ const couponTranslations: Record<
   },
   ko: {
     pageTitle: "식당 쿠폰",
-    backToGuide: "← 시설 안내로 돌아가기",
+    backToGuide: "시설 안내로 돌아가기",
     usageMessage: "체크인 시 받으신 쿠폰을 꼭 지참하시고 주문 시 스태프에게 전달해 주세요.",
     usageNote: "*이용 조건 등은 배포 쿠폰을 확인해 주세요.",
     bringCoupon: "배포 쿠폰을 지참하시면",
@@ -143,7 +145,7 @@ const couponTranslations: Record<
   },
   fr: {
     pageTitle: "Coupon restaurant",
-    backToGuide: "← Retour au guide",
+    backToGuide: "Retour au guide",
     usageMessage: "Veuillez apporter le coupon remis à l'enregistrement et le donner au personnel lors de la commande.",
     usageNote: "*Veuillez consulter le coupon pour les conditions.",
     bringCoupon: "Avec le coupon distribué",
@@ -159,7 +161,7 @@ const couponTranslations: Record<
   },
   de: {
     pageTitle: "Restaurant-Gutschein",
-    backToGuide: "← Zurück zur Anleitung",
+    backToGuide: "Zurück zur Anleitung",
     usageMessage: "Bitte bringen Sie den bei der Anreise ausgehändigten Gutschein mit und übergeben Sie ihn beim Bestellen dem Personal.",
     usageNote: "*Bitte prüfen Sie die Bedingungen auf dem Gutschein.",
     bringCoupon: "Mit dem ausgehändigten Gutschein",
@@ -175,7 +177,7 @@ const couponTranslations: Record<
   },
   es: {
     pageTitle: "Cupón de restaurante",
-    backToGuide: "← Volver a la guía",
+    backToGuide: "Volver a la guía",
     usageMessage: "Por favor traiga el cupón entregado en el check-in y entréguelo al personal al hacer el pedido.",
     usageNote: "*Consulte el cupón para condiciones.",
     bringCoupon: "Con el cupón distribuido",
@@ -191,7 +193,7 @@ const couponTranslations: Record<
   },
   it: {
     pageTitle: "Coupon ristorante",
-    backToGuide: "← Torna alla guida",
+    backToGuide: "Torna alla guida",
     usageMessage: "Porti il coupon fornito al check-in e consegnilo al personale al momento dell'ordine.",
     usageNote: "*Consultare il coupon per i termini.",
     bringCoupon: "Con il coupon distribuito",
@@ -207,7 +209,7 @@ const couponTranslations: Record<
   },
   th: {
     pageTitle: "คูปองร้านอาหาร",
-    backToGuide: "← กลับไปคู่มือโรงแรม",
+    backToGuide: "กลับไปคู่มือโรงแรม",
     usageMessage: "กรุณานำคูปองที่ได้รับตอนเช็คอินมาและส่งให้พนักงานเมื่อสั่งอาหาร",
     usageNote: "*กรุณาตรวจสอบเงื่อนไขในคูปอง",
     bringCoupon: "นำคูปองที่แจกมา",
@@ -223,7 +225,7 @@ const couponTranslations: Record<
   },
   vi: {
     pageTitle: "Phiếu giảm giá nhà hàng",
-    backToGuide: "← Quay lại hướng dẫn",
+    backToGuide: "Quay lại hướng dẫn",
     usageMessage: "Vui lòng mang theo phiếu được phát khi nhận phòng và giao cho nhân viên khi gọi món.",
     usageNote: "*Vui lòng xem phiếu để biết điều kiện.",
     bringCoupon: "Mang theo phiếu được phát",
@@ -239,7 +241,7 @@ const couponTranslations: Record<
   },
   id: {
     pageTitle: "Kupon restoran",
-    backToGuide: "← Kembali ke panduan",
+    backToGuide: "Kembali ke panduan",
     usageMessage: "Harap bawa kupon yang diberikan saat check-in dan serahkan ke staf saat memesan.",
     usageNote: "*Silakan periksa kupon untuk syarat dan ketentuan.",
     bringCoupon: "Dengan kupon yang dibagikan",
@@ -255,7 +257,7 @@ const couponTranslations: Record<
   },
   pt: {
     pageTitle: "Cupom de restaurante",
-    backToGuide: "← Voltar ao guia",
+    backToGuide: "Voltar ao guia",
     usageMessage: "Traga o cupom fornecido no check-in e entregue-o à equipe ao fazer o pedido.",
     usageNote: "*Consulte o cupom para condições.",
     bringCoupon: "Com o cupom distribuído",
@@ -271,7 +273,7 @@ const couponTranslations: Record<
   },
   tl: {
     pageTitle: "Coupon ng restaurant",
-    backToGuide: "← Bumalik sa gabay",
+    backToGuide: "Bumalik sa gabay",
     usageMessage: "Mangyaring dalhin ang coupon na ibinigay sa check-in at ibigay sa staff kapag umorder.",
     usageNote: "*Mangyaring tingnan ang coupon para sa mga tuntunin.",
     bringCoupon: "Sa distributed coupon",
@@ -287,7 +289,7 @@ const couponTranslations: Record<
   },
   ms: {
     pageTitle: "Kupon restoran",
-    backToGuide: "← Kembali ke panduan",
+    backToGuide: "Kembali ke panduan",
     usageMessage: "Sila bawa kupon yang diberikan semasa daftar masuk dan serahkan kepada kakitangan ketika membuat pesanan.",
     usageNote: "*Sila rujuk kupon untuk syarat.",
     bringCoupon: "Dengan kupon yang diedarkan",
@@ -421,7 +423,7 @@ export default function CouponPage() {
   }, [showOtherLanguages]);
 
   return (
-    <div className="min-h-screen bg-[#f9f2d4]">
+    <div className="min-h-screen bg-[#F2EDCF]">
       {/* ヘッダー（タイトル＋言語翻訳機能・館内案内に戻るはバナー左上に配置） */}
       <header className="sticky top-0 z-40 border-b border-gray-200 bg-white shadow-sm">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-2 px-4 py-3 sm:px-6">
@@ -492,17 +494,23 @@ export default function CouponPage() {
             className="sm:hidden mb-3 flex items-center gap-2 px-1 transition-opacity hover:opacity-90 hover:underline"
             style={{ color: "#304E84" }}
           >
-            <Image
-              src={encodeURI(backIconImage)}
-              alt=""
-              width={48}
-              height={48}
-              className="h-12 w-12 shrink-0 object-contain"
-              unoptimized
-            />
+            <svg
+              className="h-5 w-5 shrink-0"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden
+            >
+              <path d="M15 3h6v18h-6" />
+              <path d="M10 17l5-5-5-5" />
+              <path d="M13.8 12H3" />
+            </svg>
             <span className="text-sm font-semibold leading-tight">{t.backToGuide}</span>
           </Link>
-          <div className={`relative w-full overflow-hidden ${BANNER_ASPECT} max-h-[380px] bg-[#f9f2d4] sm:max-h-[420px]`}>
+          <div className={`relative w-full overflow-hidden ${BANNER_ASPECT} max-h-[380px] bg-[#F2EDCF] sm:max-h-[420px]`}>
             <Image
               src={encodeURI(bannerImage)}
               alt="ご夕食クーポン!"
@@ -517,14 +525,20 @@ export default function CouponPage() {
               className="hidden sm:flex absolute left-4 top-4 z-10 flex-col items-center gap-2 transition-opacity hover:opacity-90 hover:underline"
               style={{ color: "#304E84" }}
             >
-              <Image
-                src={encodeURI(backIconImage)}
-                alt=""
-                width={112}
-                height={112}
-                className="h-24 w-24 shrink-0 object-contain"
-                unoptimized
-              />
+              <svg
+                className="h-8 w-8 shrink-0"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden
+              >
+                <path d="M15 3h6v18h-6" />
+                <path d="M10 17l5-5-5-5" />
+                <path d="M13.8 12H3" />
+              </svg>
               <span className="text-center text-sm font-semibold leading-tight">{t.backToGuide}</span>
             </Link>
           </div>
@@ -715,7 +729,7 @@ export default function CouponPage() {
       {openModalShopIndex !== null && (() => {
         const shop = shopsBase[openModalShopIndex];
         const modalName = shopNames[shopsBase[openModalShopIndex].nameKey] ?? "";
-        const modalImage = shopModalImages[openModalShopIndex];
+        const modalImages = shopModalImages[openModalShopIndex] ?? [];
         const description = shopModalDescriptions[openModalShopIndex];
         return (
           <div
@@ -749,21 +763,75 @@ export default function CouponPage() {
                 </button>
               </div>
               <div className="flex-1 min-w-0 overflow-y-auto overflow-x-hidden">
-                {/* モーダル用画像（2枚並びなど横長画像も全体が見えるよう object-contain） */}
-                <div className="relative w-full min-h-[200px] overflow-hidden bg-gray-100" style={{ aspectRatio: "16/9" }}>
-                  <Image
-                    src={encodeURI(modalImage)}
-                    alt={modalName}
-                    fill
-                    className="object-contain"
-                    sizes="(max-width: 576px) 100vw, 576px"
-                    unoptimized
-                  />
-                </div>
+                {/* モーダル用画像（横長画像も全体が見えるよう object-contain） */}
+                {modalImages.length <= 1 ? (
+                  <div
+                    className={`relative w-full min-h-[200px] overflow-hidden ${openModalShopIndex === 1 ? '' : 'bg-gray-100'}`}
+                    style={{ aspectRatio: "16/9" }}
+                  >
+                    <Image
+                      src={encodeURI(modalImages[0] ?? "")}
+                      alt={modalName}
+                      fill
+                      className={openModalShopIndex === 1 ? "object-cover" : "object-contain"}
+                      sizes="(max-width: 768px) 100vw, 800px"
+                      unoptimized
+                    />
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 gap-0 sm:grid-cols-2">
+                    {modalImages.map((src, idx) => (
+                      <div
+                        key={`${src}-${idx}`}
+                        className="relative w-full min-h-[180px] overflow-hidden"
+                        style={{ aspectRatio: "16/9" }}
+                      >
+                        <Image
+                          src={encodeURI(src)}
+                          alt={modalName}
+                          fill
+                          className="object-cover"
+                          sizes="(max-width: 768px) 100vw, 800px"
+                          unoptimized
+                        />
+                      </div>
+                    ))}
+                  </div>
+                )}
                 <div className="min-w-0 px-4 py-4">
                   <p className="text-sm leading-relaxed text-gray-700">
                     {description}
                   </p>
+                  {openModalShopIndex === 0 && (
+                    <a
+                      href="http://www.tori-tetsu.com/shop/238p/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-2 inline-block text-sm font-semibold text-[#304E84] underline underline-offset-2"
+                    >
+                      公式HP
+                    </a>
+                  )}
+                  {openModalShopIndex === 2 && (
+                    <a
+                      href="https://www.hotpepper.jp/strJ001194890/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-2 inline-block text-sm font-semibold text-[#304E84] underline underline-offset-2"
+                    >
+                      公式HP
+                    </a>
+                  )}
+                  {openModalShopIndex === 1 && (
+                    <a
+                      href="https://www.rikyu-gyutan.co.jp/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-2 inline-block text-sm font-semibold text-[#304E84] underline underline-offset-2"
+                    >
+                      公式HP
+                    </a>
+                  )}
                   {/* 全店舗分を表示（利久は4店舗・晴れの日2店舗・ぼんてん1店舗） */}
                   {shop.branches.map((branch, branchIndex) => {
                     const branchAddress = branch.address || ("name" in branch && typeof branch.name === "string" ? branch.name : "") || modalName;

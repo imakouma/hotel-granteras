@@ -761,20 +761,20 @@ export default function Home() {
     },
     { 
       icon: (
-        <div className="relative w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 flex items-center justify-center">
+        <div className="relative w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 flex items-center justify-center scale-90">
           <Image
-            src="/icon-matome/icon-bath.svg"
+            src="/icon-matome/file.svg"
             alt={t.bath}
             width={112}
             height={112}
-            className="w-full h-full object-contain"
+            className="object-contain"
             unoptimized
           />
         </div>
       ), 
       titleKey: 'bath' as const,
       id: 'bath',
-      textColor: 'text-[#A387]'
+      textColor: 'text-[#A3879D]'
     },
     { 
       icon: (
@@ -1158,8 +1158,19 @@ return (
                   <div className="mb-3 sm:mb-4 flex justify-center items-center shrink-0">
                     {service.icon}
                   </div>
-                  <div className={`text-xs sm:text-sm font-semibold text-center leading-tight wrap-break-word px-1 ${service.textColor || 'text-blue-800'}`}>
-                    {t[service.titleKey]}
+                  <div className={`text-[11px] sm:text-sm font-semibold text-center leading-snug wrap-break-word px-1 ${service.textColor || 'text-blue-800'}`}>
+                    {(() => {
+                      const label = t[service.titleKey];
+                      if (typeof label !== 'string') return label;
+                      const parts = label.split(' ');
+                      if (parts.length < 2) return label;
+                      return (
+                        <>
+                          <span className="block">{parts[0]}</span>
+                          <span className="block">{parts.slice(1).join(' ')}</span>
+                        </>
+                      );
+                    })()}
                   </div>
                 </button>
               ) : (

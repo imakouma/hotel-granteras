@@ -3,9 +3,20 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import { readFileSync } from "fs";
 import { join } from "path";
 
+const OFFICIAL_SITE_URL = "https://breezbay-group.com/hgt-s-kokubuncho/";
+const OFFICIAL_SITE_CACHE_TTL_MS = 1000 * 60 * 60; // 1 hour
+const OFFICIAL_SITE_TEXT_MAX_CHARS = 12000;
+
+let officialSiteCache:
+  | {
+      fetchedAt: number;
+      text: string;
+    }
+  | null = null;
+
 const SYSTEM_PROMPT_PREFIX = `あなたは「ホテルグランテラス仙台国分町」の館内案内アシスタントです。
 以下のホテル情報を参照し、お客様の質問に丁寧かつ正確に答えてください。
-- 館内の基本情報（チェックイン・朝食の時間・料金・温泉・設備など）に加え、「近隣のおすすめ」や「独自の特典」についても、知識ベースに記載された範囲で案内してください。
+- 館内の基本情報（チェックイン・朝食の時間・料金・設備など）に加え、「近隣のおすすめ」や「独自の特典」についても、知識ベースに記載された範囲で案内してください。
 - 知識ベースに記載されている情報（料金・時間・内容など）は、そのまま具体的に答えてください。料金を聞かれた場合は、記載があれば金額を伝えてください。フロントへ案内するのは、知識ベースに本当に載っていない情報（暗証番号・パスワードなど）を聞かれた場合のみにしてください。
 - 回答は簡潔に、必要な情報だけを伝えてください。観光案内の際は松島観光の拠点としての利便性をアピールしてください。
 
@@ -20,6 +31,56 @@ function loadHotelInfo(): string {
   } catch (e) {
     console.error("Failed to load hotel-info.md:", e);
     return "（館内情報の読み込みに失敗しました。フロントまでお尋ねください。）";
+  }
+}
+
+function htmlToPlainText(html: string): string {
+  const withoutScripts = html
+    .replace(/<script[\s\S]*?<\/script>/gi, " ")
+    .replace(/<style[\s\S]*?<\/style>/gi, " ");
+  const withNewlines = withoutScripts
+    .replace(/<\s*br\s*\/?\s*>/gi, "\n")
+    .replace(/<\s*\/?\s*p\b[^>]*>/gi, "\n")
+    .replace(/<\s*\/?\s*div\b[^>]*>/gi, "\n")
+    .replace(/<\s*\/?\s*li\b[^>]*>/gi, "\n");
+  const stripped = withNewlines.replace(/<[^>]+>/g, " ");
+  const decoded = stripped
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'");
+  return decoded
+    .replace(/\r\n/g, "\n")
+    .replace(/[ \t\f\v]+/g, " ")
+    .replace(/\n\s+\n/g, "\n\n")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+}
+
+async function loadOfficialSiteText(): Promise<string> {
+  const now = Date.now();
+  if (officialSiteCache && now - officialSiteCache.fetchedAt < OFFICIAL_SITE_CACHE_TTL_MS) {
+    return officialSiteCache.text;
+  }
+  try {
+    const res = await fetch(OFFICIAL_SITE_URL, {
+      headers: {
+        "User-Agent": "hotel-guide-chatbot/1.0",
+      },
+      cache: "no-store",
+    });
+    if (!res.ok) {
+      throw new Error(`Official site fetch failed: ${res.status} ${res.statusText}`);
+    }
+    const html = await res.text();
+    const text = htmlToPlainText(html).slice(0, OFFICIAL_SITE_TEXT_MAX_CHARS);
+    officialSiteCache = { fetchedAt: now, text };
+    return text;
+  } catch (e) {
+    console.warn("[Chat API] Failed to load official site:", e);
+    return "";
   }
 }
 
@@ -64,9 +125,13 @@ export async function POST(request: NextRequest) {
 
     const responseLang = languageNames[language] || languageNames.ja;
     const hotelInfo = loadHotelInfo();
+    const officialSiteText = await loadOfficialSiteText();
     const genAI = new GoogleGenerativeAI(apiKey);
     const languageInstruction = `【重要】回答は必ず「${responseLang}」で行ってください。お客様がその言語で質問している場合は、同じ言語で簡潔に答えてください。`;
-    const fullPrompt = `${SYSTEM_PROMPT_PREFIX}\n${hotelInfo}\n\n---\n${languageInstruction}\n\n上記のホテル情報を参照して、以下のお客様の質問に答えてください。\n\n【質問】\n${userMessage.trim()}`;
+    const officialSiteSection = officialSiteText
+      ? `\n\n## 公式HP（参照用）\nURL: ${OFFICIAL_SITE_URL}\n\n${officialSiteText}\n`
+      : "";
+    const fullPrompt = `${SYSTEM_PROMPT_PREFIX}\n${hotelInfo}${officialSiteSection}\n\n---\n${languageInstruction}\n\n上記のホテル情報を参照して、以下のお客様の質問に答えてください。\n\n【質問】\n${userMessage.trim()}`;
 
     const modelIds = ["gemini-1.5-flash", "gemini-1.5-flash-latest", "gemini-2.0-flash"] as const;
     const maxRetries = 3;
