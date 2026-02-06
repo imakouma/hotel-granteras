@@ -1770,7 +1770,6 @@ return (
             )}
             {selectedService === 'bath' && (
               <>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4 text-center">{t.bathTitle}</h3>
                 <div className="border-t border-gray-200 pt-4 mb-4">
                   <div className="space-y-1 text-gray-700 leading-relaxed">
                     <p>{t.lobbyDesc1}</p>
@@ -1784,19 +1783,7 @@ return (
                     <div className="relative w-full h-64">
                       <Image
                         src="/facility001.jpg"
-                        alt={t.bathTitle}
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 768px) 100vw, 672px"
-                        unoptimized
-                      />
-                    </div>
-                  </div>
-                  <div className="rounded-lg overflow-hidden">
-                    <div className="relative w-full h-64">
-                      <Image
-                        src="/facility002.jpg"
-                        alt={t.bathTitle}
+                        alt="Facility"
                         fill
                         className="object-cover"
                         sizes="(max-width: 768px) 100vw, 672px"
