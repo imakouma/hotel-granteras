@@ -3,34 +3,46 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-
-type LanguageCode = 'ja' | 'en' | 'zh' | 'ko' | 'fr' | 'de' | 'es' | 'it' | 'th' | 'vi' | 'id' | 'pt' | 'tl' | 'ms' | 'zh-TW';
+import { useLanguage, type LanguageCode } from '@/contexts/LanguageContext';
 
 const translations = {
   ja: {
-    hotelName: '天然温泉 青葉の湯',
-    hotelTitle: 'ドーミーイン仙台ANNEX',
+    hotelName: '',
+    hotelTitle: 'ホテルグランテラス仙台国分町',
     heroTitle: 'ホテル館内のご案内',
-    welcomeMessage: '本日は「天然温泉 青葉の湯ドーミーイン仙台ANNEX」をご利用いただき誠にありがとうございます。',
+    welcomeMessage: '本日は「ホテルグランテラス仙台国分町」をご利用いただき誠にありがとうございます。',
     welcomeMessage2: 'ご不明な点がございましたらフロントスタッフまでお気軽にお尋ねください。',
     restaurantCoupon: '飲食店クーポン',
     checkInOut: '入退館時間',
-    bath: '大浴場',
-    breakfast: '朝食・夜鳴きそば',
+    bath: 'ロビー・施設',
+    breakfast: '朝食',
     dinner: '夕食・お得なクーポン',
     service: 'サービスコーナー',
     wifi: 'Wi-Fi',
     lighting: '室内照明',
     longstay: '連泊のお客様へ',
     lost: 'お忘れ物について',
+    quickCheckin: '快速チェックイン',
     dinnerTab: '夕食・お得なクーポン',
     serviceTab: 'サービスコーナー',
     close: '閉じる',
     checkIn: 'チェックイン',
     checkOut: 'チェックアウト',
     planNote: '※プランによって時間が異なる場合がございます。',
-    bathTitle: '大浴場',
-    bathDescription: '男女別大浴場「青葉の湯」9F',
+    bbhMember: 'BBH会員',
+    earlyCheckin: 'アーリーチェックイン',
+    earlyCheckinFee: '1時間につき1,000円（最大14:00まで）',
+    lobbyDesc1: 'ヨーロピアン・アンティークの調度品が優雅なロビー。',
+    lobbyDesc2: '都会の謙遜を忘れる落ち着いた空間です。',
+    lobbyDesc3: '「スターバックス コーヒー」へはロビーから直接お入りいただけます。',
+    breakfastVenue: '朝食会場',
+    breakfastFloor: '10階',
+    breakfastTime: '営業時間',
+    breakfastTimeDetail: '6:45～9:00（最終入場8:45）',
+    breakfastDesc: '地元の食材を活かした、栄養満点の朝食バイキングをお召し上がりいただけます。',
+    breakfastNotice: '営業時間は予告なく変更となる場合もございます。',
+    bathTitle: 'ロビー・施設',
+    bathDescription: '男女別大浴場 9F',
     operatingHours: '営業時間:',
     bathHours: '15:00~翌10:00',
     saunaNote: '(サウナのみ1:00~5:00停止)',
@@ -39,8 +51,8 @@ const translations = {
     bathNotice2: '※女性大浴場へ入場する際は暗証番号が必要です。暗証番号はフロントにてお渡しします。',
     freeService: '無料サービス',
     bathServiceDesc: '乳酸菌飲料とアイスキャンディーを無料で提供しております。',
-    breakfastTitle: 'ご朝食と夜鳴きそば (1F レストラン)',
-    breakfastPrice: '■ご朝食 / 2,300円',
+    breakfastTitle: 'ご朝食 (1F レストラン)',
+    breakfastPrice: '大人 1,200円（税込）／子供（小学生）800円（税込）',
     breakfastHours: '6:15~9:30 (最終入店9:00)',
     breakfastNote1: '※満席の場合はお待ちいただくことがございます。',
     breakfastNote2: '※混雑状況により営業時間を変更させていただく場合がございます。',
@@ -49,14 +61,14 @@ const translations = {
     sobaNote: '※営業時間は変更になる場合がございます。',
     serviceTitle: 'サービスコーナー',
     vendingMachine: '自動販売機',
-    alcoholNote: '(アルコール類は5・9F)',
+    alcoholNote: '(アルコール類は5・7・9F)',
     microwave: '電子レンジ',
     iceMaker: '製氷機',
     smoking: '喫煙コーナー',
     trouserPress: 'ズボンプレッサー',
     trouserPressLocation: '各階エレベーター前',
     laundry: 'ランドリーコーナー',
-    laundryNote: '※洗剤、洗濯機/無料 乾燥機/有料(30分100円)',
+    laundryNote: '※洗濯機/1回200円 乾燥機/10分100円（洗剤はフロントにて無料配布）',
     wifiTitle: 'Wi-Fi',
     password: 'Password :',
     lostTitle: 'お忘れ物',
@@ -67,35 +79,48 @@ const translations = {
     lightingDesc: '入室後、入口脇の電源ソケットにお部屋のキーホルダーを差し込む事で室内照明は点灯致します。',
     lightingNote: '※キーを電源ソケットに差し込みます。',
     longstayTitle: '連泊のお客様へ',
-    sheetExchange: 'シーツ・布団カバー・枕カバーの交換をご希望のお客様は「WECOカード」をベッド上にご提示をお願い致します。カードのご提示が無い場合は交換を行いませんので、予めご了承下さいませ。(タオル類や部屋着の交換は行います。)',
-    noCleaning: '清掃不要のお客様は、入り口ドアの内側にある緑色の「WECO」カードを廊下側にご提示くださいませ。その場合清掃を行わず入室も致しません。',
-    officialHP: '公式HP',
+    sheetExchange: '清掃をご希望の方は緑のマグネット「清掃してください」を明朝9時までに入口ドア廊下側へ貼付してください。',
+    noCleaning: '清掃不要の方は青のマグネット「起こさないでください」を入口ドア廊下側へ貼付してください。マグネットが貼られていない場合は清掃を行わず、タオル類のみドア前にご用意いたします。衛生面の観点から清掃は3日に1回（2泊目まではタオル類のみ交換、3泊目は清掃、4泊目以降は繰り返し）となります。',
+    officialHP: '公式HPはこちら',
     preparing: '詳細情報は準備中です。',
   },
   en: {
-    hotelName: 'Natural Hot Spring Aoba no Yu',
+    hotelName: '',
     hotelTitle: 'Dormy Inn Sendai ANNEX',
     heroTitle: 'Hotel Guide',
-    welcomeMessage: 'Thank you very much for staying at "Natural Hot Spring Aoba no Yu Dormy Inn Sendai ANNEX" today.',
+    welcomeMessage: 'Thank you very much for staying with us today.',
     welcomeMessage2: 'If you have any questions, please feel free to ask our front desk staff.',
     restaurantCoupon: 'Restaurant Coupon',
     checkInOut: 'Check-in/Check-out',
     bath: 'Public Bath',
-    breakfast: 'Breakfast & Late Night Soba',
+    breakfast: 'Breakfast',
     dinner: 'Dinner & Coupons',
     service: 'Service Corner',
     wifi: 'Wi-Fi',
     lighting: 'Room Lighting',
     longstay: 'For Long-term Guests',
     lost: 'Lost & Found',
+    quickCheckin: 'Quick Check-in',
     dinnerTab: 'Dinner & Coupons',
     serviceTab: 'Service Corner',
     close: 'Close',
     checkIn: 'Check-in',
     checkOut: 'Check-out',
     planNote: '*Times may vary depending on the plan.',
+    bbhMember: 'BBH Member',
+    earlyCheckin: 'Early Check-in',
+    earlyCheckinFee: '1,000 yen per hour (until 14:00)',
+    lobbyDesc1: 'An elegant lobby with European antique furnishings.',
+    lobbyDesc2: 'A calm space where you can forget the hustle and bustle of the city.',
+    lobbyDesc3: 'You can enter "Starbucks Coffee" directly from the lobby.',
+    breakfastVenue: 'Breakfast Venue',
+    breakfastFloor: '10th Floor',
+    breakfastTime: 'Operating Hours',
+    breakfastTimeDetail: '6:45-9:00 (Last entry 8:45)',
+    breakfastDesc: 'Enjoy a nutritious breakfast buffet featuring local ingredients.',
+    breakfastNotice: 'Operating hours are subject to change without notice.',
     bathTitle: 'Public Bath',
-    bathDescription: 'Separate men\'s and women\'s public bath "Aoba no Yu" 9F',
+    bathDescription: 'Separate men\'s and women\'s public bath 9F',
     operatingHours: 'Operating Hours:',
     bathHours: '15:00~Next day 10:00',
     saunaNote: '(Sauna only: 1:00~5:00 closed)',
@@ -104,14 +129,11 @@ const translations = {
     bathNotice2: '*A passcode is required to enter the women\'s public bath. The passcode will be provided at the front desk.',
     freeService: 'Free Service',
     bathServiceDesc: 'We provide free lactic acid drinks and ice candy.',
-    breakfastTitle: 'Breakfast & Late Night Soba (1F Restaurant)',
-    breakfastPrice: '■Breakfast / ¥2,300',
+    breakfastTitle: 'Breakfast (1F Restaurant)',
+    breakfastPrice: '/ $2,300',
     breakfastHours: '6:15~9:30 (Last entry 9:00)',
     breakfastNote1: '*You may be asked to wait if the restaurant is full.',
     breakfastNote2: '*Operating hours may change depending on congestion.',
-    sobaTitle: '■Late Night Soba (Half Size) / Free',
-    sobaHours: '21:30~23:00',
-    sobaNote: '*Operating hours may change.',
     serviceTitle: 'Service Corner',
     vendingMachine: 'Vending Machine',
     alcoholNote: '(Alcoholic beverages: 5F, 9F)',
@@ -121,7 +143,7 @@ const translations = {
     trouserPress: 'Trouser Press',
     trouserPressLocation: 'In front of elevator on each floor',
     laundry: 'Laundry Corner',
-    laundryNote: '*Detergent, washing machine/free, dryer/paid (¥100 per 30 minutes)',
+    laundryNote: '*Detergent, washing machine/free, dryer/paid ($100 per 30 minutes)',
     wifiTitle: 'Wi-Fi',
     password: 'Password:',
     lostTitle: 'Lost & Found',
@@ -132,165 +154,198 @@ const translations = {
     lightingDesc: 'After entering the room, insert your room key holder into the power socket next to the entrance to turn on the room lighting.',
     lightingNote: '*Insert the key into the power socket.',
     longstayTitle: 'For Long-term Guests',
-    sheetExchange: 'Guests who wish to exchange sheets, futon covers, and pillowcases, please display the "WECO Card" on the bed. We will not exchange them if the card is not displayed. (We will exchange towels and room wear.)',
-    noCleaning: 'Guests who do not need cleaning, please display the green "WECO" card on the corridor side, which is located on the inside of the entrance door. In that case, we will not clean or enter the room.',
+    sheetExchange: 'Guests who wish to exchange sheets, futon covers, and pillowcases, please display the \"WECO Card\" on the bed. We will not exchange them if the card is not displayed. (We will exchange towels and room wear.)',
+    noCleaning: 'Guests who do not need cleaning, please display the green \"WECO\" card on the corridor side, which is located on the inside of the entrance door. In that case, we will not clean or enter the room.',
     officialHP: 'Official Website',
     preparing: 'Detailed information is being prepared.',
   },
   zh: {
-    hotelName: '天然温泉 青葉之汤',
-    hotelTitle: '多米酒店仙台ANNEX',
-    heroTitle: '酒店内指南',
-    welcomeMessage: '非常感谢您今天入住「天然温泉 青葉之汤多米酒店仙台站前」。',
+    hotelName: '',
+    hotelTitle: '仙台国分町格兰露台酒店',
+    heroTitle: '酒店馆内指南',
+    welcomeMessage: '感谢您今天入住"仙台国分町格兰露台酒店"。',
     welcomeMessage2: '如有任何疑问，请随时咨询前台工作人员。',
-    restaurantCoupon: '餐厅优惠券',
+    restaurantCoupon: '餐饮优惠券',
     checkInOut: '入住/退房时间',
-    bath: '大浴场',
-    breakfast: '早餐・夜鸣荞麦面',
+    bath: '大堂・设施',
+    breakfast: '早餐',
     dinner: '晚餐・优惠券',
-    service: '服务角',
+    service: '服务区',
     wifi: 'Wi-Fi',
     lighting: '室内照明',
-    longstay: '长期住宿客人',
-    lost: '失物招领',
+    longstay: '连住客人须知',
+    lost: '遗失物品',
+    quickCheckin: '快速入住',
     dinnerTab: '晚餐・优惠券',
-    serviceTab: '服务角',
+    serviceTab: '服务区',
     close: '关闭',
     checkIn: '入住',
     checkOut: '退房',
-    planNote: '※根据套餐不同，时间可能有所不同。',
-    bathTitle: '大浴场',
-    bathDescription: '男女分开大浴场「青葉之汤」9F',
-    operatingHours: '营业时间:',
+    planNote: '※根据预订方案，时间可能有所不同。',
+    bbhMember: 'BBH会员',
+    earlyCheckin: '提前入住',
+    earlyCheckinFee: '每小时1,000日元（最晚14:00）',
+    lobbyDesc1: '欧式古董家具装饰的优雅大堂。',
+    lobbyDesc2: '让您忘却都市喧嚣的宁静空间。',
+    lobbyDesc3: '可从大堂直接进入"星巴克咖啡"。',
+    breakfastVenue: '早餐会场',
+    breakfastFloor: '10楼',
+    breakfastTime: '营业时间',
+    breakfastTimeDetail: '6:45～9:00（最终入场8:45）',
+    breakfastDesc: '可享用使用当地食材、营养丰富的自助早餐。',
+    breakfastNotice: '营业时间可能会在不另行通知的情况下更改。',
+    bathTitle: '大堂・设施',
+    bathDescription: '男女分开大浴场 9F',
+    operatingHours: '营业时间：',
     bathHours: '15:00~次日10:00',
-    saunaNote: '(仅桑拿：1:00~5:00停止)',
+    saunaNote: '(仅桑拿 1:00~5:00停止)',
     notice: '注意事项',
-    bathNotice1: '※请从房间自带毛巾和洗浴用品。',
-    bathNotice2: '※进入女性大浴场时需要密码。密码将在前台提供。',
+    bathNotice1: '※请自行从房间携带毛巾和洗漱用品。',
+    bathNotice2: '※进入女性大浴场需要密码。密码将在前台提供。',
     freeService: '免费服务',
     bathServiceDesc: '我们免费提供乳酸菌饮料和冰棒。',
-    breakfastTitle: '早餐与夜鸣荞麦面 (1F 餐厅)',
-    breakfastPrice: '■早餐 / 2,300日元',
-    breakfastHours: '6:15~9:30 (最后入场9:00)',
-    breakfastNote1: '※如果满座，可能需要等待。',
-    breakfastNote2: '※根据拥挤情况，营业时间可能会有所变更。',
-    sobaTitle: '■夜鸣荞麦面 (半份) / 免费',
-    sobaHours: '21:30~23:00',
-    sobaNote: '※营业时间可能会有所变更。',
-    serviceTitle: '服务角',
+    breakfastTitle: '早餐（1F 餐厅）',
+    breakfastPrice: '成人 1,200日元（含税）／儿童（小学生）800日元（含税）',
+    breakfastHours: '6:15~9:30（最后入场9:00）',
+    breakfastNote1: '※满座时可能需要等待。',
+    breakfastNote2: '※根据拥挤情况，营业时间可能会有所调整。',
+    serviceTitle: '服务区',
     vendingMachine: '自动售货机',
-    alcoholNote: '(酒精类：5F・9F)',
+    alcoholNote: '(酒精饮料在5・7・9F)',
     microwave: '微波炉',
     iceMaker: '制冰机',
     smoking: '吸烟区',
-    trouserPress: '裤子压烫机',
-    trouserPressLocation: '各层电梯前',
-    laundry: '洗衣角',
-    laundryNote: '※洗涤剂、洗衣机/免费 烘干机/收费(30分钟100日元)',
+    trouserPress: '裤子熨烫机',
+    trouserPressLocation: '各楼层电梯前',
+    laundry: '洗衣区',
+    laundryNote: '※洗衣机/每次200日元 烘干机/10分钟100日元（洗涤剂在前台免费提供）',
     wifiTitle: 'Wi-Fi',
-    password: '密码:',
-    lostTitle: '失物招领',
-    lostText1: '关于失物，原则上酒店不会主动联系。',
-    lostText2: '如果没有联系，将根据遗失物法在3个月后处理。',
-    lostText3: '但是，食物和饮料将在当天处理。',
+    password: '密码：',
+    lostTitle: '遗失物品',
+    lostText1: '原则上，酒店不会就遗失物品联系客人。',
+    lostText2: '如果没有联系，根据遗失物品法，将在3个月后处理。',
+    lostText3: '但是，食品饮料将在当天处理。',
     lightingTitle: '室内照明',
-    lightingDesc: '进入房间后，将房间钥匙扣插入入口旁边的电源插座，即可点亮室内照明。',
+    lightingDesc: '进入房间后，将房间钥匙扣插入入口旁的电源插座即可点亮室内照明。',
     lightingNote: '※将钥匙插入电源插座。',
-    longstayTitle: '长期住宿客人',
-    sheetExchange: '希望更换床单、被套和枕套的客人，请在床上展示「WECO卡」。如果没有展示卡片，将不会进行更换。（我们会更换毛巾和房间服装。）',
-    noCleaning: '不需要清洁的客人，请在走廊侧展示位于入口门内侧的绿色「WECO」卡。在这种情况下，我们将不会进行清洁或进入房间。',
+    longstayTitle: '连住客人须知',
+    sheetExchange: '如需清扫，请在早上9点前将绿色磁铁"请打扫"贴在门外走廊侧。',
+    noCleaning: '如不需要清扫，请将蓝色磁铁"请勿打扰"贴在门外走廊侧。如果没有贴磁铁，我们将不进行清扫，仅在门前准备毛巾类物品。出于卫生考虑，清扫为每3天1次（前2晚仅更换毛巾类，第3晚清扫，第4晚以后重复）。',
     officialHP: '官方网站',
     preparing: '详细信息正在准备中。',
   },
   ko: {
-    hotelName: '천연온천 아오바노유',
-    hotelTitle: '도미인 센다이 ANNEX',
-    heroTitle: '호텔 내 안내',
-    welcomeMessage: '오늘 「천연온천 아오바노유 도미인 센다이역앞」을 이용해 주셔서 진심으로 감사드립니다.',
-    welcomeMessage2: '궁금한 점이 있으시면 프론트 직원에게 언제든지 문의해 주세요.',
-    restaurantCoupon: '식당 쿠폰',
-    checkInOut: '체크인/체크아웃 시간',
-    bath: '대욕장',
-    breakfast: '조식・야나키소바',
+    hotelName: '',
+    hotelTitle: '호텔 그랑테라스 센다이 고쿠분초',
+    heroTitle: '호텔 관내 안내',
+    welcomeMessage: '오늘 "호텔 그랑테라스 센다이 고쿠분초"를 이용해 주셔서 진심으로 감사드립니다.',
+    welcomeMessage2: '궁금하신 점이 있으시면 프런트 데스크 직원에게 언제든지 문의해 주세요.',
+    restaurantCoupon: '음식점 쿠폰',
+    checkInOut: '입실/퇴실 시간',
+    bath: '로비・시설',
+    breakfast: '조식',
     dinner: '석식・할인 쿠폰',
     service: '서비스 코너',
     wifi: 'Wi-Fi',
     lighting: '실내 조명',
-    longstay: '장기 투숙 고객',
+    longstay: '연박 고객 안내',
     lost: '분실물 안내',
+    quickCheckin: '빠른 체크인',
     dinnerTab: '석식・할인 쿠폰',
     serviceTab: '서비스 코너',
     close: '닫기',
     checkIn: '체크인',
     checkOut: '체크아웃',
     planNote: '※플랜에 따라 시간이 다를 수 있습니다.',
-    bathTitle: '대욕장',
-    bathDescription: '남녀 분리 대욕장 「아오바노유」 9F',
-    operatingHours: '영업 시간:',
-    bathHours: '15:00~익일 10:00',
-    saunaNote: '(사우나만 1:00~5:00 중지)',
+    bbhMember: 'BBH 회원',
+    earlyCheckin: '얼리 체크인',
+    earlyCheckinFee: '시간당 1,000엔 (최대 14:00까지)',
+    lobbyDesc1: '유럽풍 앤티크 가구가 우아한 로비.',
+    lobbyDesc2: '도시의 번잡함을 잊게 하는 편안한 공간입니다.',
+    lobbyDesc3: '"스타벅스 커피"는 로비에서 직접 입장하실 수 있습니다.',
+    breakfastVenue: '조식 장소',
+    breakfastFloor: '10층',
+    breakfastTime: '운영 시간',
+    breakfastTimeDetail: '6:45～9:00 (최종 입장 8:45)',
+    breakfastDesc: '현지 식재료를 활용한 영양 만점 조식 뷔페를 즐기실 수 있습니다.',
+    breakfastNotice: '운영 시간은 예고 없이 변경될 수 있습니다.',
+    bathTitle: '로비・시설',
+    bathDescription: '남녀 분리 대욕장 9F',
+    operatingHours: '운영 시간:',
+    bathHours: '15:00~다음날 10:00',
+    saunaNote: '(사우나만 1:00~5:00 정지)',
     notice: '주의사항',
-    bathNotice1: '※수건, 어메니티는 각자 방에서 가져오시기 바랍니다.',
-    bathNotice2: '※여성 대욕장 입장 시 비밀번호가 필요합니다. 비밀번호는 프론트에서 제공합니다.',
+    bathNotice1: '※타월과 어메니티는 각자 객실에서 가져오세요.',
+    bathNotice2: '※여성 대욕장 입장 시 비밀번호가 필요합니다. 비밀번호는 프런트에서 제공합니다.',
     freeService: '무료 서비스',
-    bathServiceDesc: '유산균 음료와 아이스 캔디를 무료로 제공하고 있습니다.',
-    breakfastTitle: '조식과 야나키소바 (1F 레스토랑)',
-    breakfastPrice: '■조식 / 2,300엔',
+    bathServiceDesc: '유산균 음료와 아이스 캔디를 무료로 제공합니다.',
+    breakfastTitle: '조식 (1F 레스토랑)',
+    breakfastPrice: '성인 1,200엔(세금 포함) / 어린이(초등학생) 800엔(세금 포함)',
     breakfastHours: '6:15~9:30 (최종 입장 9:00)',
-    breakfastNote1: '※만석인 경우 대기하실 수 있습니다.',
+    breakfastNote1: '※만석일 경우 대기하셔야 할 수 있습니다.',
     breakfastNote2: '※혼잡 상황에 따라 영업 시간이 변경될 수 있습니다.',
-    sobaTitle: '■야나키소바 (하프 사이즈) / 무료',
-    sobaHours: '21:30~23:00',
-    sobaNote: '※영업 시간은 변경될 수 있습니다.',
     serviceTitle: '서비스 코너',
-    vendingMachine: '자동 판매기',
-    alcoholNote: '(주류: 5F・9F)',
+    vendingMachine: '자동판매기',
+    alcoholNote: '(주류는 5・7・9F)',
     microwave: '전자레인지',
     iceMaker: '제빙기',
     smoking: '흡연 코너',
-    trouserPress: '바지 프레스',
+    trouserPress: '바지 다림질기',
     trouserPressLocation: '각 층 엘리베이터 앞',
     laundry: '세탁 코너',
-    laundryNote: '※세제, 세탁기/무료 건조기/유료(30분 100엔)',
+    laundryNote: '※세탁기/1회 200엔 건조기/10분 100엔 (세제는 프런트에서 무료 배포)',
     wifiTitle: 'Wi-Fi',
     password: '비밀번호:',
     lostTitle: '분실물',
     lostText1: '분실물에 대해서는 원칙적으로 호텔에서 연락하지 않습니다.',
-    lostText2: '또한 연락이 없는 경우, 유실물법에 따라 3개월 경과 후 처분합니다.',
-    lostText3: '다만, 음식물에 대해서는 당일 처분합니다.',
+    lostText2: '또한 연락이 없는 경우 유실물법에 따라 3개월 경과 후 처분됩니다.',
+    lostText3: '단, 음식물에 대해서는 당일 처분됩니다.',
     lightingTitle: '실내 조명',
-    lightingDesc: '입실 후, 입구 옆 전원 소켓에 방 키홀더를 꽂으면 실내 조명이 켜집니다.',
+    lightingDesc: '입실 후 입구 옆 전원 소켓에 객실 키홀더를 꽂으면 실내 조명이 켜집니다.',
     lightingNote: '※키를 전원 소켓에 꽂습니다.',
-    longstayTitle: '장기 투숙 고객',
-    sheetExchange: '시트・이불 커버・베개 커버 교체를 원하시는 고객은 「WECO 카드」를 침대 위에 제시해 주시기 바랍니다. 카드 제시가 없으면 교체하지 않으니 미리 양해 부탁드립니다. (수건류나 실내복 교체는 합니다.)',
-    noCleaning: '청소 불필요한 고객은 입구 문 안쪽에 있는 녹색 「WECO」 카드를 복도 쪽에 제시해 주시기 바랍니다. 그 경우 청소를 하지 않고 입실도 하지 않습니다.',
+    longstayTitle: '연박 고객 안내',
+    sheetExchange: '청소를 희망하시는 분은 초록색 마그넷 "청소해 주세요"를 아침 9시까지 입구 도어 복도 쪽에 부착해 주세요.',
+    noCleaning: '청소가 필요 없으신 분은 파란색 마그넷 "깨우지 마세요"를 입구 도어 복도 쪽에 부착해 주세요. 마그넷이 부착되지 않은 경우 청소를 하지 않고 타월류만 도어 앞에 준비합니다. 위생상의 관점에서 청소는 3일에 1회(2박까지는 타월류만 교환, 3박째는 청소, 4박째 이후는 반복)입니다.',
     officialHP: '공식 홈페이지',
     preparing: '상세 정보를 준비 중입니다.',
   },
   fr: {
-    hotelName: 'Source thermale naturelle Aoba no Yu',
+    hotelName: '',
     hotelTitle: 'Dormy Inn Sendai ANNEX',
     heroTitle: 'Guide de l\'hôtel',
-    welcomeMessage: 'Merci beaucoup d\'avoir séjourné aujourd\'hui au "Source thermale naturelle Aoba no Yu Dormy Inn Sendai ANNEX".',
+    welcomeMessage: 'Merci beaucoup d\'avoir séjourné aujourd\'hui.',
     welcomeMessage2: 'Si vous avez des questions, n\'hésitez pas à contacter notre réception.',
     restaurantCoupon: 'Coupon Restaurant',
     checkInOut: 'Enregistrement/Départ',
     bath: 'Bain public',
-    breakfast: 'Petit-déjeuner & Soba de nuit',
+    breakfast: 'Petit-déjeuner',
     dinner: 'Dîner & Coupons',
     service: 'Coin Service',
     wifi: 'Wi-Fi',
     lighting: 'Éclairage intérieur',
     longstay: 'Pour les clients longue durée',
     lost: 'Objets trouvés',
+    quickCheckin: 'Check-in rapide',
     dinnerTab: 'Dîner & Coupons',
     serviceTab: 'Coin Service',
     close: 'Fermer',
     checkIn: 'Enregistrement',
     checkOut: 'Départ',
     planNote: '*Les heures peuvent varier selon le plan.',
+    bbhMember: 'Membre BBH',
+    earlyCheckin: 'Enregistrement anticipé',
+    earlyCheckinFee: '1 000 yens par heure (jusqu\'à 14h00)',
+    lobbyDesc1: 'Un hall élégant avec des meubles anciens européens.',
+    lobbyDesc2: 'Un espace calme où vous pouvez oublier l\'agitation de la ville.',
+    lobbyDesc3: 'Vous pouvez entrer dans "Starbucks Coffee" directement depuis le hall.',
+    breakfastVenue: 'Lieu du petit-déjeuner',
+    breakfastFloor: '10ème étage',
+    breakfastTime: 'Horaires',
+    breakfastTimeDetail: '6:45～9:00 (dernière entrée 8:45)',
+    breakfastDesc: 'Profitez d\'un buffet petit-déjeuner nutritif avec des ingrédients locaux.',
+    breakfastNotice: 'Les horaires sont susceptibles de changer sans préavis.',
     bathTitle: 'Bain public',
-    bathDescription: 'Bain public séparé hommes/femmes "Aoba no Yu" 9F',
+    bathDescription: 'Bain public séparé hommes/femmes 9F',
     operatingHours: 'Heures d\'ouverture:',
     bathHours: '15:00~Le lendemain 10:00',
     saunaNote: '(Sauna uniquement: 1:00~5:00 fermé)',
@@ -299,14 +354,11 @@ const translations = {
     bathNotice2: '*Un code d\'accès est requis pour entrer dans le bain public des femmes. Le code sera fourni à la réception.',
     freeService: 'Service gratuit',
     bathServiceDesc: 'Nous fournissons gratuitement des boissons lactiques et des bonbons glacés.',
-    breakfastTitle: 'Petit-déjeuner & Soba de nuit (Restaurant 1F)',
-    breakfastPrice: '■Petit-déjeuner / ¥2,300',
+    breakfastTitle: 'Petit-déjeuner (Restaurant 1F)',
+    breakfastPrice: '/ ¥2,300',
     breakfastHours: '6:15~9:30 (Dernière entrée 9:00)',
     breakfastNote1: '*Vous pourriez être invité à attendre si le restaurant est complet.',
     breakfastNote2: '*Les heures d\'ouverture peuvent changer selon l\'affluence.',
-    sobaTitle: '■Soba de nuit (Demi-portion) / Gratuit',
-    sobaHours: '21:30~23:00',
-    sobaNote: '*Les heures d\'ouverture peuvent changer.',
     serviceTitle: 'Coin Service',
     vendingMachine: 'Distributeur automatique',
     alcoholNote: '(Boissons alcoolisées: 5F, 9F)',
@@ -321,41 +373,54 @@ const translations = {
     password: 'Mot de passe:',
     lostTitle: 'Objets trouvés',
     lostText1: 'En principe, l\'hôtel ne vous contactera pas concernant les objets perdus.',
-    lostText2: 'S\'il n\'y a pas de contact, les objets seront éliminés après 3 mois conformément à la Loi sur les objets perdus.',
+    lostText2: 'Si non contact, les objets seront éliminés après 3 mois conformément à la Loi sur les objets perdus.',
     lostText3: 'Cependant, les aliments et boissons seront éliminés le jour même.',
     lightingTitle: 'Éclairage intérieur',
     lightingDesc: 'Après être entré dans la chambre, insérez le porte-clés de votre chambre dans la prise électrique à côté de l\'entrée pour allumer l\'éclairage de la chambre.',
     lightingNote: '*Insérez la clé dans la prise électrique.',
     longstayTitle: 'Pour les clients longue durée',
-    sheetExchange: 'Les clients qui souhaitent échanger les draps, housses de futon et taies d\'oreiller, veuillez afficher la "Carte WECO" sur le lit. Nous ne les échangerons pas si la carte n\'est pas affichée. (Nous échangerons les serviettes et les vêtements de chambre.)',
-    noCleaning: 'Les clients qui n\'ont pas besoin de nettoyage, veuillez afficher la carte verte "WECO" du côté du couloir, qui se trouve à l\'intérieur de la porte d\'entrée. Dans ce cas, nous ne nettoierons pas et n\'entrerons pas dans la chambre.',
+    sheetExchange: 'Les clients qui souhaitent échanger les draps, housses de futon et taies d\'oreiller, veuillez afficher la \"Carte WECO\" sur le lit. Nous ne les échangerons pas si la carte n\'est pas affichée. (Nous échangerons les serviettes et les vêtements de chambre.)',
+    noCleaning: 'Les clients qui n\'ont pas besoin de nettoyage, veuillez afficher la carte verte \"WECO\" du côté du couloir, qui se trouve à l\'intérieur de la porte d\'entrée. Dans ce cas, nous ne nettoierons pas et n\'entrerons pas dans la chambre.',
     officialHP: 'Site Web officiel',
     preparing: 'Les informations détaillées sont en cours de préparation.',
   },
   de: {
-    hotelName: 'Natürliche heiße Quelle Aoba no Yu',
+    hotelName: '',
     hotelTitle: 'Dormy Inn Sendai ANNEX',
     heroTitle: 'Hotel-Führer',
-    welcomeMessage: 'Vielen Dank, dass Sie heute im "Natürliche heiße Quelle Aoba no Yu Dormy Inn Sendai ANNEX" übernachtet haben.',
+    welcomeMessage: 'Vielen Dank, dass Sie heute bei uns übernachtet haben.',
     welcomeMessage2: 'Wenn Sie Fragen haben, wenden Sie sich bitte an unsere Rezeption.',
     restaurantCoupon: 'Restaurant-Gutschein',
     checkInOut: 'Check-in/Check-out',
     bath: 'Öffentliches Bad',
-    breakfast: 'Frühstück & Nacht-Soba',
+    breakfast: 'Frühstück',
     dinner: 'Abendessen & Gutscheine',
     service: 'Service-Ecke',
     wifi: 'Wi-Fi',
     lighting: 'Raumbeleuchtung',
     longstay: 'Für Langzeitgäste',
     lost: 'Fundsachen',
+    quickCheckin: 'Schnell-Check-in',
     dinnerTab: 'Abendessen & Gutscheine',
     serviceTab: 'Service-Ecke',
     close: 'Schließen',
     checkIn: 'Check-in',
     checkOut: 'Check-out',
     planNote: '*Die Zeiten können je nach Plan variieren.',
+    bbhMember: 'BBH-Mitglied',
+    earlyCheckin: 'Früher Check-in',
+    earlyCheckinFee: '1.000 Yen pro Stunde (bis 14:00 Uhr)',
+    lobbyDesc1: 'Eine elegante Lobby mit europäischen Antikmöbeln.',
+    lobbyDesc2: 'Ein ruhiger Raum, in dem Sie die Hektik der Stadt vergessen können.',
+    lobbyDesc3: 'Sie können "Starbucks Coffee" direkt von der Lobby aus betreten.',
+    breakfastVenue: 'Frühstücksort',
+    breakfastFloor: '10. Stock',
+    breakfastTime: 'Öffnungszeiten',
+    breakfastTimeDetail: '6:45～9:00 (letzter Einlass 8:45)',
+    breakfastDesc: 'Genießen Sie ein nahrhaftes Frühstücksbuffet mit lokalen Zutaten.',
+    breakfastNotice: 'Die Öffnungszeiten können ohne Vorankündigung geändert werden.',
     bathTitle: 'Öffentliches Bad',
-    bathDescription: 'Getrenntes Männer- und Frauenbad "Aoba no Yu" 9F',
+    bathDescription: 'Getrenntes Männer- und Frauenbad 9F',
     operatingHours: 'Öffnungszeiten:',
     bathHours: '15:00~Nächster Tag 10:00',
     saunaNote: '(Nur Sauna: 1:00~5:00 geschlossen)',
@@ -364,14 +429,11 @@ const translations = {
     bathNotice2: '*Ein Passcode ist erforderlich, um das Frauenbad zu betreten. Der Passcode wird an der Rezeption bereitgestellt.',
     freeService: 'Kostenloser Service',
     bathServiceDesc: 'Wir bieten kostenlos Milchsäuregetränke und Eisbonbons an.',
-    breakfastTitle: 'Frühstück & Nacht-Soba (Restaurant 1F)',
-    breakfastPrice: '■Frühstück / ¥2,300',
+    breakfastTitle: 'Frühstück (Restaurant 1F)',
+    breakfastPrice: '/ ¥2,300',
     breakfastHours: '6:15~9:30 (Letzter Einlass 9:00)',
     breakfastNote1: '*Sie könnten gebeten werden zu warten, wenn das Restaurant voll ist.',
-    breakfastNote2: '*Die Öffnungszeiten können je nach Andrang geändert werden.',
-    sobaTitle: '■Nacht-Soba (Halbportion) / Kostenlos',
-    sobaHours: '21:30~23:00',
-    sobaNote: '*Die Öffnungszeiten können sich ändern.',
+    breakfastNote2: '*Die Öffnungszeiten können sich je nach Andrang ändern.',
     serviceTitle: 'Service-Ecke',
     vendingMachine: 'Verkaufsautomat',
     alcoholNote: '(Alkoholische Getränke: 5F, 9F)',
@@ -392,35 +454,48 @@ const translations = {
     lightingDesc: 'Nach dem Betreten des Zimmers stecken Sie den Zimmerschlüsselhalter in die Steckdose neben dem Eingang, um die Raumbeleuchtung einzuschalten.',
     lightingNote: '*Stecken Sie den Schlüssel in die Steckdose.',
     longstayTitle: 'Für Langzeitgäste',
-    sheetExchange: 'Gäste, die Bettwäsche, Futonbezüge und Kissenbezüge wechseln möchten, bitte zeigen Sie die "WECO-Karte" auf dem Bett. Wir tauschen sie nicht aus, wenn die Karte nicht angezeigt wird. (Wir tauschen Handtücher und Nachtwäsche aus.)',
-    noCleaning: 'Gäste, die keine Reinigung benötigen, bitte zeigen Sie die grüne "WECO"-Karte auf der Korridorseite, die sich an der Innenseite der Eingangstür befindet. In diesem Fall reinigen wir nicht und betreten das Zimmer nicht.',
+    sheetExchange: 'Gäste, die Bettwäsche, Futonbezüge und Kissenbezüge wechseln möchten, bitte zeigen Sie die \"WECO-Karte\" auf dem Bett. Wir tauschen sie nicht aus, wenn die Karte nicht angezeigt wird. (Wir tauschen Handtücher und Nachtwäsche aus.)',
+    noCleaning: 'Gäste, die keine Reinigung benötigen, bitte zeigen Sie die grüne \"WECO\"-Karte auf der Korridorseite, die sich an der Innenseite der Eingangstür befindet. In diesem Fall reinigen wir nicht und betreten das Zimmer nicht.',
     officialHP: 'Offizielle Website',
     preparing: 'Detaillierte Informationen werden vorbereitet.',
   },
   es: {
-    hotelName: 'Fuente termal natural Aoba no Yu',
+    hotelName: '',
     hotelTitle: 'Dormy Inn Sendai ANNEX',
     heroTitle: 'Guía del hotel',
-    welcomeMessage: 'Muchas gracias por alojarse hoy en "Fuente termal natural Aoba no Yu Dormy Inn Sendai ANNEX".',
+    welcomeMessage: 'Muchas gracias por alojarse con nosotros hoy.',
     welcomeMessage2: 'Si tiene alguna pregunta, no dude en consultar a nuestro personal de recepción.',
     restaurantCoupon: 'Cupón de restaurante',
     checkInOut: 'Registro/Salida',
     bath: 'Baño público',
-    breakfast: 'Desayuno & Soba nocturno',
+    breakfast: 'Desayuno',
     dinner: 'Cena & Cupones',
     service: 'Rincón de servicio',
     wifi: 'Wi-Fi',
     lighting: 'Iluminación interior',
     longstay: 'Para huéspedes de larga estancia',
     lost: 'Objetos perdidos',
+    quickCheckin: 'Check-in rápido',
     dinnerTab: 'Cena & Cupones',
     serviceTab: 'Rincón de servicio',
     close: 'Cerrar',
     checkIn: 'Registro',
     checkOut: 'Salida',
     planNote: '*Los horarios pueden variar según el plan.',
+    bbhMember: 'Miembro BBH',
+    earlyCheckin: 'Check-in temprano',
+    earlyCheckinFee: '1.000 yenes por hora (hasta las 14:00)',
+    lobbyDesc1: 'Un vestíbulo elegante con muebles antiguos europeos.',
+    lobbyDesc2: 'Un espacio tranquilo donde puede olvidar el ajetreo de la ciudad.',
+    lobbyDesc3: 'Puede entrar a "Starbucks Coffee" directamente desde el vestíbulo.',
+    breakfastVenue: 'Lugar del desayuno',
+    breakfastFloor: 'Piso 10',
+    breakfastTime: 'Horario',
+    breakfastTimeDetail: '6:45～9:00 (última entrada 8:45)',
+    breakfastDesc: 'Disfrute de un buffet de desayuno nutritivo con ingredientes locales.',
+    breakfastNotice: 'El horario está sujeto a cambios sin previo aviso.',
     bathTitle: 'Baño público',
-    bathDescription: 'Baño público separado para hombres y mujeres "Aoba no Yu" 9F',
+    bathDescription: 'Baño público separado para hombres y mujeres 9F',
     operatingHours: 'Horario de funcionamiento:',
     bathHours: '15:00~Día siguiente 10:00',
     saunaNote: '(Solo sauna: 1:00~5:00 cerrado)',
@@ -429,14 +504,11 @@ const translations = {
     bathNotice2: '*Se requiere un código de acceso para entrar al baño público de mujeres. El código se proporcionará en la recepción.',
     freeService: 'Servicio gratuito',
     bathServiceDesc: 'Ofrecemos gratuitamente bebidas lácteas y caramelos de hielo.',
-    breakfastTitle: 'Desayuno & Soba nocturno (Restaurante 1F)',
-    breakfastPrice: '■Desayuno / ¥2,300',
+    breakfastTitle: 'Desayuno (Restaurante 1F)',
+    breakfastPrice: '/ ¥2,300',
     breakfastHours: '6:15~9:30 (Última entrada 9:00)',
     breakfastNote1: '*Es posible que se le pida que espere si el restaurante está lleno.',
-    breakfastNote2: '*Los horarios de funcionamiento pueden cambiar según la congestión.',
-    sobaTitle: '■Soba nocturno (Media porción) / Gratis',
-    sobaHours: '21:30~23:00',
-    sobaNote: '*Los horarios de funcionamiento pueden cambiar.',
+    breakfastNote2: '*El horario puede cambiar según la congestión.',
     serviceTitle: 'Rincón de servicio',
     vendingMachine: 'Máquina expendedora',
     alcoholNote: '(Bebidas alcohólicas: 5F, 9F)',
@@ -457,35 +529,48 @@ const translations = {
     lightingDesc: 'Después de entrar en la habitación, inserte el portallaves de su habitación en el enchufe eléctrico junto a la entrada para encender la iluminación de la habitación.',
     lightingNote: '*Inserte la llave en el enchufe eléctrico.',
     longstayTitle: 'Para huéspedes de larga estancia',
-    sheetExchange: 'Los huéspedes que deseen cambiar las sábanas, fundas de futón y fundas de almohada, por favor muestren la "Tarjeta WECO" en la cama. No las cambiaremos si la tarjeta no se muestra. (Cambiaremos toallas y ropa de habitación.)',
-    noCleaning: 'Los huéspedes que no necesiten limpieza, por favor muestren la tarjeta verde "WECO" en el lado del pasillo, que se encuentra en el interior de la puerta de entrada. En ese caso, no limpiaremos ni entraremos en la habitación.',
+    sheetExchange: 'Los huéspedes que deseen cambiar las sábanas, fundas de futón y fundas de almohada, por favor muestren la \"Tarjeta WECO\" en la cama. No las cambiaremos si la tarjeta no se muestra. (Cambiaremos toallas y ropa de habitación.)',
+    noCleaning: 'Los huéspedes que no necesiten limpieza, por favor muestren la tarjeta verde \"WECO\" en el lado del pasillo, que se encuentra en el interior de la puerta de entrada. En ese caso, no limpiaremos ni entraremos en la habitación.',
     officialHP: 'Sitio web oficial',
     preparing: 'La información detallada se está preparando.',
   },
   it: {
-    hotelName: 'Sorgente termale naturale Aoba no Yu',
+    hotelName: '',
     hotelTitle: 'Dormy Inn Sendai ANNEX',
     heroTitle: 'Guida dell\'hotel',
-    welcomeMessage: 'Grazie mille per aver soggiornato oggi presso "Sorgente termale naturale Aoba no Yu Dormy Inn Sendai ANNEX".',
+    welcomeMessage: 'Grazie mille per aver soggiornato con noi oggi.',
     welcomeMessage2: 'Se ha domande, non esiti a contattare il nostro personale della reception.',
     restaurantCoupon: 'Buono ristorante',
     checkInOut: 'Check-in/Check-out',
     bath: 'Bagno pubblico',
-    breakfast: 'Colazione & Soba notturno',
+    breakfast: 'Colazione',
     dinner: 'Cena & Buoni',
     service: 'Angolo servizio',
     wifi: 'Wi-Fi',
     lighting: 'Illuminazione interna',
     longstay: 'Per ospiti soggiorno prolungato',
     lost: 'Oggetti smarriti',
+    quickCheckin: 'Check-in rapido',
     dinnerTab: 'Cena & Buoni',
     serviceTab: 'Angolo servizio',
     close: 'Chiudi',
     checkIn: 'Check-in',
     checkOut: 'Check-out',
     planNote: '*Gli orari possono variare a seconda del piano.',
+    bbhMember: 'Membro BBH',
+    earlyCheckin: 'Check-in anticipato',
+    earlyCheckinFee: '1.000 yen all\'ora (fino alle 14:00)',
+    lobbyDesc1: 'Una hall elegante con mobili antichi europei.',
+    lobbyDesc2: 'Uno spazio tranquillo dove puoi dimenticare il trambusto della città.',
+    lobbyDesc3: 'Puoi entrare in "Starbucks Coffee" direttamente dalla hall.',
+    breakfastVenue: 'Luogo della colazione',
+    breakfastFloor: '10° piano',
+    breakfastTime: 'Orario',
+    breakfastTimeDetail: '6:45～9:00 (ultimo ingresso 8:45)',
+    breakfastDesc: 'Goditi un buffet per colazione nutriente con ingredienti locali.',
+    breakfastNotice: 'Gli orari sono soggetti a modifiche senza preavviso.',
     bathTitle: 'Bagno pubblico',
-    bathDescription: 'Bagno pubblico separato uomini/donne "Aoba no Yu" 9F',
+    bathDescription: 'Bagno pubblico separato uomini/donne 9F',
     operatingHours: 'Orari di apertura:',
     bathHours: '15:00~Giorno successivo 10:00',
     saunaNote: '(Solo sauna: 1:00~5:00 chiuso)',
@@ -494,17 +579,14 @@ const translations = {
     bathNotice2: '*È richiesto un codice di accesso per entrare nel bagno pubblico delle donne. Il codice verrà fornito alla reception.',
     freeService: 'Servizio gratuito',
     bathServiceDesc: 'Forniamo gratuitamente bevande lattiche e caramelle ghiacciate.',
-    breakfastTitle: 'Colazione & Soba notturno (Ristorante 1F)',
-    breakfastPrice: '■Colazione / ¥2,300',
+    breakfastTitle: 'Colazione (Ristorante 1F)',
+    breakfastPrice: '/ ¥2,300',
     breakfastHours: '6:15~9:30 (Ultimo ingresso 9:00)',
     breakfastNote1: '*Potrebbe essere richiesto di attendere se il ristorante è pieno.',
     breakfastNote2: '*Gli orari di apertura possono cambiare a seconda della congestione.',
-    sobaTitle: '■Soba notturno (Mezza porzione) / Gratis',
-    sobaHours: '21:30~23:00',
-    sobaNote: '*Gli orari di apertura possono cambiare.',
     serviceTitle: 'Angolo servizio',
     vendingMachine: 'Distributore automatico',
-    alcoholNote: '(Bevande alcoliche: 5F, 9F)',
+    alcoholNote: '(Beveraggi alcolici: 5F, 9F)',
     microwave: 'Forno a microonde',
     iceMaker: 'Macchina per il ghiaccio',
     smoking: 'Area fumatori',
@@ -522,541 +604,631 @@ const translations = {
     lightingDesc: 'Dopo essere entrati nella camera, inserire il portachiavi della camera nella presa elettrica accanto all\'ingresso per accendere l\'illuminazione della camera.',
     lightingNote: '*Inserire la chiave nella presa elettrica.',
     longstayTitle: 'Per ospiti soggiorno prolungato',
-    sheetExchange: 'Gli ospiti che desiderano cambiare lenzuola, coperture futon e federe, si prega di mostrare la "Carta WECO" sul letto. Non le cambieremo se la carta non viene mostrata. (Cambieremo asciugamani e abbigliamento da camera.)',
-    noCleaning: 'Gli ospiti che non necessitano di pulizia, si prega di mostrare la carta verde "WECO" sul lato del corridoio, che si trova all\'interno della porta d\'ingresso. In tal caso, non puliremo né entreremo nella camera.',
+    sheetExchange: 'Gli ospiti che desiderano cambiare lenzuola, coperture futon e federe, si prega di mostrare la \"Carta WECO\" sul letto. Non le cambieremo se la carta non viene mostrata. (Cambieremo asciugamani e abbigliamento da camera.)',
+    noCleaning: 'Gli ospiti che non necessitano di pulizia, si prega di mostrare la carta verde \"WECO\" sul lato del corridoio, che si trova all\'interno della porta d\'ingresso. In tal caso, non puliremo né entreremo nella camera.',
     officialHP: 'Sito web ufficiale',
     preparing: 'Le informazioni dettagliate sono in preparazione.',
   },
   th: {
-    hotelName: 'น้ำพุร้อนธรรมชาติ อาโอบะโนะยุ',
-    hotelTitle: 'โดมิอินน์เซนได ANNEX',
-    heroTitle: 'คู่มือโรงแรม',
-    welcomeMessage: 'ขอบคุณมากที่เลือกพักที่ "น้ำพุร้อนธรรมชาติ อาโอบะโนะยุ โดมิอินน์เซนไดเอคิมาเอะ" วันนี้',
-    welcomeMessage2: 'หากมีคำถามใดๆ กรุณาติดต่อเจ้าหน้าที่ฝ่ายต้อนรับ',
+    hotelName: '',
+    hotelTitle: 'โรงแรมแกรนด์เทอเรส เซนได โคคุบุนโช',
+    heroTitle: 'คู่มือภายในโรงแรม',
+    welcomeMessage: 'ขอขอบคุณที่เข้าพักที่ "โรงแรมแกรนด์เทอเรส เซนได โคคุบุนโช" ในวันนี้',
+    welcomeMessage2: 'หากมีข้อสงสัย กรุณาสอบถามพนักงานแผนกต้อนรับได้ตลอดเวลา',
     restaurantCoupon: 'คูปองร้านอาหาร',
-    checkInOut: 'เช็คอิน/เช็คเอาท์',
-    bath: 'ห้องอาบน้ำสาธารณะ',
-    breakfast: 'อาหารเช้า & โซบะยามดึก',
-    dinner: 'อาหารเย็น & คูปอง',
+    checkInOut: 'เวลาเช็คอิน/เช็คเอาท์',
+    bath: 'ล็อบบี้・สิ่งอำนวยความสะดวก',
+    breakfast: 'อาหารเช้า',
+    dinner: 'อาหารเย็น・คูปองส่วนลด',
     service: 'มุมบริการ',
     wifi: 'Wi-Fi',
-    lighting: 'ไฟภายในห้อง',
-    longstay: 'สำหรับแขกพักต่อเนื่อง',
-    lost: 'ของหาย',
-    dinnerTab: 'อาหารเย็น & คูปอง',
+    lighting: 'แสงสวางในห้อง',
+    longstay: 'สำหรับแขกพักหลายคืน',
+    lost: 'ของหายที่พบ',
+    quickCheckin: 'เช็คอินด่วน',
+    dinnerTab: 'อาหารเย็น・คูปองส่วนลด',
     serviceTab: 'มุมบริการ',
     close: 'ปิด',
     checkIn: 'เช็คอิน',
     checkOut: 'เช็คเอาท์',
-    planNote: '*เวลาอาจแตกต่างกันตามแพ็คเกจ',
-    bathTitle: 'ห้องอาบน้ำสาธารณะ',
-    bathDescription: 'ห้องอาบน้ำสาธารณะแยกชาย-หญิง "อาโอบะโนะยุ" ชั้น 9',
+    planNote: '※เวลาอาจแตกต่างกันไปตามแผนที่จอง',
+    bbhMember: 'สมาชิก BBH',
+    earlyCheckin: 'เช็คอินเร็ว',
+    earlyCheckinFee: '1,000 เยนต่อชั่วโมง (ถึง 14:00)',
+    lobbyDesc1: 'ล็อบบี้ที่หรูหราพร้อมเฟอร์นิเจอร์โบราณยุโรป',
+    lobbyDesc2: 'พื้นที่สงบที่ทำให้คุณลืมความวุ่นวายของเมือง',
+    lobbyDesc3: 'คุณสามารถเข้า "สตาร์บัคส์ คอฟฟี่" ได้โดยตรงจากล็อบบี้',
+    breakfastVenue: 'สถานที่อาหารเช้า',
+    breakfastFloor: 'ชั้น 10',
+    breakfastTime: 'เวลาทำการ',
+    breakfastTimeDetail: '6:45～9:00 (เข้าครั้งสุดท้าย 8:45)',
+    breakfastDesc: 'เพลิดเพลินกับบุฟเฟ่ต์อาหารเช้าที่มีคุณค่าทางโภชนาการจากวัตถุดิบท้องถิ่น',
+    breakfastNotice: 'เวลาทำการอาจเปลี่ยนแปลงโดยไม่แจ้งให้ทราบล่วงหน้า',
+    bathTitle: 'ล็อบบี้・สิ่งอำนวยความสะดวก',
+    bathDescription: 'ห้องอาบน้ำขนาดใหญ่แยกชายหญิง 9F',
     operatingHours: 'เวลาทำการ:',
-    bathHours: '15:00~วันถัดไป 10:00',
-    saunaNote: '(ซาวน่าเท่านั้น: 1:00~5:00 ปิด)',
-    notice: 'ข้อควรระวัง',
-    bathNotice1: '*กรุณานำผ้าเช็ดตัวและของใช้ส่วนตัวจากห้องของคุณ',
-    bathNotice2: '*ต้องใช้รหัสผ่านเพื่อเข้าห้องอาบน้ำสาธารณะหญิง รหัสผ่านจะได้รับที่ฝ่ายต้อนรับ',
+    bathHours: '15:00~10:00 วันถัดไป',
+    saunaNote: '(ซาวน่าเท่านั้น 1:00~5:00 หยุดให้บริการ)',
+    notice: 'ข้อควรทราบ',
+    bathNotice1: '※กรุณานำผ้าเช็ดตัวและอุปกรณ์อาบน้ำจากห้องของท่านเอง',
+    bathNotice2: '※ต้องใช้รหัสผ่านในการเข้าห้องอาบน้ำสตรี รหัสผ่านจะมีให้ที่แผนกต้อนรับ',
     freeService: 'บริการฟรี',
-    bathServiceDesc: 'เรามีเครื่องดื่มแลคติกและไอศกรีมแท่งให้บริการฟรี',
-    breakfastTitle: 'อาหารเช้า & โซบะยามดึก (ร้านอาหารชั้น 1)',
-    breakfastPrice: '■อาหารเช้า / ¥2,300',
+    bathServiceDesc: 'เรามีบริการเครื่องดื่มแลคโตบาซิลลัสและไอศกรีมแท่งฟรี',
+    breakfastTitle: 'อาหารเช้า (ร้านอาหาร 1F)',
+    breakfastPrice: 'ผู้ใหญ่ 1,200 เยน (รวมภาษี) / เด็ก (นักเรียนประถม) 800 เยน (รวมภาษี)',
     breakfastHours: '6:15~9:30 (เข้าครั้งสุดท้าย 9:00)',
-    breakfastNote1: '*อาจต้องรอหากร้านอาหารเต็ม',
-    breakfastNote2: '*เวลาทำการอาจเปลี่ยนแปลงตามความแออัด',
-    sobaTitle: '■โซบะยามดึก (ขนาดครึ่ง) / ฟรี',
-    sobaHours: '21:30~23:00',
-    sobaNote: '*เวลาทำการอาจเปลี่ยนแปลง',
+    breakfastNote1: '※อาจต้องรอคิวในกรณีที่เต็ม',
+    breakfastNote2: '※เวลาทำการอาจเปลี่ยนแปลงตามสถานการณ์ความแออัด',
     serviceTitle: 'มุมบริการ',
-    vendingMachine: 'ตู้จำหน่ายสินค้าอัตโนมัติ',
-    alcoholNote: '(เครื่องดื่มแอลกอฮอล์: ชั้น 5, 9)',
+    vendingMachine: 'ตู้ขายของอัตโนมัติ',
+    alcoholNote: '(เครื่องดื่มแอลกอฮอล์อยู่ที่ 5・7・9F)',
     microwave: 'ไมโครเวฟ',
     iceMaker: 'เครื่องทำน้ำแข็ง',
-    smoking: 'พื้นที่สูบบุหรี่',
+    smoking: 'มุมสูบบุหรี่',
     trouserPress: 'เครื่องรีดกางเกง',
     trouserPressLocation: 'หน้าลิฟต์ทุกชั้น',
     laundry: 'มุมซักผ้า',
-    laundryNote: '*ผงซักฟอก, เครื่องซักผ้า/ฟรี เครื่องอบผ้า/เสียค่าใช้จ่าย (¥100 ต่อ 30 นาที)',
+    laundryNote: '※เครื่องซักผ้า/ครั้งละ 200 เยน เครื่องอบผ้า/10 นาที 100 เยน (ผงซักฟอกแจกฟรีที่แผนกต้อนรับ)',
     wifiTitle: 'Wi-Fi',
     password: 'รหัสผ่าน:',
     lostTitle: 'ของหาย',
-    lostText1: 'โดยหลักการแล้ว โรงแรมจะไม่ติดต่อคุณเกี่ยวกับของหาย',
-    lostText2: 'หากไม่มีการติดต่อ ของจะถูกกำจัดหลังจาก 3 เดือนตามกฎหมายทรัพย์สินหาย',
-    lostText3: 'อย่างไรก็ตาม อาหารและเครื่องดื่มจะถูกกำจัดในวันเดียวกัน',
-    lightingTitle: 'ไฟภายในห้อง',
-    lightingDesc: 'หลังจากเข้าห้องแล้ว ให้เสียบที่แขวนกุญแจห้องเข้ากับเต้ารับไฟฟ้าข้างประตูทางเข้าเพื่อเปิดไฟภายในห้อง',
-    lightingNote: '*เสียบกุญแจเข้ากับเต้ารับไฟฟ้า',
-    longstayTitle: 'สำหรับแขกพักต่อเนื่อง',
-    sheetExchange: 'แขกที่ต้องการเปลี่ยนผ้าปูที่นอน ผ้าคลุมฟูตง และปลอกหมอน กรุณาแสดง "บัตร WECO" บนเตียง เราจะไม่เปลี่ยนหากไม่แสดงบัตร (เราจะเปลี่ยนผ้าเช็ดตัวและชุดนอน)',
-    noCleaning: 'แขกที่ไม่ต้องการทำความสะอาด กรุณาแสดงบัตร "WECO" สีเขียวทางด้านโถงทางเดิน ซึ่งอยู่ด้านในของประตูทางเข้า ในกรณีนี้เราจะไม่ทำความสะอาดและไม่เข้าห้อง',
+    lostText1: 'โดยหลักการแล้ว ทางโรงแรมจะไม่ติดต่อเกี่ยวกับของหาย',
+    lostText2: 'หากไม่มีการติดต่อ จะดำเนินการตามกฎหมายของหายหลังจากผ่านไป 3 เดือน',
+    lostText3: 'อย่างไรก็ตาม อาหารและเครื่องดื่มจะถูกทิ้งในวันเดียวกัน',
+    lightingTitle: 'แสงสวางในห้อง',
+    lightingDesc: 'หลังจากเข้าห้อง ให้เสียบพวงกุญแจห้องเข้าในเต้ารับไฟฟ้าข้างทางเข้า แสงสว่างในห้องจะเปิดขึ้น',
+    lightingNote: '※เสียบกุญแจเข้าในเต้ารับไฟฟ้า',
+    longstayTitle: 'สำหรับแขกพักหลายคืน',
+    sheetExchange: 'หากต้องการบริการทำความสะอาด กรุณาติดแม่เหล็กสีเขียว "กรุณาทำความสะอาด" ที่ด้านนอกประตูห้องทางด้านทางเดินก่อน 9:00 น. ของเช้าวันถัดไป',
+    noCleaning: 'หากไม่ต้องการทำความสะอาด กรุณาติดแม่เหล็กสีน้ำเงิน "ห้ามรบกวน" ที่ด้านนอกประตูห้องทางด้านทางเดิน หากไม่มีการติดแม่เหล็ก เราจะไม่ทำความสะอาดและจะวางผ้าเช็ดตัวไว้หน้าประตูเท่านั้น จากมุมมองด้านสุขอนามัย การทำความสะอาดจะเป็นทุก 3 วัน (2 คืนแรกเปลี่ยนผ้าเช็ดตัวเท่านั้น คืนที่ 3 ทำความสะอาด คืนที่ 4 เป็นต้นไปวนซ้ำ)',
     officialHP: 'เว็บไซต์อย่างเป็นทางการ',
-    preparing: 'กำลังเตรียมข้อมูลรายละเอียด',
+    preparing: 'ข้อมูลรายละเอียดกำลังเตรียมการ',
   },
   vi: {
-    hotelName: 'Suối nước nóng thiên nhiên Aoba no Yu',
-    hotelTitle: 'Dormy Inn Sendai ANNEX',
-    heroTitle: 'Hướng dẫn khách sạn',
-    welcomeMessage: 'Cảm ơn bạn rất nhiều vì đã lưu trú tại "Suối nước nóng thiên nhiên Aoba no Yu Dormy Inn Sendai ANNEX" hôm nay.',
-    welcomeMessage2: 'Nếu bạn có bất kỳ câu hỏi nào, vui lòng liên hệ với nhân viên lễ tân của chúng tôi.',
+    hotelName: '',
+    hotelTitle: 'Hotel Grand Terrace Sendai Kokubuncho',
+    heroTitle: 'Hướng dẫn trong khách sạn',
+    welcomeMessage: 'Cảm ơn quý khách đã sử dụng "Hotel Grand Terrace Sendai Kokubuncho" hôm nay.',
+    welcomeMessage2: 'Nếu có bất kỳ thắc mắc nào, vui lòng hỏi nhân viên lễ tân.',
     restaurantCoupon: 'Phiếu giảm giá nhà hàng',
-    checkInOut: 'Nhận phòng/Trả phòng',
-    bath: 'Phòng tắm công cộng',
-    breakfast: 'Bữa sáng & Soba đêm khuya',
-    dinner: 'Bữa tối & Phiếu giảm giá',
-    service: 'Góc dịch vụ',
+    checkInOut: 'Giờ nhận/trả phòng',
+    bath: 'Sảnh・Cơ sở vật chất',
+    breakfast: 'Bữa sáng',
+    dinner: 'Bữa tối・Phiếu giảm giá',
+    service: 'Khu vực dịch vụ',
     wifi: 'Wi-Fi',
-    lighting: 'Ánh sáng trong phòng',
-    longstay: 'Dành cho khách lưu trú dài ngày',
+    lighting: 'Đèn trong phòng',
+    longstay: 'Dành cho khách lưu trú dài hạn',
     lost: 'Đồ thất lạc',
-    dinnerTab: 'Bữa tối & Phiếu giảm giá',
-    serviceTab: 'Góc dịch vụ',
+    quickCheckin: 'Nhận phòng nhanh',
+    dinnerTab: 'Bữa tối・Phiếu giảm giá',
+    serviceTab: 'Khu vực dịch vụ',
     close: 'Đóng',
     checkIn: 'Nhận phòng',
     checkOut: 'Trả phòng',
-    planNote: '*Thời gian có thể thay đổi tùy theo gói.',
-    bathTitle: 'Phòng tắm công cộng',
-    bathDescription: 'Phòng tắm công cộng riêng nam/nữ "Aoba no Yu" tầng 9',
-    operatingHours: 'Giờ hoạt động:',
-    bathHours: '15:00~Ngày hôm sau 10:00',
-    saunaNote: '(Chỉ phòng xông hơi: 1:00~5:00 đóng cửa)',
+    planNote: '※Thời gian có thể khác nhau tùy theo gói.',
+    bbhMember: 'Thành viên BBH',
+    earlyCheckin: 'Nhận phòng sớm',
+    earlyCheckinFee: '1.000 yên mỗi giờ (đến 14:00)',
+    lobbyDesc1: 'Sảnh sang trọng với đồ nội thất cổ châu Âu.',
+    lobbyDesc2: 'Một không gian yên tĩnh để bạn quên đi sự ồn ào của thành phố.',
+    lobbyDesc3: 'Bạn có thể vào "Starbucks Coffee" trực tiếp từ sảnh.',
+    breakfastVenue: 'Địa điểm bữa sáng',
+    breakfastFloor: 'Tầng 10',
+    breakfastTime: 'Giờ hoạt động',
+    breakfastTimeDetail: '6:45～9:00 (vào cuối cùng 8:45)',
+    breakfastDesc: 'Thưởng thức bữa sáng buffet bổ dưỡng với nguyên liệu địa phương.',
+    breakfastNotice: 'Giờ hoạt động có thể thay đổi mà không cần thông báo trước.',
+    bathTitle: 'Sảnh・Cơ sở vật chất',
+    bathDescription: 'Bồn tắm lớn nam nữ riêng biệt 9F',
+    operatingHours: 'Giờ mở cửa:',
+    bathHours: '15:00~10:00 ngày hôm sau',
+    saunaNote: '(Chỉ phòng xông hơi 1:00~5:00 đóng cửa)',
     notice: 'Lưu ý',
-    bathNotice1: '*Vui lòng mang theo khăn tắm và đồ dùng vệ sinh từ phòng của bạn.',
-    bathNotice2: '*Cần mã số để vào phòng tắm công cộng dành cho nữ. Mã số sẽ được cung cấp tại lễ tân.',
+    bathNotice1: '※Vui lòng tự mang khăn và đồ dùng cá nhân từ phòng.',
+    bathNotice2: '※Cần mật khẩu để vào bồn tắm nữ. Mật khẩu sẽ được cung cấp tại lễ tân.',
     freeService: 'Dịch vụ miễn phí',
-    bathServiceDesc: 'Chúng tôi cung cấp miễn phí đồ uống sữa chua và kẹo đá.',
-    breakfastTitle: 'Bữa sáng & Soba đêm khuya (Nhà hàng tầng 1)',
-    breakfastPrice: '■Bữa sáng / ¥2,300',
+    bathServiceDesc: 'Chúng tôi cung cấp miễn phí đồ uống lactic acid và kẹo que đá.',
+    breakfastTitle: 'Bữa sáng (Nhà hàng 1F)',
+    breakfastPrice: 'Người lớn 1,200 yên (đã bao gồm thuế) / Trẻ em (học sinh tiểu học) 800 yên (đã bao gồm thuế)',
     breakfastHours: '6:15~9:30 (Vào lần cuối 9:00)',
-    breakfastNote1: '*Bạn có thể được yêu cầu chờ nếu nhà hàng đầy.',
-    breakfastNote2: '*Giờ hoạt động có thể thay đổi tùy theo tình trạng đông đúc.',
-    sobaTitle: '■Soba đêm khuya (Nửa phần) / Miễn phí',
-    sobaHours: '21:30~23:00',
-    sobaNote: '*Giờ hoạt động có thể thay đổi.',
-    serviceTitle: 'Góc dịch vụ',
+    breakfastNote1: '※Có thể phải chờ nếu đầy chỗ.',
+    breakfastNote2: '※Giờ mở cửa có thể thay đổi tùy theo tình hình đông khách.',
+    serviceTitle: 'Khu vực dịch vụ',
     vendingMachine: 'Máy bán hàng tự động',
-    alcoholNote: '(Đồ uống có cồn: tầng 5, 9)',
+    alcoholNote: '(Đồ uống có cồn ở 5・7・9F)',
     microwave: 'Lò vi sóng',
     iceMaker: 'Máy làm đá',
     smoking: 'Khu vực hút thuốc',
-    trouserPress: 'Máy là quần',
+    trouserPress: 'Máy ủi quần',
     trouserPressLocation: 'Trước thang máy mỗi tầng',
-    laundry: 'Góc giặt ủi',
-    laundryNote: '*Chất tẩy rửa, máy giặt/miễn phí, máy sấy/trả phí (¥100 mỗi 30 phút)',
+    laundry: 'Khu giặt là',
+    laundryNote: '※Máy giặt/1 lần 200 yên Máy sấy/10 phút 100 yên (Bột giặt phát miễn phí tại lễ tân)',
     wifiTitle: 'Wi-Fi',
     password: 'Mật khẩu:',
     lostTitle: 'Đồ thất lạc',
-    lostText1: 'Theo nguyên tắc, khách sạn sẽ không liên hệ với bạn về đồ thất lạc.',
-    lostText2: 'Nếu không có liên hệ, đồ vật sẽ được xử lý sau 3 tháng theo Luật Tài sản Thất lạc.',
+    lostText1: 'Về nguyên tắc, khách sạn sẽ không liên lạc về đồ thất lạc.',
+    lostText2: 'Nếu không có liên lạc, sẽ được xử lý sau 3 tháng theo luật đồ thất lạc.',
     lostText3: 'Tuy nhiên, thực phẩm và đồ uống sẽ được xử lý trong ngày.',
-    lightingTitle: 'Ánh sáng trong phòng',
-    lightingDesc: 'Sau khi vào phòng, cắm móc chìa khóa phòng vào ổ cắm điện bên cạnh lối vào để bật ánh sáng trong phòng.',
-    lightingNote: '*Cắm chìa khóa vào ổ cắm điện.',
-    longstayTitle: 'Dành cho khách lưu trú dài ngày',
-    sheetExchange: 'Khách muốn thay ga trải giường, vỏ chăn và vỏ gối, vui lòng đặt "Thẻ WECO" trên giường. Chúng tôi sẽ không thay nếu không có thẻ. (Chúng tôi sẽ thay khăn tắm và quần áo ngủ.)',
-    noCleaning: 'Khách không cần dọn dẹp, vui lòng đặt thẻ xanh "WECO" về phía hành lang, nằm ở bên trong cửa ra vào. Trong trường hợp đó, chúng tôi sẽ không dọn dẹp và không vào phòng.',
+    lightingTitle: 'Đèn trong phòng',
+    lightingDesc: 'Sau khi vào phòng, cắm móc khóa phòng vào ổ cắm điện bên cạnh lối vào để bật đèn trong phòng.',
+    lightingNote: '※Cắm chìa khóa vào ổ cắm điện.',
+    longstayTitle: 'Dành cho khách lưu trú dài hạn',
+    sheetExchange: 'Nếu muốn dọn phòng, vui lòng dán nam châm màu xanh lá "Vui lòng dọn phòng" ở phía hành lang cửa ra vào trước 9 giờ sáng mai.',
+    noCleaning: 'Nếu không cần dọn phòng, vui lòng dán nam châm màu xanh dương "Xin đừng làm phiền" ở phía hành lang cửa ra vào. Nếu không có nam châm, chúng tôi sẽ không dọn phòng và chỉ chuẩn bị khăn trước cửa. Vì lý do vệ sinh, việc dọn phòng sẽ là 3 ngày một lần (2 đêm đầu chỉ thay khăn, đêm thứ 3 dọn phòng, từ đêm thứ 4 trở đi lặp lại).',
     officialHP: 'Trang web chính thức',
     preparing: 'Thông tin chi tiết đang được chuẩn bị.',
   },
   id: {
-    hotelName: 'Sumber air panas alami Aoba no Yu',
-    hotelTitle: 'Dormy Inn Sendai ANNEX',
-    heroTitle: 'Panduan hotel',
-    welcomeMessage: 'Terima kasih banyak telah menginap di "Sumber air panas alami Aoba no Yu Dormy Inn Sendai ANNEX" hari ini.',
-    welcomeMessage2: 'Jika Anda memiliki pertanyaan, jangan ragu untuk menghubungi staf resepsionis kami.',
-    restaurantCoupon: 'Kupon Restoran',
-    checkInOut: 'Check-in/Check-out',
-    bath: 'Pemandian umum',
-    breakfast: 'Sarapan & Soba tengah malam',
-    dinner: 'Makan malam & Kupon',
-    service: 'Sudut Layanan',
+    hotelName: '',
+    hotelTitle: 'Hotel Grand Terrace Sendai Kokubuncho',
+    heroTitle: 'Panduan dalam hotel',
+    welcomeMessage: 'Terima kasih telah menginap di "Hotel Grand Terrace Sendai Kokubuncho" hari ini.',
+    welcomeMessage2: 'Jika ada pertanyaan, silakan tanyakan kepada staf resepsionis kami.',
+    restaurantCoupon: 'Kupon restoran',
+    checkInOut: 'Waktu check-in/check-out',
+    bath: 'Lobi・Fasilitas',
+    breakfast: 'Sarapan',
+    dinner: 'Makan malam・Kupon diskon',
+    service: 'Sudut layanan',
     wifi: 'Wi-Fi',
-    lighting: 'Pencahayaan dalam ruangan',
-    longstay: 'Untuk tamu menginap lama',
+    lighting: 'Lampu kamar',
+    longstay: 'Untuk tamu menginap jangka panjang',
     lost: 'Barang hilang',
-    dinnerTab: 'Makan malam & Kupon',
-    serviceTab: 'Sudut Layanan',
+    quickCheckin: 'Check-in cepat',
+    dinnerTab: 'Makan malam・Kupon diskon',
+    serviceTab: 'Sudut layanan',
     close: 'Tutup',
     checkIn: 'Check-in',
     checkOut: 'Check-out',
-    planNote: '*Waktu dapat bervariasi tergantung paket.',
-    bathTitle: 'Pemandian umum',
-    bathDescription: 'Pemandian umum terpisah pria/wanita "Aoba no Yu" lantai 9',
+    planNote: '※Waktu mungkin berbeda tergantung pada paket.',
+    bbhMember: 'Anggota BBH',
+    earlyCheckin: 'Check-in awal',
+    earlyCheckinFee: '1.000 yen per jam (sampai pukul 14:00)',
+    lobbyDesc1: 'Lobi elegan dengan perabotan antik Eropa.',
+    lobbyDesc2: 'Ruang tenang di mana Anda dapat melupakan hiruk pikuk kota.',
+    lobbyDesc3: 'Anda dapat masuk ke "Starbucks Coffee" langsung dari lobi.',
+    breakfastVenue: 'Tempat sarapan',
+    breakfastFloor: 'Lantai 10',
+    breakfastTime: 'Jam operasional',
+    breakfastTimeDetail: '6:45～9:00 (masuk terakhir 8:45)',
+    breakfastDesc: 'Nikmati buffet sarapan bergizi dengan bahan-bahan lokal.',
+    breakfastNotice: 'Jam operasional dapat berubah tanpa pemberitahuan.',
+    bathTitle: 'Lobi・Fasilitas',
+    bathDescription: 'Pemandian umum terpisah pria dan wanita 9F',
     operatingHours: 'Jam operasional:',
-    bathHours: '15:00~Hari berikutnya 10:00',
-    saunaNote: '(Hanya sauna: 1:00~5:00 tutup)',
+    bathHours: '15:00~10:00 hari berikutnya',
+    saunaNote: '(Hanya sauna 1:00~5:00 tutup)',
     notice: 'Pemberitahuan',
-    bathNotice1: '*Harap bawa handuk dan perlengkapan mandi Anda sendiri dari kamar.',
-    bathNotice2: '*Kode akses diperlukan untuk memasuki pemandian umum wanita. Kode akan diberikan di resepsionis.',
+    bathNotice1: '※Silakan bawa handuk dan perlengkapan mandi Anda sendiri dari kamar.',
+    bathNotice2: '※Kode sandi diperlukan untuk masuk ke pemandian wanita. Kode sandi akan diberikan di resepsionis.',
     freeService: 'Layanan gratis',
-    bathServiceDesc: 'Kami menyediakan minuman asam laktat dan permen es secara gratis.',
-    breakfastTitle: 'Sarapan & Soba tengah malam (Restoran lantai 1)',
-    breakfastPrice: '■Sarapan / ¥2,300',
+    bathServiceDesc: 'Kami menyediakan minuman asam laktat dan permen es gratis.',
+    breakfastTitle: 'Sarapan (Restoran 1F)',
+    breakfastPrice: 'Dewasa 1.200 yen (termasuk pajak) / Anak-anak (siswa SD) 800 yen (termasuk pajak)',
     breakfastHours: '6:15~9:30 (Masuk terakhir 9:00)',
-    breakfastNote1: '*Anda mungkin diminta menunggu jika restoran penuh.',
-    breakfastNote2: '*Jam operasional dapat berubah tergantung kepadatan.',
-    sobaTitle: '■Soba tengah malam (Setengah porsi) / Gratis',
-    sobaHours: '21:30~23:00',
-    sobaNote: '*Jam operasional dapat berubah.',
-    serviceTitle: 'Sudut Layanan',
+    breakfastNote1: '※Anda mungkin diminta menunggu jika penuh.',
+    breakfastNote2: '※Jam operasional dapat berubah tergantung pada kepadatan.',
+    serviceTitle: 'Sudut layanan',
     vendingMachine: 'Mesin penjual otomatis',
-    alcoholNote: '(Minuman beralkohol: lantai 5, 9)',
+    alcoholNote: '(Minuman beralkohol di 5・7・9F)',
     microwave: 'Microwave',
     iceMaker: 'Pembuat es',
     smoking: 'Area merokok',
-    trouserPress: 'Penyetrika celana',
+    trouserPress: 'Setrika celana',
     trouserPressLocation: 'Di depan lift setiap lantai',
-    laundry: 'Sudut Laundry',
-    laundryNote: '*Deterjen, mesin cuci/gratis, pengering/berbayar (¥100 per 30 menit)',
+    laundry: 'Sudut laundry',
+    laundryNote: '※Mesin cuci/1 kali 200 yen Pengering/10 menit 100 yen (Deterjen gratis di resepsionis)',
     wifiTitle: 'Wi-Fi',
     password: 'Kata sandi:',
     lostTitle: 'Barang hilang',
-    lostText1: 'Sebagai aturan, hotel tidak akan menghubungi Anda mengenai barang hilang.',
-    lostText2: 'Jika tidak ada kontak, barang akan dibuang setelah 3 bulan sesuai dengan Undang-Undang Barang Hilang.',
+    lostText1: 'Sebagai aturan, hotel tidak akan menghubungi mengenai barang hilang.',
+    lostText2: 'Jika tidak ada kontak, akan dibuang setelah 3 bulan sesuai dengan Undang-Undang Barang Hilang.',
     lostText3: 'Namun, makanan dan minuman akan dibuang pada hari yang sama.',
-    lightingTitle: 'Pencahayaan dalam ruangan',
-    lightingDesc: 'Setelah memasuki kamar, masukkan gantungan kunci kamar ke stopkontak listrik di samping pintu masuk untuk menyalakan pencahayaan dalam ruangan.',
-    lightingNote: '*Masukkan kunci ke stopkontak listrik.',
-    longstayTitle: 'Untuk tamu menginap lama',
-    sheetExchange: 'Tamu yang ingin mengganti seprai, penutup futon, dan sarung bantal, harap tampilkan "Kartu WECO" di tempat tidur. Kami tidak akan menggantinya jika kartu tidak ditampilkan. (Kami akan mengganti handuk dan pakaian kamar.)',
-    noCleaning: 'Tamu yang tidak memerlukan pembersihan, harap tampilkan kartu hijau "WECO" di sisi koridor, yang terletak di dalam pintu masuk. Dalam hal ini, kami tidak akan membersihkan atau memasuki kamar.',
+    lightingTitle: 'Lampu kamar',
+    lightingDesc: 'Setelah memasuki kamar, masukkan gantungan kunci kamar ke soket listrik di samping pintu masuk untuk menyalakan lampu kamar.',
+    lightingNote: '※Masukkan kunci ke soket listrik.',
+    longstayTitle: 'Untuk tamu menginap jangka panjang',
+    sheetExchange: 'Jika ingin pembersihan, silakan tempel magnet hijau "Silakan bersihkan" di sisi koridor pintu masuk sebelum jam 9 pagi besok.',
+    noCleaning: 'Jika tidak perlu pembersihan, silakan tempel magnet biru "Jangan ganggu" di sisi koridor pintu masuk. Jika tidak ada magnet, kami tidak akan membersihkan dan hanya menyiapkan handuk di depan pintu. Dari sudut pandang kebersihan, pembersihan dilakukan 3 hari sekali (2 malam pertama hanya ganti handuk, malam ke-3 pembersihan, malam ke-4 dan seterusnya berulang).',
     officialHP: 'Situs web resmi',
-    preparing: 'Informasi rinci sedang disiapkan.',
-  },
-  pt: {
-    hotelName: 'Fonte termal natural Aoba no Yu',
-    hotelTitle: 'Dormy Inn Sendai ANNEX',
-    heroTitle: 'Guia do hotel',
-    welcomeMessage: 'Muito obrigado por se hospedar hoje no "Fonte termal natural Aoba no Yu Dormy Inn Sendai ANNEX".',
-    welcomeMessage2: 'Se tiver alguma dúvida, não hesite em consultar nossa equipe de recepção.',
-    restaurantCoupon: 'Cupom de restaurante',
-    checkInOut: 'Check-in/Check-out',
-    bath: 'Banho público',
-    breakfast: 'Café da manhã & Soba noturno',
-    dinner: 'Jantar & Cupons',
-    service: 'Canto de Serviço',
-    wifi: 'Wi-Fi',
-    lighting: 'Iluminação interna',
-    longstay: 'Para hóspedes de longa estadia',
-    lost: 'Objetos perdidos',
-    dinnerTab: 'Jantar & Cupons',
-    serviceTab: 'Canto de Serviço',
-    close: 'Fechar',
-    checkIn: 'Check-in',
-    checkOut: 'Check-out',
-    planNote: '*Os horários podem variar dependendo do plano.',
-    bathTitle: 'Banho público',
-    bathDescription: 'Banho público separado para homens e mulheres "Aoba no Yu" 9F',
-    operatingHours: 'Horário de funcionamento:',
-    bathHours: '15:00~Dia seguinte 10:00',
-    saunaNote: '(Apenas sauna: 1:00~5:00 fechado)',
-    notice: 'Aviso',
-    bathNotice1: '*Por favor, traga suas próprias toalhas e artigos de higiene do seu quarto.',
-    bathNotice2: '*É necessário um código de acesso para entrar no banho público feminino. O código será fornecido na recepção.',
-    freeService: 'Serviço gratuito',
-    bathServiceDesc: 'Oferecemos gratuitamente bebidas lácteas e doces gelados.',
-    breakfastTitle: 'Café da manhã & Soba noturno (Restaurante 1F)',
-    breakfastPrice: '■Café da manhã / ¥2,300',
-    breakfastHours: '6:15~9:30 (Última entrada 9:00)',
-    breakfastNote1: '*Você pode ser solicitado a esperar se o restaurante estiver cheio.',
-    breakfastNote2: '*Os horários de funcionamento podem mudar dependendo do congestionamento.',
-    sobaTitle: '■Soba noturno (Meia porção) / Grátis',
-    sobaHours: '21:30~23:00',
-    sobaNote: '*Os horários de funcionamento podem mudar.',
-    serviceTitle: 'Canto de Serviço',
-    vendingMachine: 'Máquina de venda automática',
-    alcoholNote: '(Bebidas alcoólicas: 5F, 9F)',
-    microwave: 'Microondas',
-    iceMaker: 'Máquina de gelo',
-    smoking: 'Área para fumantes',
-    trouserPress: 'Prensa de calças',
-    trouserPressLocation: 'Em frente ao elevador em cada andar',
-    laundry: 'Canto de Lavanderia',
-    laundryNote: '*Detergente, máquina de lavar/grátis, secadora/paga (¥100 por 30 minutos)',
-    wifiTitle: 'Wi-Fi',
-    password: 'Senha:',
-    lostTitle: 'Objetos perdidos',
-    lostText1: 'Como regra, o hotel não entrará em contato com você sobre objetos perdidos.',
-    lostText2: 'Se não houver contato, os objetos serão descartados após 3 meses de acordo com a Lei de Objetos Perdidos.',
-    lostText3: 'No entanto, alimentos e bebidas serão descartados no mesmo dia.',
-    lightingTitle: 'Iluminação interna',
-    lightingDesc: 'Após entrar no quarto, insira o porta-chaves do quarto na tomada elétrica ao lado da entrada para acender a iluminação do quarto.',
-    lightingNote: '*Insira a chave na tomada elétrica.',
-    longstayTitle: 'Para hóspedes de longa estadia',
-    sheetExchange: 'Hóspedes que desejam trocar lençóis, capas de futon e fronhas, por favor mostrem o "Cartão WECO" na cama. Não os trocaremos se o cartão não for mostrado. (Trocaremos toalhas e roupas de quarto.)',
-    noCleaning: 'Hóspedes que não precisam de limpeza, por favor mostrem o cartão verde "WECO" no lado do corredor, que está localizado no interior da porta de entrada. Nesse caso, não limparemos nem entraremos no quarto.',
-    officialHP: 'Site oficial',
-    preparing: 'Informações detalhadas estão sendo preparadas.',
-  },
-  el: {
-    hotelName: 'Φυσική θερμή πηγή Aoba no Yu',
-    hotelTitle: 'Dormy Inn Sendai ANNEX',
-    heroTitle: 'Οδηγός ξενοδοχείου',
-    welcomeMessage: 'Σας ευχαριστούμε πολύ που μείνατε σήμερα στο "Φυσική θερμή πηγή Aoba no Yu Dormy Inn Sendai ANNEX".',
-    welcomeMessage2: 'Εάν έχετε οποιεσδήποτε ερωτήσεις, μη διστάσετε να ρωτήσετε το προσωπικό υποδοχής μας.',
-    restaurantCoupon: 'Κουπόνι εστιατορίου',
-    checkInOut: 'Ώρα check-in/check-out',
-    bath: 'Δημόσιο λουτρό',
-    breakfast: 'Πρωινό και νυχτερινή soba',
-    dinner: 'Δείπνο και κουπόνια',
-    service: 'Γωνία εξυπηρέτησης',
-    wifi: 'Wi-Fi',
-    lighting: 'Φωτισμός δωματίου',
-    longstay: 'Για μακροπρόθεσμους επισκέπτες',
-    lost: 'Χαμένα αντικείμενα',
-    dinnerTab: 'Δείπνο και κουπόνια',
-    serviceTab: 'Γωνία εξυπηρέτησης',
-    close: 'Κλείσιμο',
-    checkIn: 'Check-in',
-    checkOut: 'Check-out',
-    planNote: '*Οι ώρες μπορεί να διαφέρουν ανάλογα με το πρόγραμμα.',
-    bathTitle: 'Δημόσιο λουτρό',
-    bathDescription: 'Ξεχωριστά δημόσια λουτρά για άνδρες και γυναίκες "Aoba no Yu" 9F',
-    operatingHours: 'Ώρες λειτουργίας:',
-    bathHours: '15:00~Επόμενη ημέρα 10:00',
-    saunaNote: '(Μόνο σάουνα: 1:00~5:00 κλειστό)',
-    notice: 'Ειδοποίηση',
-    bathNotice1: '*Παρακαλώ φέρετε τις δικές σας πετσέτες και αξεσουάρ από το δωμάτιό σας.',
-    bathNotice2: '*Απαιτείται κωδικός πρόσβασης για να εισέλθετε στο δημόσιο λουτρό γυναικών. Ο κωδικός θα παρέχεται στην υποδοχή.',
-    freeService: 'Δωρεάν υπηρεσία',
-    bathServiceDesc: 'Παρέχουμε δωρεάν ποτά γαλακτικού οξέος και καραμέλες πάγου.',
-    breakfastTitle: 'Πρωινό και νυχτερινή soba (Εστιατόριο 1F)',
-    breakfastPrice: '■Πρωινό / ¥2,300',
-    breakfastHours: '6:15~9:30 (Τελευταία είσοδος 9:00)',
-    breakfastNote1: '*Μπορεί να σας ζητηθεί να περιμένετε εάν το εστιατόριο είναι γεμάτο.',
-    breakfastNote2: '*Οι ώρες λειτουργίας μπορεί να αλλάξουν ανάλογα με τη συμφόρηση.',
-    sobaTitle: '■Νυχτερινή soba (Μισό μέγεθος) / Δωρεάν',
-    sobaHours: '21:30~23:00',
-    sobaNote: '*Οι ώρες λειτουργίας μπορεί να αλλάξουν.',
-    serviceTitle: 'Γωνία εξυπηρέτησης',
-    vendingMachine: 'Αυτόματη μηχανή',
-    alcoholNote: '(Αλκοολούχα ποτά: 5F, 9F)',
-    microwave: 'Φούρνος μικροκυμάτων',
-    iceMaker: 'Μηχανή πάγου',
-    smoking: 'Χώρος καπνίσματος',
-    trouserPress: 'Πρέσα παντελονιού',
-    trouserPressLocation: 'Μπροστά από το ασανσέρ σε κάθε όροφο',
-    laundry: 'Γωνία πλυντηρίου',
-    laundryNote: '*Απορρυπαντικό, πλυντήριο/δωρεάν, στεγνωτήριο/πληρωμένο (¥100 ανά 30 λεπτά)',
-    wifiTitle: 'Wi-Fi',
-    password: 'Κωδικός:',
-    lostTitle: 'Χαμένα αντικείμενα',
-    lostText1: 'Κατά κανόνα, το ξενοδοχείο δεν θα επικοινωνήσει μαζί σας σχετικά με χαμένα αντικείμενα.',
-    lostText2: 'Εάν δεν υπάρχει επικοινωνία, τα αντικείμενα θα απορριφθούν μετά από 3 μήνες σύμφωνα με τον Νόμο για τα χαμένα αντικείμενα.',
-    lostText3: 'Ωστόσο, τα τρόφιμα και τα ποτά θα απορριφθούν την ίδια ημέρα.',
-    lightingTitle: 'Φωτισμός δωματίου',
-    lightingDesc: 'Μετά την είσοδο στο δωμάτιο, τοποθετήστε τον κρατήρα κλειδιού του δωματίου στην ηλεκτρική πρίζα δίπλα στην είσοδο για να ενεργοποιήσετε τον φωτισμό του δωματίου.',
-    lightingNote: '*Τοποθετήστε το κλειδί στην ηλεκτρική πρίζα.',
-    longstayTitle: 'Για μακροπρόθεσμους επισκέπτες',
-    sheetExchange: 'Επισκέπτες που επιθυμούν να αλλάξουν σεντόνια, καλύμματα futon και καλύμματα μαξιλαριών, παρακαλώ τοποθετήστε την "Κάρτα WECO" στο κρεβάτι. Δεν θα τα αλλάξουμε εάν η κάρτα δεν εμφανίζεται. (Θα αλλάξουμε πετσέτες και ρούχα δωματίου.)',
-    noCleaning: 'Επισκέπτες που δεν χρειάζονται καθαρισμό, παρακαλώ τοποθετήστε την πράσινη κάρτα "WECO" στην πλευρά του διαδρόμου, η οποία βρίσκεται στο εσωτερικό της εισόδου. Σε αυτή την περίπτωση, δεν θα καθαρίσουμε ούτε θα εισέλθουμε στο δωμάτιο.',
-    officialHP: 'Επίσημη ιστοσελίδα',
-    preparing: 'Οι λεπτομερείς πληροφορίες προετοιμάζονται.',
+    preparing: 'Informasi detail sedang disiapkan.',
   },
   tl: {
-    hotelName: 'Natural na Mainit na Bukal Aoba no Yu',
-    hotelTitle: 'Dormy Inn Sendai ANNEX',
-    heroTitle: 'Gabay sa Hotel',
-    welcomeMessage: 'Maraming salamat sa pagtigil sa "Natural na Mainit na Bukal Aoba no Yu Dormy Inn Sendai ANNEX" ngayon.',
-    welcomeMessage2: 'Kung mayroon kang anumang mga katanungan, mangyaring huwag mag-atubiling magtanong sa aming front desk staff.',
-    restaurantCoupon: 'Restaurant Coupon',
-    checkInOut: 'Check-in/Check-out',
-    bath: 'Pampublikong Paliguan',
-    breakfast: 'Almusal at Late Night Soba',
-    dinner: 'Hapunan at Coupons',
-    service: 'Service Corner',
+    hotelName: '',
+    hotelTitle: 'Hotel Grand Terrace Sendai Kokubuncho',
+    heroTitle: 'Gabay sa hotel',
+    welcomeMessage: 'Maraming salamat sa pag-stay sa "Hotel Grand Terrace Sendai Kokubuncho" ngayong araw.',
+    welcomeMessage2: 'Kung mayroon kayong mga tanong, mangyaring magtanong sa aming staff sa front desk.',
+    restaurantCoupon: 'Coupon ng restaurant',
+    checkInOut: 'Oras ng check-in/check-out',
+    bath: 'Lobby・Pasilidad',
+    breakfast: 'Almusal',
+    dinner: 'Hapunan・Coupon discount',
+    service: 'Sulok ng serbisyo',
     wifi: 'Wi-Fi',
-    lighting: 'Ilaw sa Kwarto',
-    longstay: 'Para sa Long-term Guests',
-    lost: 'Nawawalang Bagay',
-    dinnerTab: 'Hapunan at Coupons',
-    serviceTab: 'Service Corner',
+    lighting: 'Ilaw sa kwarto',
+    longstay: 'Para sa mga long-term guests',
+    lost: 'Nawawalang gamit',
+    quickCheckin: 'Mabilis na check-in',
+    dinnerTab: 'Hapunan・Coupon discount',
+    serviceTab: 'Sulok ng serbisyo',
     close: 'Isara',
     checkIn: 'Check-in',
     checkOut: 'Check-out',
-    planNote: '*Maaaring mag-iba ang oras depende sa plan.',
-    bathTitle: 'Pampublikong Paliguan',
-    bathDescription: 'Hiwalay na pampublikong paliguan para sa lalaki at babae "Aoba no Yu" 9F',
-    operatingHours: 'Oras ng Operasyon:',
-    bathHours: '15:00~Susunod na araw 10:00',
-    saunaNote: '(Sauna lamang: 1:00~5:00 sarado)',
+    planNote: '※Ang oras ay maaaring mag-iba depende sa plan.',
+    bbhMember: 'Miyembro ng BBH',
+    earlyCheckin: 'Maagang check-in',
+    earlyCheckinFee: '1,000 yen bawat oras (hanggang 14:00)',
+    lobbyDesc1: 'Eleganteng lobby na may European antique furniture.',
+    lobbyDesc2: 'Tahimik na espasyo kung saan makakalimutan mo ang ingay ng lungsod.',
+    lobbyDesc3: 'Maaari kang pumasok sa "Starbucks Coffee" direkta mula sa lobby.',
+    breakfastVenue: 'Lugar ng almusal',
+    breakfastFloor: 'Ika-10 palapag',
+    breakfastTime: 'Oras ng operasyon',
+    breakfastTimeDetail: '6:45～9:00 (huling pasok 8:45)',
+    breakfastDesc: 'Tangkilikin ang masustansyang almusal buffet na may lokal na sangkap.',
+    breakfastNotice: 'Ang oras ng operasyon ay maaaring magbago nang walang paunawa.',
+    bathTitle: 'Lobby・Pasilidad',
+    bathDescription: 'Hiwalay na malaking banyo para sa lalaki at babae 9F',
+    operatingHours: 'Oras ng operasyon:',
+    bathHours: '15:00~10:00 kinabukasan',
+    saunaNote: '(Sauna lamang 1:00~5:00 sarado)',
     notice: 'Paalala',
-    bathNotice1: '*Mangyaring magdala ng sariling tuwalya at amenities mula sa inyong kwarto.',
-    bathNotice2: '*Kailangan ng passcode para pumasok sa pampublikong paliguan ng babae. Ang passcode ay ibibigay sa front desk.',
-    freeService: 'Libreng Serbisyo',
+    bathNotice1: '※Mangyaring magdala ng sariling tuwalya at amenities mula sa kwarto.',
+    bathNotice2: '※Kailangan ng password para makapasok sa banyo ng babae. Ang password ay ibibigay sa front desk.',
+    freeService: 'Libreng serbisyo',
     bathServiceDesc: 'Nagbibigay kami ng libreng lactic acid drinks at ice candy.',
-    breakfastTitle: 'Almusal at Late Night Soba (Restaurant 1F)',
-    breakfastPrice: '■Almusal / ¥2,300',
+    breakfastTitle: 'Almusal (Restaurant 1F)',
+    breakfastPrice: 'Matanda 1,200 yen (kasama ang tax) / Bata (elementary student) 800 yen (kasama ang tax)',
     breakfastHours: '6:15~9:30 (Huling pagpasok 9:00)',
-    breakfastNote1: '*Maaari kang hilingin na maghintay kung puno ang restaurant.',
-    breakfastNote2: '*Maaaring magbago ang oras ng operasyon depende sa dami ng tao.',
-    sobaTitle: '■Late Night Soba (Half Size) / Libre',
-    sobaHours: '21:30~23:00',
-    sobaNote: '*Maaaring magbago ang oras ng operasyon.',
-    serviceTitle: 'Service Corner',
-    vendingMachine: 'Vending Machine',
-    alcoholNote: '(Alcoholic beverages: 5F, 9F)',
+    breakfastNote1: '※Maaaring kailangan maghintay kung puno.',
+    breakfastNote2: '※Ang oras ng operasyon ay maaaring magbago depende sa siksikan.',
+    serviceTitle: 'Sulok ng serbisyo',
+    vendingMachine: 'Vending machine',
+    alcoholNote: '(Alcoholic drinks sa 5・7・9F)',
     microwave: 'Microwave',
-    iceMaker: 'Ice Maker',
-    smoking: 'Smoking Area',
-    trouserPress: 'Trouser Press',
+    iceMaker: 'Ice maker',
+    smoking: 'Smoking area',
+    trouserPress: 'Trouser press',
     trouserPressLocation: 'Sa harap ng elevator sa bawat palapag',
-    laundry: 'Laundry Corner',
-    laundryNote: '*Detergent, washing machine/libre, dryer/bayad (¥100 bawat 30 minuto)',
+    laundry: 'Sulok ng laundry',
+    laundryNote: '※Washing machine/1 beses 200 yen Dryer/10 minuto 100 yen (Detergent libreng kuha sa front desk)',
     wifiTitle: 'Wi-Fi',
     password: 'Password:',
-    lostTitle: 'Nawawalang Bagay',
-    lostText1: 'Bilang panuntunan, hindi makikipag-ugnayan ang hotel sa iyo tungkol sa nawawalang bagay.',
-    lostText2: 'Kung walang kontak, itatapon ang mga bagay pagkatapos ng 3 buwan alinsunod sa Lost Property Act.',
+    lostTitle: 'Nawawalang gamit',
+    lostText1: 'Bilang patakaran, ang hotel ay hindi makikipag-ugnayan tungkol sa nawawalang gamit.',
+    lostText2: 'Kung walang contact, itatapon pagkatapos ng 3 buwan ayon sa Lost Property Act.',
     lostText3: 'Gayunpaman, ang pagkain at inumin ay itatapon sa parehong araw.',
-    lightingTitle: 'Ilaw sa Kwarto',
-    lightingDesc: 'Pagkatapos pumasok sa kwarto, isaksak ang room key holder sa power socket sa tabi ng pasukan upang buksan ang ilaw ng kwarto.',
-    lightingNote: '*Isaksak ang susi sa power socket.',
-    longstayTitle: 'Para sa Long-term Guests',
-    sheetExchange: 'Ang mga bisita na nais magpalit ng kumot, futon covers, at pillowcases, mangyaring ipakita ang "WECO Card" sa kama. Hindi namin sila papalitan kung hindi ipapakita ang card. (Papalitan namin ang mga tuwalya at room wear.)',
-    noCleaning: 'Ang mga bisita na hindi nangangailangan ng paglilinis, mangyaring ipakita ang berdeng "WECO" card sa corridor side, na matatagpuan sa loob ng entrance door. Sa kasong iyon, hindi namin lilinisin o papasok sa kwarto.',
-    officialHP: 'Opisyal na Website',
+    lightingTitle: 'Ilaw sa kwarto',
+    lightingDesc: 'Pagkatapos pumasok sa kwarto, ilagay ang key holder ng kwarto sa power socket sa tabi ng entrance para mag-on ang ilaw sa kwarto.',
+    lightingNote: '※Ilagay ang susi sa power socket.',
+    longstayTitle: 'Para sa mga long-term guests',
+    sheetExchange: 'Kung nais ng linis, mangyaring idikit ang berdeng magnet na "Mangyaring linisin" sa gilid ng hallway ng entrance door bago mag-9:00 ng umaga bukas.',
+    noCleaning: 'Kung hindi kailangan ng linis, mangyaring idikit ang asul na magnet na "Huwag guluhin" sa gilid ng hallway ng entrance door. Kung walang magnet, hindi kami maglilinis at maghahanda lang ng tuwalya sa harap ng pinto. Para sa kalinisan, ang linis ay bawat 3 araw (2 unang gabi ay palit ng tuwalya lang, 3rd gabi ay linis, 4th gabi pataas ay ulitin).',
+    officialHP: 'Official website',
     preparing: 'Ang detalyadong impormasyon ay inihahanda.',
   },
   ms: {
-    hotelName: 'Mata Air Panas Semula Jadi Aoba no Yu',
-    hotelTitle: 'Dormy Inn Sendai ANNEX',
-    heroTitle: 'Panduan Hotel',
-    welcomeMessage: 'Terima kasih banyak kerana menginap di "Mata Air Panas Semula Jadi Aoba no Yu Dormy Inn Sendai ANNEX" hari ini.',
-    welcomeMessage2: 'Jika anda mempunyai sebarang soalan, sila jangan teragak-agak untuk bertanya kepada kakitangan kaunter hadapan kami.',
-    restaurantCoupon: 'Kupon Restoran',
-    checkInOut: 'Check-in/Check-out',
-    bath: 'Mandi Awam',
-    breakfast: 'Sarapan & Soba Malam',
-    dinner: 'Makan Malam & Kupon',
-    service: 'Sudut Perkhidmatan',
+    hotelName: '',
+    hotelTitle: 'Hotel Grand Terrace Sendai Kokubuncho',
+    heroTitle: 'Panduan hotel',
+    welcomeMessage: 'Terima kasih kerana menginap di "Hotel Grand Terrace Sendai Kokubuncho" hari ini.',
+    welcomeMessage2: 'Jika ada sebarang pertanyaan, sila tanya kakitangan kaunter depan kami.',
+    restaurantCoupon: 'Kupon restoran',
+    checkInOut: 'Masa daftar masuk/keluar',
+    bath: 'Lobi・Kemudahan',
+    breakfast: 'Sarapan',
+    dinner: 'Makan malam・Kupon diskaun',
+    service: 'Sudut perkhidmatan',
     wifi: 'Wi-Fi',
-    lighting: 'Pencahayaan Bilik',
-    longstay: 'Untuk Tetamu Jangka Panjang',
-    lost: 'Barang Hilang',
-    dinnerTab: 'Makan Malam & Kupon',
-    serviceTab: 'Sudut Perkhidmatan',
+    lighting: 'Lampu bilik',
+    longstay: 'Untuk tetamu jangka panjang',
+    lost: 'Barang hilang',
+    quickCheckin: 'Daftar masuk pantas',
+    dinnerTab: 'Makan malam・Kupon diskaun',
+    serviceTab: 'Sudut perkhidmatan',
     close: 'Tutup',
-    checkIn: 'Check-in',
-    checkOut: 'Check-out',
-    planNote: '*Masa mungkin berbeza bergantung pada pelan.',
-    bathTitle: 'Mandi Awam',
-    bathDescription: 'Mandi awam berasingan untuk lelaki dan wanita "Aoba no Yu" 9F',
-    operatingHours: 'Waktu Operasi:',
-    bathHours: '15:00~Hari berikutnya 10:00',
-    saunaNote: '(Hanya sauna: 1:00~5:00 ditutup)',
+    checkIn: 'Daftar masuk',
+    checkOut: 'Daftar keluar',
+    planNote: '※Masa mungkin berbeza bergantung pada pelan.',
+    bbhMember: 'Ahli BBH',
+    earlyCheckin: 'Daftar masuk awal',
+    earlyCheckinFee: '1,000 yen sejam (sehingga 14:00)',
+    lobbyDesc1: 'Lobi yang elegan dengan perabot antik Eropah.',
+    lobbyDesc2: 'Ruang yang tenang di mana anda boleh melupakan kesibukan bandar.',
+    lobbyDesc3: 'Anda boleh masuk ke "Starbucks Coffee" terus dari lobi.',
+    breakfastVenue: 'Tempat sarapan',
+    breakfastFloor: 'Tingkat 10',
+    breakfastTime: 'Waktu operasi',
+    breakfastTimeDetail: '6:45～9:00 (kemasukan terakhir 8:45)',
+    breakfastDesc: 'Nikmati bufet sarapan yang berkhasiat dengan bahan-bahan tempatan.',
+    breakfastNotice: 'Waktu operasi tertakluk kepada perubahan tanpa notis.',
+    bathTitle: 'Lobi・Kemudahan',
+    bathDescription: 'Bilik mandi awam berasingan lelaki dan wanita 9F',
+    operatingHours: 'Waktu operasi:',
+    bathHours: '15:00~10:00 hari berikutnya',
+    saunaNote: '(Hanya sauna 1:00~5:00 tutup)',
     notice: 'Notis',
-    bathNotice1: '*Sila bawa tuala dan kelengkapan anda sendiri dari bilik anda.',
-    bathNotice2: '*Kod laluan diperlukan untuk memasuki mandi awam wanita. Kod akan disediakan di kaunter hadapan.',
-    freeService: 'Perkhidmatan Percuma',
-    bathServiceDesc: 'Kami menyediakan minuman asid laktik dan gula-gula ais secara percuma.',
-    breakfastTitle: 'Sarapan & Soba Malam (Restoran 1F)',
-    breakfastPrice: '■Sarapan / ¥2,300',
+    bathNotice1: '※Sila bawa tuala dan kemudahan sendiri dari bilik.',
+    bathNotice2: '※Kata laluan diperlukan untuk masuk ke bilik mandi wanita. Kata laluan akan diberikan di kaunter depan.',
+    freeService: 'Perkhidmatan percuma',
+    bathServiceDesc: 'Kami menyediakan minuman asid laktik dan gula-gula ais percuma.',
+    breakfastTitle: 'Sarapan (Restoran 1F)',
+    breakfastPrice: 'Dewasa 1,200 yen (termasuk cukai) / Kanak-kanak (pelajar rendah) 800 yen (termasuk cukai)',
     breakfastHours: '6:15~9:30 (Kemasukan terakhir 9:00)',
-    breakfastNote1: '*Anda mungkin diminta menunggu jika restoran penuh.',
-    breakfastNote2: '*Waktu operasi mungkin berubah bergantung pada kesesakan.',
-    sobaTitle: '■Soba Malam (Saiz Separuh) / Percuma',
-    sobaHours: '21:30~23:00',
-    sobaNote: '*Waktu operasi mungkin berubah.',
-    serviceTitle: 'Sudut Perkhidmatan',
-    vendingMachine: 'Mesin Jualan',
-    alcoholNote: '(Minuman beralkohol: 5F, 9F)',
-    microwave: 'Ketuhar Gelombang Mikro',
-    iceMaker: 'Pembuat Ais',
-    smoking: 'Kawasan Merokok',
-    trouserPress: 'Penekan Seluar',
-    trouserPressLocation: 'Di hadapan lif di setiap tingkat',
-    laundry: 'Sudut Dobi',
-    laundryNote: '*Detergen, mesin basuh/percuma, pengering/bayar (¥100 setiap 30 minit)',
+    breakfastNote1: '※Mungkin perlu menunggu jika penuh.',
+    breakfastNote2: '※Waktu operasi mungkin berubah bergantung pada kesesakan.',
+    serviceTitle: 'Sudut perkhidmatan',
+    vendingMachine: 'Mesin layan diri',
+    alcoholNote: '(Minuman beralkohol di 5・7・9F)',
+    microwave: 'Ketuhar gelombang mikro',
+    iceMaker: 'Pembuat ais',
+    smoking: 'Kawasan merokok',
+    trouserPress: 'Seterika seluar',
+    trouserPressLocation: 'Di hadapan lif setiap tingkat',
+    laundry: 'Sudut dobi',
+    laundryNote: '※Mesin basuh/1 kali 200 yen Pengering/10 minit 100 yen (Detergen percuma di kaunter depan)',
     wifiTitle: 'Wi-Fi',
-    password: 'Kata Laluan:',
-    lostTitle: 'Barang Hilang',
-    lostText1: 'Sebagai peraturan, hotel tidak akan menghubungi anda mengenai barang hilang.',
-    lostText2: 'Jika tiada hubungan, barang akan dibuang selepas 3 bulan mengikut Akta Harta Hilang.',
-    lostText3: 'Walau bagaimanapun, makanan dan minuman akan dibuang pada hari yang sama.',
-    lightingTitle: 'Pencahayaan Bilik',
-    lightingDesc: 'Selepas memasuki bilik, masukkan pemegang kunci bilik ke dalam soket kuasa di sebelah pintu masuk untuk menghidupkan pencahayaan bilik.',
-    lightingNote: '*Masukkan kunci ke dalam soket kuasa.',
-    longstayTitle: 'Untuk Tetamu Jangka Panjang',
-    sheetExchange: 'Tetamu yang ingin menukar cadar, penutup futon, dan sarung bantal, sila paparkan "Kad WECO" di atas katil. Kami tidak akan menukarnya jika kad tidak dipaparkan. (Kami akan menukar tuala dan pakaian bilik.)',
-    noCleaning: 'Tetamu yang tidak memerlukan pembersihan, sila paparkan kad hijau "WECO" di sebelah koridor, yang terletak di bahagian dalam pintu masuk. Dalam kes itu, kami tidak akan membersihkan atau memasuki bilik.',
-    officialHP: 'Laman Web Rasmi',
+    password: 'Kata laluan:',
+    lostTitle: 'Barang hilang',
+    lostText1: 'Sebagai peraturan, hotel tidak akan menghubungi mengenai barang hilang.',
+    lostText2: 'Jika tiada hubungan, akan dilupuskan selepas 3 bulan mengikut Akta Harta Hilang.',
+    lostText3: 'Walau bagaimanapun, makanan dan minuman akan dilupuskan pada hari yang sama.',
+    lightingTitle: 'Lampu bilik',
+    lightingDesc: 'Selepas memasuki bilik, masukkan pemegang kunci bilik ke dalam soket kuasa di sebelah pintu masuk untuk menghidupkan lampu bilik.',
+    lightingNote: '※Masukkan kunci ke dalam soket kuasa.',
+    longstayTitle: 'Untuk tetamu jangka panjang',
+    sheetExchange: 'Jika mahu pembersihan, sila lekatkan magnet hijau "Sila bersihkan" di bahagian koridor pintu masuk sebelum jam 9 pagi esok.',
+    noCleaning: 'Jika tidak perlukan pembersihan, sila lekatkan magnet biru "Jangan ganggu" di bahagian koridor pintu masuk. Jika tiada magnet, kami tidak akan membersihkan dan hanya menyediakan tuala di hadapan pintu. Dari segi kebersihan, pembersihan adalah setiap 3 hari (2 malam pertama hanya tukar tuala, malam ke-3 pembersihan, malam ke-4 dan seterusnya ulang).',
+    officialHP: 'Laman web rasmi',
     preparing: 'Maklumat terperinci sedang disediakan.',
   },
+  pt: {
+    hotelName: '',
+    hotelTitle: 'Hotel Grand Terrace Sendai Kokubuncho',
+    heroTitle: 'Guia do hotel',
+    welcomeMessage: 'Muito obrigado por se hospedar no "Hotel Grand Terrace Sendai Kokubuncho" hoje.',
+    welcomeMessage2: 'Se tiver alguma dúvida, por favor pergunte aos funcionários da recepção.',
+    restaurantCoupon: 'Cupom de restaurante',
+    checkInOut: 'Horário de check-in/check-out',
+    bath: 'Lobby・Instalações',
+    breakfast: 'Café da manhã',
+    dinner: 'Jantar・Cupom de desconto',
+    service: 'Canto de serviço',
+    wifi: 'Wi-Fi',
+    lighting: 'Iluminação do quarto',
+    longstay: 'Para hóspedes de longa estadia',
+    lost: 'Objetos perdidos',
+    quickCheckin: 'Check-in rápido',
+    dinnerTab: 'Jantar・Cupom de desconto',
+    serviceTab: 'Canto de serviço',
+    close: 'Fechar',
+    checkIn: 'Check-in',
+    checkOut: 'Check-out',
+    planNote: '※O horário pode variar dependendo do plano.',
+    bbhMember: 'Membro BBH',
+    earlyCheckin: 'Check-in antecipado',
+    earlyCheckinFee: '1.000 ienes por hora (até às 14:00)',
+    lobbyDesc1: 'Um lobby elegante com móveis antigos europeus.',
+    lobbyDesc2: 'Um espaço calmo onde você pode esquecer a agitação da cidade.',
+    lobbyDesc3: 'Você pode entrar no "Starbucks Coffee" diretamente do lobby.',
+    breakfastVenue: 'Local do café da manhã',
+    breakfastFloor: '10º andar',
+    breakfastTime: 'Horário de funcionamento',
+    breakfastTimeDetail: '6:45～9:00 (última entrada 8:45)',
+    breakfastDesc: 'Desfrute de um buffet de café da manhã nutritivo com ingredientes locais.',
+    breakfastNotice: 'O horário de funcionamento está sujeito a alterações sem aviso prévio.',
+    bathTitle: 'Lobby・Instalações',
+    bathDescription: 'Banho público separado para homens e mulheres 9F',
+    operatingHours: 'Horário de funcionamento:',
+    bathHours: '15:00~10:00 do dia seguinte',
+    saunaNote: '(Apenas sauna 1:00~5:00 fechada)',
+    notice: 'Aviso',
+    bathNotice1: '※Por favor, traga suas próprias toalhas e amenidades do quarto.',
+    bathNotice2: '※É necessária uma senha para entrar no banho público feminino. A senha será fornecida na recepção.',
+    freeService: 'Serviço gratuito',
+    bathServiceDesc: 'Oferecemos gratuitamente bebidas de ácido lático e picolés.',
+    breakfastTitle: 'Café da manhã (Restaurante 1F)',
+    breakfastPrice: 'Adulto 1.200 ienes (com impostos) / Criança (aluno do ensino fundamental) 800 ienes (com impostos)',
+    breakfastHours: '6:15~9:30 (Última entrada 9:00)',
+    breakfastNote1: '※Pode ser necessário esperar se estiver lotado.',
+    breakfastNote2: '※O horário de funcionamento pode mudar dependendo da lotação.',
+    serviceTitle: 'Canto de serviço',
+    vendingMachine: 'Máquina de venda automática',
+    alcoholNote: '(Bebidas alcoólicas em 5・7・9F)',
+    microwave: 'Micro-ondas',
+    iceMaker: 'Máquina de gelo',
+    smoking: 'Área de fumantes',
+    trouserPress: 'Prensa de calças',
+    trouserPressLocation: 'Em frente ao elevador em cada andar',
+    laundry: 'Canto de lavanderia',
+    laundryNote: '※Máquina de lavar/1 vez 200 ienes Secadora/10 minutos 100 ienes (Detergente grátis na recepção)',
+    wifiTitle: 'Wi-Fi',
+    password: 'Senha:',
+    lostTitle: 'Objetos perdidos',
+    lostText1: 'Como regra, o hotel não entrará em contato sobre objetos perdidos.',
+    lostText2: 'Se não houver contato, será descartado após 3 meses de acordo com a Lei de Objetos Perdidos.',
+    lostText3: 'No entanto, alimentos e bebidas serão descartados no mesmo dia.',
+    lightingTitle: 'Iluminação do quarto',
+    lightingDesc: 'Após entrar no quarto, insira o porta-chaves do quarto na tomada elétrica ao lado da entrada para acender a iluminação do quarto.',
+    lightingNote: '※Insira a chave na tomada elétrica.',
+    longstayTitle: 'Para hóspedes de longa estadia',
+    sheetExchange: 'Se desejar limpeza, por favor cole o ímã verde "Por favor limpe" no lado do corredor da porta de entrada antes das 9h da manhã seguinte.',
+    noCleaning: 'Se não precisar de limpeza, por favor cole o ímã azul "Não perturbe" no lado do corredor da porta de entrada. Se não houver ímã, não faremos limpeza e apenas prepararemos toalhas na frente da porta. Do ponto de vista de higiene, a limpeza é a cada 3 dias (2 primeiras noites apenas troca de toalhas, 3ª noite limpeza, da 4ª noite em diante repete).',
+    officialHP: 'Site oficial',
+    preparing: 'Informações detalhadas estão sendo preparadas.',
+  },
   'zh-TW': {
-    hotelName: '天然溫泉 青葉之湯',
-    hotelTitle: '多米酒店仙台ANNEX',
-    heroTitle: '酒店內指南',
-    welcomeMessage: '非常感謝您今天入住「天然溫泉 青葉之湯多米酒店仙台ANNEX」。',
+    hotelName: '',
+    hotelTitle: '仙台國分町格蘭露台酒店',
+    heroTitle: '酒店館內指南',
+    welcomeMessage: '感謝您今天入住「仙台國分町格蘭露台酒店」。',
     welcomeMessage2: '如有任何疑問，請隨時諮詢前台工作人員。',
-    restaurantCoupon: '餐廳優惠券',
+    restaurantCoupon: '餐飲優惠券',
     checkInOut: '入住/退房時間',
-    bath: '大浴場',
-    breakfast: '早餐・夜鳴蕎麥麵',
+    bath: '大廳・設施',
+    breakfast: '早餐',
     dinner: '晚餐・優惠券',
-    service: '服務角',
+    service: '服務區',
     wifi: 'Wi-Fi',
     lighting: '室內照明',
-    longstay: '長期住宿客人',
+    longstay: '連住客人須知',
     lost: '遺失物品',
+    quickCheckin: '快速入住',
     dinnerTab: '晚餐・優惠券',
-    serviceTab: '服務角',
+    serviceTab: '服務區',
     close: '關閉',
     checkIn: '入住',
     checkOut: '退房',
-    planNote: '※根據套餐不同，時間可能有所不同。',
-    bathTitle: '大浴場',
-    bathDescription: '男女分開大浴場「青葉之湯」9F',
-    operatingHours: '營業時間:',
+    planNote: '※根據預訂方案，時間可能有所不同。',
+    bbhMember: 'BBH會員',
+    earlyCheckin: '提早入住',
+    earlyCheckinFee: '每小時1,000日圓（最晚14:00）',
+    lobbyDesc1: '歐式古董家具裝飾的優雅大廳。',
+    lobbyDesc2: '讓您忘卻都市喧囂的寧靜空間。',
+    lobbyDesc3: '可從大廳直接進入「星巴克咖啡」。',
+    breakfastVenue: '早餐會場',
+    breakfastFloor: '10樓',
+    breakfastTime: '營業時間',
+    breakfastTimeDetail: '6:45～9:00（最終入場8:45）',
+    breakfastDesc: '可享用使用當地食材、營養豐富的自助早餐。',
+    breakfastNotice: '營業時間可能會在不另行通知的情況下更改。',
+    bathTitle: '大廳・設施',
+    bathDescription: '男女分開大浴場 9F',
+    operatingHours: '營業時間：',
     bathHours: '15:00~次日10:00',
-    saunaNote: '(僅桑拿: 1:00~5:00停止)',
-    notice: '注意',
-    bathNotice1: '※請自備毛巾和用品從房間帶來。',
+    saunaNote: '(僅桑拿 1:00~5:00停止)',
+    notice: '注意事項',
+    bathNotice1: '※請自行從房間攜帶毛巾和洗漱用品。',
     bathNotice2: '※進入女性大浴場需要密碼。密碼將在前台提供。',
     freeService: '免費服務',
-    bathServiceDesc: '我們免費提供乳酸飲料和冰棒。',
-    breakfastTitle: '早餐與夜鳴蕎麥麵 (1F 餐廳)',
-    breakfastPrice: '■早餐 / ¥2,300',
-    breakfastHours: '6:15~9:30 (最後入店9:00)',
-    breakfastNote1: '※如果餐廳滿座，可能需要等待。',
-    breakfastNote2: '※營業時間可能會根據擁擠情況而改變。',
-    sobaTitle: '■夜鳴蕎麥麵 (半份) / 免費',
-    sobaHours: '21:30~23:00',
-    sobaNote: '※營業時間可能會改變。',
-    serviceTitle: '服務角',
-    vendingMachine: '自動販賣機',
-    alcoholNote: '(酒精飲料: 5F, 9F)',
+    bathServiceDesc: '我們免費提供乳酸菌飲料和冰棒。',
+    breakfastTitle: '早餐（1F 餐廳）',
+    breakfastPrice: '成人 1,200日圓（含稅）／兒童（小學生）800日圓（含稅）',
+    breakfastHours: '6:15~9:30（最後入場9:00）',
+    breakfastNote1: '※滿座時可能需要等待。',
+    breakfastNote2: '※根據擁擠情況，營業時間可能會有所調整。',
+    serviceTitle: '服務區',
+    vendingMachine: '自動售貨機',
+    alcoholNote: '(酒精飲料在5・7・9F)',
     microwave: '微波爐',
     iceMaker: '製冰機',
     smoking: '吸煙區',
-    trouserPress: '褲子壓燙機',
-    trouserPressLocation: '各層電梯前',
-    laundry: '洗衣角',
-    laundryNote: '※洗滌劑、洗衣機/免費、烘乾機/付費(30分鐘¥100)',
+    trouserPress: '褲子熨燙機',
+    trouserPressLocation: '各樓層電梯前',
+    laundry: '洗衣區',
+    laundryNote: '※洗衣機/每次200日圓 烘乾機/10分鐘100日圓（洗滌劑在前台免費提供）',
     wifiTitle: 'Wi-Fi',
-    password: '密碼:',
+    password: '密碼：',
     lostTitle: '遺失物品',
-    lostText1: '原則上，酒店不會就遺失物品與您聯繫。',
-    lostText2: '如果沒有聯繫，物品將在3個月後根據遺失物品法處理。',
-    lostText3: '但是，食品和飲料將在同一天處理。',
+    lostText1: '原則上，酒店不會就遺失物品聯繫客人。',
+    lostText2: '如果沒有聯繫，根據遺失物品法，將在3個月後處理。',
+    lostText3: '但是，食品飲料將在當天處理。',
     lightingTitle: '室內照明',
-    lightingDesc: '進入房間後，將房間鑰匙扣插入入口旁邊的電源插座以打開房間照明。',
+    lightingDesc: '進入房間後，將房間鑰匙扣插入入口旁的電源插座即可點亮室內照明。',
     lightingNote: '※將鑰匙插入電源插座。',
-    longstayTitle: '長期住宿客人',
-    sheetExchange: '希望更換床單、被套和枕套的客人，請在床上展示「WECO卡」。如果未展示卡片，我們不會更換。(我們會更換毛巾和房間衣物。)',
-    noCleaning: '不需要清潔的客人，請在走廊側展示位於入口門內側的綠色「WECO」卡。在這種情況下，我們不會清潔或進入房間。',
+    longstayTitle: '連住客人須知',
+    sheetExchange: '如需清掃，請在早上9點前將綠色磁鐵「請打掃」貼在門外走廊側。',
+    noCleaning: '如不需要清掃，請將藍色磁鐵「請勿打擾」貼在門外走廊側。如果沒有貼磁鐵，我們將不進行清掃，僅在門前準備毛巾類物品。出於衛生考慮，清掃為每3天1次（前2晚僅更換毛巾類，第3晚清掃，第4晚以後重複）。',
     officialHP: '官方網站',
     preparing: '詳細信息正在準備中。',
   },
 };
 
+function getTranslations(lang: LanguageCode) {
+  const base = translations.en as Record<string, unknown>;
+  const selected = (translations as Record<string, Record<string, unknown> | undefined>)[lang] ?? {};
+  const merged: Record<string, unknown> = { ...base, ...selected };
+
+  for (const key of Object.keys(base)) {
+    const val = selected[key];
+    if (typeof val === "string" && val.trim() === "") {
+      merged[key] = base[key];
+    }
+  }
+
+  return merged as typeof translations.en;
+}
+
 export default function Home() {
-  const [selectedLanguage, setSelectedLanguage] = useState<LanguageCode>('ja');
-  const [activeTab, setActiveTab] = useState('dinner');
+  const { language: selectedLanguage, setLanguage: setSelectedLanguage } = useLanguage();
   const [selectedService, setSelectedService] = useState<string | null>(null);
   const [showOtherLanguages, setShowOtherLanguages] = useState(false);
   const languageDropdownRef = useRef<HTMLDivElement>(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [breakfastImageIndex, setBreakfastImageIndex] = useState(0);
+  const servicesGridRef = useRef<HTMLDivElement>(null);
+  const [visibleServices, setVisibleServices] = useState<Set<string>>(new Set());
 
-  const t = translations[selectedLanguage as keyof typeof translations] || translations['en'];
+  const heroImages = [
+    '/title-picture/top_main_img01.jpg',
+    '/title-picture/top_main_img02.jpg',
+    '/title-picture/top_main_img03.jpg',
+    '/title-picture/top_main_img04.jpg',
+    '/title-picture/top_main_img05.jpg',
+    '/title-picture/top_main_img06.jpg',
+    '/title-picture/top_main_img07.jpg',
+  ];
+
+  const breakfastImages = [
+    '/morning-picture/breakfast003.jpg',
+    '/morning-picture/breakfast004.jpg',
+    '/morning-picture/breakfast005.jpg',
+    '/morning-picture/breakfast006.jpg',
+    '/morning-picture/breakfast007.jpg',
+    '/morning-picture/breakfast008.jpg',
+    '/morning-picture/breakfast012.jpg',
+    '/morning-picture/breakfast013.jpg',
+  ];
+
+  const t = getTranslations(selectedLanguage);
+
+  // 画像のスライドショー（4秒ごとに切り替え）
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % heroImages.length);
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, [heroImages.length]);
+
+  useEffect(() => {
+    if (selectedService !== 'breakfast') return;
+
+    const interval = setInterval(() => {
+      setBreakfastImageIndex((prevIndex) => (prevIndex + 1) % breakfastImages.length);
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, [selectedService, breakfastImages.length]);
+
+  // サービスアイコンのスクロールアニメーション
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const serviceId = entry.target.getAttribute('data-service-id');
+            if (serviceId) {
+              setVisibleServices((prev) => new Set(prev).add(serviceId));
+            }
+          }
+        });
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px',
+      }
+    );
+
+    const serviceElements = servicesGridRef.current?.querySelectorAll('[data-service-id]');
+    serviceElements?.forEach((el) => observer.observe(el));
+
+    return () => {
+      serviceElements?.forEach((el) => observer.unobserve(el));
+    };
+  }, []);
 
   // ドロップダウン外をクリックした時に閉じる
   useEffect(() => {
@@ -1084,7 +1256,7 @@ export default function Home() {
       icon: (
         <div className="relative w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 flex items-center justify-center">
           <Image
-            src="/icon-carry.png"
+            src="/icon-matome/icon-carry.svg"
             alt={t.checkInOut}
             width={112}
             height={112}
@@ -1095,30 +1267,30 @@ export default function Home() {
       ), 
       titleKey: 'checkInOut' as const,
       id: 'checkin',
-      textColor: 'text-blue-800'
+      textColor: 'text-[#A387]'
     },
     { 
       icon: (
-        <div className="relative w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 flex items-center justify-center">
+        <div className="relative w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 flex items-center justify-center scale-75">
           <Image
-            src="/icon-bath.png"
+            src="/icon-matome/file.svg"
             alt={t.bath}
             width={112}
             height={112}
-            className="w-full h-full object-contain"
+            className="object-contain"
             unoptimized
           />
         </div>
       ), 
       titleKey: 'bath' as const,
       id: 'bath',
-      textColor: 'text-blue-800'
+      textColor: 'text-[#A3879D]'
     },
     { 
       icon: (
         <div className="relative w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 flex items-center justify-center">
           <Image
-            src="/icon-food.png"
+            src="/icon-matome/icon-food.svg"
             alt={t.breakfast}
             width={112}
             height={112}
@@ -1129,13 +1301,13 @@ export default function Home() {
       ), 
       titleKey: 'breakfast' as const,
       id: 'breakfast',
-      textColor: 'text-blue-800'
+      textColor: 'text-[#A387]'
     },
     { 
       icon: (
         <div className="relative w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 flex items-center justify-center">
           <Image
-            src="/icon-beer.png"
+            src="/icon-matome/icon-beer.svg"
             alt={t.dinner}
             width={112}
             height={112}
@@ -1153,7 +1325,7 @@ export default function Home() {
       icon: (
         <div className="relative w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 flex items-center justify-center">
           <Image
-            src="/icon-washmachine.png"
+            src="/icon-matome/icon-washmachine.svg"
             alt={t.service}
             width={112}
             height={112}
@@ -1164,13 +1336,13 @@ export default function Home() {
       ), 
       titleKey: 'service' as const,
       id: 'service',
-      textColor: 'text-blue-800'
+      textColor: 'text-[#A387]'
     },
     { 
       icon: (
         <div className="relative w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 flex items-center justify-center">
           <Image
-            src="/icon-Wifi.png"
+            src="/icon-matome/icon-Wifi.svg"
             alt={t.wifi}
             width={112}
             height={112}
@@ -1181,13 +1353,13 @@ export default function Home() {
       ), 
       titleKey: 'wifi' as const,
       id: 'wifi',
-      textColor: 'text-blue-800'
+      textColor: 'text-[#A387]'
     },
     { 
       icon: (
         <div className="relative w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 flex items-center justify-center">
           <Image
-            src="/icon-light.png"
+            src="/icon-matome/icon-light.svg"
             alt={t.lighting}
             width={112}
             height={112}
@@ -1198,13 +1370,13 @@ export default function Home() {
       ), 
       titleKey: 'lighting' as const,
       id: 'lighting',
-      textColor: 'text-blue-800'
+      textColor: 'text-[#A387]'
     },
     { 
       icon: (
         <div className="relative w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 flex items-center justify-center">
           <Image
-            src="/icon-bed.png"
+            src={encodeURI('/icon-matome/icon-bed (1).svg')}
             alt={t.longstay}
             width={112}
             height={112}
@@ -1215,13 +1387,13 @@ export default function Home() {
       ), 
       titleKey: 'longstay' as const,
       id: 'longstay',
-      textColor: 'text-blue-800'
+      textColor: 'text-[#A387]'
     },
     { 
       icon: (
         <div className="relative w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 flex items-center justify-center">
           <Image
-            src="/icon-tool.png"
+            src="/icon-matome/icon-tool.svg"
             alt={t.lost}
             width={112}
             height={112}
@@ -1232,11 +1404,11 @@ export default function Home() {
       ), 
       titleKey: 'lost' as const,
       id: 'lost',
-      textColor: 'text-blue-800'
+      textColor: 'text-[#A387]'
     },
   ];
 
-  const mainLanguages = [
+  const mainLanguages: Array<{ code: LanguageCode; flag: string; label: string }> = [
     { code: 'en', flag: '🇺🇸', label: 'English' },
     { code: 'zh', flag: '🇨🇳', label: '中文' },
     { code: 'zh-TW', flag: '🇹🇼', label: '繁體中文' },
@@ -1244,7 +1416,7 @@ export default function Home() {
     { code: 'ja', flag: '🇯🇵', label: '日本語' },
   ];
 
-  const otherLanguages = [
+  const otherLanguages: Array<{ code: LanguageCode; flag: string; label: string }> = [
     { code: 'th', flag: '🇹🇭', label: 'ไทย' },
     { code: 'vi', flag: '🇻🇳', label: 'Tiếng Việt' },
     { code: 'tl', flag: '🇵🇭', label: 'Tagalog' },
@@ -1257,60 +1429,45 @@ export default function Home() {
     { code: 'pt', flag: '🇵🇹', label: 'Português' },
   ];
 
-  return (
-    <div className="min-h-screen bg-white">
-      {/* ヘッダー */}
-      <header className="bg-white/98 backdrop-blur-sm sticky top-0 z-50 shadow-sm">
-        <div className="max-w-7xl mx-auto px-2 sm:px-4 md:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16 sm:h-20 gap-1 sm:gap-2">
-            {/* 左側：ホテル名 */}
-            <div className="shrink-0 min-w-0 flex-1 sm:flex-none sm:max-w-none">
-              <p className="text-[10px] sm:text-xs md:text-sm text-gray-900 leading-tight font-bold wrap-break-word">
-                {t.hotelName}
-              </p>
-              <h1 className="text-xs sm:text-sm md:text-base lg:text-lg font-bold text-gray-900 leading-tight tracking-normal wrap-break-word">
-                {t.hotelTitle}
-              </h1>
+return (
+  <div className="min-h-screen bg-[#f9f2d4]">
+    {/* ヘッダー */}
+    <header className="bg-white/98 backdrop-blur-sm sticky top-0 z-50 shadow-sm">
+      <div className="max-w-7xl mx-auto px-2 sm:px-4 md:px-6 lg:px-8">
+        <div className="flex items-center justify-between gap-1 py-1.5 sm:gap-2 sm:py-2">
+          {/* 左側：ロゴとホテル名 */}
+          <div className="flex items-center gap-1 sm:gap-2 shrink-0 min-w-0">
+            <div className="relative w-8 h-8 sm:w-12 sm:h-12 md:w-14 md:h-14 shrink-0">
+              <Image
+                src={encodeURI('/スクリーンショット 2026-02-06 1.21.09.png')}
+                alt="GH"
+                fill
+                className="object-contain"
+                sizes="(max-width: 640px) 32px, (max-width: 768px) 48px, 56px"
+                unoptimized
+              />
             </div>
-
-            {/* 中央：ナビゲーションタブ（デスクトップのみ） */}
-            <nav className="hidden lg:flex items-center space-x-1 mx-auto">
-              <button
-                onClick={() => setActiveTab('dinner')}
-                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                  activeTab === 'dinner'
-                    ? 'bg-blue-50 text-blue-700'
-                    : 'text-gray-700 hover:bg-gray-50'
-                }`}
-              >
-                {t.dinnerTab}
-              </button>
-              <button
-                onClick={() => setActiveTab('service')}
-                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                  activeTab === 'service'
-                    ? 'bg-blue-50 text-blue-700'
-                    : 'text-gray-700 hover:bg-gray-50'
-                }`}
-              >
-                {t.serviceTab}
-              </button>
-              <button
-                onClick={() => setActiveTab('wifi')}
-                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                  activeTab === 'wifi'
-                    ? 'bg-blue-50 text-blue-700'
-                    : 'text-gray-700 hover:bg-gray-50'
-                }`}
-              >
-                {t.wifi}
-              </button>
-            </nav>
+            <div className="min-w-0">
+              <h1 className="sr-only">
+                {t.hotelName} {t.hotelTitle}
+              </h1>
+              <div className="relative h-5 w-[160px] sm:h-7 sm:w-[240px] md:h-9 md:w-[320px]">
+                <Image
+                  src={encodeURI('/スクリーンショット 2026-02-06 1.21.18.png')}
+                  alt={`${t.hotelName} ${t.hotelTitle}`}
+                  fill
+                  className="object-contain object-left"
+                  sizes="(max-width: 640px) 160px, (max-width: 768px) 240px, 320px"
+                  unoptimized
+                />
+              </div>
+            </div>
+          </div>
 
             {/* 右側：言語選択と飲食店クーポンボタン */}
-            <div className="flex items-center shrink-0 space-x-0.5 sm:space-x-1 md:space-x-2 lg:space-x-3">
+            <div className="flex items-center justify-end shrink-0 space-x-0.5 sm:space-x-1 md:space-x-2 flex-nowrap">
               {/* 言語選択 */}
-              <div ref={languageDropdownRef} className="flex items-center space-x-0 sm:space-x-0.5 md:space-x-1 relative">
+              <div ref={languageDropdownRef} className="flex items-center space-x-0 sm:space-x-0.5 md:space-x-1 relative flex-nowrap shrink-0">
                 {/* Another Language ボタン */}
                 <button
                   onClick={() => setShowOtherLanguages(!showOtherLanguages)}
@@ -1321,8 +1478,8 @@ export default function Home() {
                   }`}
                   title="Other Languages"
                 >
-                  <span className="flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 lg:w-10 lg:h-10 xl:w-12 xl:h-12 text-base sm:text-lg md:text-2xl lg:text-3xl xl:text-4xl leading-none">🌐</span>
-                  <span className="text-[8px] sm:text-[10px] md:text-xs text-gray-700 leading-tight mt-0.5 hidden sm:block">Another</span>
+                  <span className="flex items-center justify-center w-4 h-4 sm:w-5 sm:h-5 md:w-7 md:h-7 text-sm sm:text-base md:text-xl leading-none">🌐</span>
+                  <span className="text-[7px] sm:text-[8px] md:text-[10px] text-gray-700 leading-tight mt-0.5">Another</span>
                 </button>
 
                 {/* 他の言語ドロップダウン */}
@@ -1334,8 +1491,10 @@ export default function Home() {
                       {otherLanguages.map((lang) => (
                         <button
                           key={lang.code}
-                          onClick={() => {
-                            setSelectedLanguage(lang.code as LanguageCode);
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            setSelectedLanguage(lang.code);
                             setShowOtherLanguages(false);
                           }}
                           className={`flex flex-col items-center p-1.5 sm:p-2 rounded transition-colors ${
@@ -1345,7 +1504,7 @@ export default function Home() {
                           }`}
                           title={lang.label}
                         >
-                          <span className="text-xl sm:text-2xl leading-none mb-1">{lang.flag}</span>
+                          <span className="text-base sm:text-lg md:text-2xl leading-none mb-1">{lang.flag}</span>
                           <span className="text-[10px] sm:text-xs text-gray-700 leading-tight text-center">{lang.label}</span>
                         </button>
                       ))}
@@ -1353,12 +1512,14 @@ export default function Home() {
                   </div>
                 )}
 
-                {/* 基本4言語 */}
+                {/* 基本5言語 */}
                 {mainLanguages.map((lang) => (
                   <button
                     key={lang.code}
-                    onClick={() => {
-                      setSelectedLanguage(lang.code as LanguageCode);
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setSelectedLanguage(lang.code);
                       setShowOtherLanguages(false);
                     }}
                     className={`flex flex-col items-center p-0.5 sm:p-1 md:p-1.5 rounded transition-colors ${
@@ -1368,18 +1529,16 @@ export default function Home() {
                     }`}
                     title={lang.label}
                   >
-                    <span className="flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 lg:w-10 lg:h-10 xl:w-12 xl:h-12 text-base sm:text-lg md:text-2xl lg:text-3xl xl:text-4xl leading-none">{lang.flag}</span>
-                    <span className="text-[8px] sm:text-[10px] md:text-xs text-gray-700 leading-tight mt-0.5 hidden sm:block">{lang.label}</span>
+                    <span className="flex items-center justify-center w-4 h-4 sm:w-5 sm:h-5 md:w-7 md:h-7 text-sm sm:text-base md:text-xl leading-none">{lang.flag}</span>
+                    <span className="text-[7px] sm:text-[8px] md:text-[10px] text-gray-700 leading-tight mt-0.5">{lang.label}</span>
                   </button>
                 ))}
               </div>
 
-              {/* 飲食店クーポンボタン */}
+              {/* 飲食店クーポンボタン（内部ページ） */}
               <Link
-                href="https://preview.studio.site/live/Kwa5nV0GWX/coupon"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-red-500 hover:bg-red-600 text-white px-1.5 sm:px-2 md:px-3 lg:px-4 py-1 sm:py-1.5 md:py-2 rounded-md text-[9px] sm:text-[10px] md:text-xs lg:text-sm font-semibold transition-colors whitespace-nowrap shadow-sm inline-block"
+                href="/coupon"
+                className="bg-red-500 hover:bg-red-600 text-white px-1 sm:px-1.5 md:px-2.5 lg:px-3 py-0.5 sm:py-1 md:py-1.5 rounded-md text-[8px] sm:text-[9px] md:text-xs lg:text-sm font-semibold transition-colors whitespace-nowrap shadow-sm inline-block"
               >
                 {t.restaurantCoupon}
               </Link>
@@ -1391,18 +1550,28 @@ export default function Home() {
       {/* ヒーローセクション */}
       <section className="relative bg-gray-900">
         <div className="relative h-96 sm:h-[500px] overflow-hidden">
-        <Image
-            src="/427809.jpg"
-            alt="HOTEL ドーミーイン Dormy inn"
-            fill
-            className="object-cover"
-          priority
-            sizes="100vw"
-          />
+          {heroImages.map((src, index) => (
+            <div
+              key={src}
+              className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+                index === currentImageIndex ? 'opacity-100' : 'opacity-0'
+              }`}
+            >
+              <Image
+                src={src}
+                alt="HOTEL ドーミーイン Dormy inn"
+                fill
+                className="object-cover"
+                priority={index === 0}
+                sizes="100vw"
+                unoptimized
+              />
+            </div>
+          ))}
           {/* オーバーレイ */}
-          <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+          <div className="absolute inset-0 bg-black/40 flex items-center justify-center z-10">
             <div className="text-center p-8 sm:p-12">
-              <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold text-white drop-shadow-2xl">
+              <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white drop-shadow-2xl">
                 {t.heroTitle}
               </h2>
             </div>
@@ -1424,18 +1593,22 @@ export default function Home() {
       {/* サービスグリッド */}
       <section className="bg-white py-12">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
-            {services.map((service) => (
+          <div ref={servicesGridRef} className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
+            {services.map((service, index) => (
               service.id === 'dinner' ? (
                 <Link
                   key={service.id}
-                  href="https://preview.studio.site/live/Kwa5nV0GWX/coupon"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-3 sm:p-4 md:p-6 rounded-lg transition-shadow flex flex-col items-center justify-center min-h-[100px] sm:min-h-[120px] md:min-h-[140px]"
+                  data-service-id={service.id}
+                  href="/coupon"
+                  className={`p-3 sm:p-4 md:p-6 rounded-lg transition-all duration-700 ease-out flex flex-col items-center justify-center min-h-[100px] sm:min-h-[120px] md:min-h-[140px] ${
+                    visibleServices.has(service.id)
+                      ? 'opacity-100 translate-y-0'
+                      : 'opacity-0 translate-y-4'
+                  }`}
                   style={{ 
-                    backgroundColor: '#304E84',
-                    boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2)'
+                    backgroundColor: '#A3879D',
+                    boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2)',
+                    transitionDelay: visibleServices.has(service.id) ? `${index * 100}ms` : '0ms'
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.boxShadow = '0 25px 50px -12px rgba(0, 0, 0, 0.4), 0 15px 15px -5px rgba(0, 0, 0, 0.3)';
@@ -1454,8 +1627,21 @@ export default function Home() {
               ) : service.id === 'lighting' ? (
                 <button
                   key={service.id}
-                  onClick={() => setSelectedService(service.id)}
-                  className="bg-white border-2 border-blue-600 p-3 sm:p-4 md:p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow flex flex-col items-center justify-center min-h-[100px] sm:min-h-[120px] md:min-h-[140px]"
+                  data-service-id={service.id}
+                  onClick={() => {
+                    if (service.id === 'breakfast') {
+                      setBreakfastImageIndex(0);
+                    }
+                    setSelectedService(service.id);
+                  }}
+                  className={`bg-white p-3 sm:p-4 md:p-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-700 ease-out flex flex-col items-center justify-center min-h-[100px] sm:min-h-[120px] md:min-h-[140px] ${
+                    visibleServices.has(service.id)
+                      ? 'opacity-100 translate-y-0'
+                      : 'opacity-0 translate-y-12'
+                  }`}
+                  style={{
+                    transitionDelay: visibleServices.has(service.id) ? `${index * 100}ms` : '0ms'
+                  }}
                 >
                   <div className="mb-3 sm:mb-4 flex justify-center items-center shrink-0">
                     {service.icon}
@@ -1467,21 +1653,58 @@ export default function Home() {
               ) : service.id === 'bath' ? (
                 <button
                   key={service.id}
-                  onClick={() => setSelectedService(service.id)}
-                  className="bg-white p-3 sm:p-4 md:p-6 rounded-lg shadow-xl hover:shadow-2xl transition-shadow flex flex-col items-center justify-center min-h-[100px] sm:min-h-[120px] md:min-h-[140px]"
+                  data-service-id={service.id}
+                  onClick={() => {
+                    if (service.id === 'breakfast') {
+                      setBreakfastImageIndex(0);
+                    }
+                    setSelectedService(service.id);
+                  }}
+                  className={`bg-white p-3 sm:p-4 md:p-6 rounded-lg shadow-xl hover:shadow-2xl transition-all duration-700 ease-out flex flex-col items-center justify-center min-h-[100px] sm:min-h-[120px] md:min-h-[140px] ${
+                    visibleServices.has(service.id)
+                      ? 'opacity-100 translate-y-0'
+                      : 'opacity-0 translate-y-12'
+                  }`}
+                  style={{
+                    transitionDelay: visibleServices.has(service.id) ? `${index * 100}ms` : '0ms'
+                  }}
                 >
                   <div className="mb-3 sm:mb-4 flex justify-center items-center shrink-0">
                     {service.icon}
                   </div>
-                  <div className={`text-xs sm:text-sm font-semibold text-center leading-tight wrap-break-word px-1 ${service.textColor || 'text-blue-800'}`}>
-                    {t[service.titleKey]}
+                  <div className={`text-[11px] sm:text-sm font-semibold text-center leading-snug wrap-break-word px-1 ${service.textColor || 'text-blue-800'}`}>
+                    {(() => {
+                      const label = t[service.titleKey];
+                      if (typeof label !== 'string') return label;
+                      const parts = label.split(' ');
+                      if (parts.length < 2) return label;
+                      return (
+                        <>
+                          <span className="block">{parts[0]}</span>
+                          <span className="block">{parts.slice(1).join(' ')}</span>
+                        </>
+                      );
+                    })()}
                   </div>
                 </button>
               ) : (
                 <button
                   key={service.id}
-                  onClick={() => setSelectedService(service.id)}
-                  className="bg-white p-3 sm:p-4 md:p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow flex flex-col items-center justify-center min-h-[100px] sm:min-h-[120px] md:min-h-[140px]"
+                  data-service-id={service.id}
+                  onClick={() => {
+                    if (service.id === 'breakfast') {
+                      setBreakfastImageIndex(0);
+                    }
+                    setSelectedService(service.id);
+                  }}
+                  className={`bg-white p-3 sm:p-4 md:p-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-700 ease-out flex flex-col items-center justify-center min-h-[100px] sm:min-h-[120px] md:min-h-[140px] ${
+                    visibleServices.has(service.id)
+                      ? 'opacity-100 translate-y-0'
+                      : 'opacity-0 translate-y-4'
+                  }`}
+                  style={{
+                    transitionDelay: visibleServices.has(service.id) ? `${index * 100}ms` : '0ms'
+                  }}
                 >
                   <div className="mb-3 sm:mb-4 flex justify-center items-center shrink-0">
                     {service.icon}
@@ -1499,18 +1722,6 @@ export default function Home() {
       {/* ウェルカムメッセージ */}
       <section className="bg-white py-8">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="mb-4 flex justify-center">
-            <div className="relative w-24 h-24 sm:w-32 sm:h-32">
-              <Image
-                src="/bird.png"
-                alt={selectedLanguage === 'ja' ? '鳥のキャラクター' : selectedLanguage === 'en' ? 'Bird Character' : selectedLanguage === 'zh' ? '鸟角色' : selectedLanguage === 'ko' ? '새 캐릭터' : 'Bird Character'}
-                fill
-                className="object-contain"
-                sizes="(max-width: 640px) 96px, 128px"
-                unoptimized
-              />
-            </div>
-          </div>
           <p className="text-gray-700 text-sm sm:text-base leading-relaxed">
             {t.welcomeMessage}
             <br className="hidden sm:block" />
@@ -1534,10 +1745,16 @@ export default function Home() {
                 <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-4">{t.checkInOut}</h3>
                 <div className="space-y-3 mb-4">
                   <div className="text-sm sm:text-base text-gray-700">
-                    <span className="font-semibold">{t.checkIn}</span> 15:00
+                    <span className="font-semibold">{t.checkIn}</span> 15:00〜
                   </div>
                   <div className="text-sm sm:text-base text-gray-700">
-                    <span className="font-semibold">{t.checkOut}</span> 11:00
+                    <span className="font-semibold">{t.checkOut}</span> 〜11:00
+                  </div>
+                  <div className="text-sm sm:text-base text-gray-700">
+                    <span className="font-semibold">{t.bbhMember}</span> 13:00〜 / 〜12:00
+                  </div>
+                  <div className="text-sm sm:text-base text-gray-700">
+                    <span className="font-semibold">{t.earlyCheckin}</span> {t.earlyCheckinFee}
                   </div>
                 </div>
                 <p className="text-xs sm:text-sm text-gray-500">
@@ -1545,7 +1762,7 @@ export default function Home() {
                 </p>
                 <button
                   onClick={() => setSelectedService(null)}
-                  className="mt-6 w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 sm:py-2.5 rounded-lg text-sm sm:text-base font-medium transition-colors"
+                  className="mt-6 w-full bg-white hover:bg-gray-50 text-gray-600 border border-gray-300 px-4 py-2 sm:py-2.5 rounded-lg text-sm sm:text-base font-medium transition-colors"
                 >
                   {t.close}
                 </button>
@@ -1555,57 +1772,43 @@ export default function Home() {
               <>
                 <h3 className="text-2xl font-bold text-gray-900 mb-4 text-center">{t.bathTitle}</h3>
                 <div className="border-t border-gray-200 pt-4 mb-4">
-                  <p className="text-gray-700 mb-2">
-                    {t.bathDescription}
-                  </p>
-                  <div className="space-y-2 mb-4">
-                    <div className="text-gray-700">
-                      <span className="font-semibold">{t.operatingHours}</span> {t.bathHours}
-                    </div>
-                    <div className="text-sm text-gray-600">
-                      {t.saunaNote}
-                    </div>
-                  </div>
-                </div>
-                
-                {/* 大浴場の画像 */}
-                <div className="mb-4 rounded-lg overflow-hidden">
-                  <div className="relative w-full h-64">
-            <Image
-                      src="/hotel-bath.png"
-                      alt={t.bathTitle}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 768px) 100vw, 672px"
-                      unoptimized
-                    />
+                  <div className="space-y-1 text-gray-700 leading-relaxed">
+                    <p>{t.lobbyDesc1}</p>
+                    <p>{t.lobbyDesc2}</p>
+                    <p>{t.lobbyDesc3}</p>
                   </div>
                 </div>
 
                 <div className="space-y-4 mb-6">
-                  <div>
-                    <h4 className="font-semibold text-gray-900 mb-2">{t.notice}</h4>
-                    <ul className="space-y-2 text-sm text-gray-700">
-                      <li>{t.bathNotice1}</li>
-                      <li>{t.bathNotice2}</li>
-                    </ul>
+                  <div className="rounded-lg overflow-hidden">
+                    <div className="relative w-full h-64">
+                      <Image
+                        src="/facility001.jpg"
+                        alt={t.bathTitle}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, 672px"
+                        unoptimized
+                      />
+                    </div>
                   </div>
-                  
-                  <div>
-                    <h4 className="font-semibold text-gray-900 mb-2">{t.freeService}</h4>
-                    <p className="text-sm text-gray-700 mb-2">
-                      {t.bathServiceDesc}
-                    </p>
-                    <ul className="space-y-1 text-sm text-gray-700">
-                      <li>★{selectedLanguage === 'ja' ? '乳酸菌飲料' : selectedLanguage === 'en' ? 'Lactic acid drink' : selectedLanguage === 'zh' ? '乳酸菌饮料' : '유산균 음료'}/5:00~10:00</li>
-                      <li>★{selectedLanguage === 'ja' ? 'アイスキャンディー' : selectedLanguage === 'en' ? 'Ice candy' : selectedLanguage === 'zh' ? '冰棒' : '아이스 캔디'}/15:00~翌1:00</li>
-                    </ul>
+                  <div className="rounded-lg overflow-hidden">
+                    <div className="relative w-full h-64">
+                      <Image
+                        src="/facility002.jpg"
+                        alt={t.bathTitle}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, 672px"
+                        unoptimized
+                      />
+                    </div>
                   </div>
                 </div>
 
                 <button
                   onClick={() => setSelectedService(null)}
-                  className="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
+                  className="w-full bg-white hover:bg-gray-50 text-gray-600 border border-gray-300 px-4 py-2 rounded-lg font-medium transition-colors"
                 >
                   {t.close}
                 </button>
@@ -1619,60 +1822,67 @@ export default function Home() {
                 
                 {/* 朝食セクション */}
                 <div className="mb-6">
-                  <h4 className="text-xl font-bold text-gray-900 mb-3">{t.breakfastPrice}</h4>
-                  <div className="space-y-2 mb-4">
+                  <div className="space-y-4 mb-4">
                     <div className="text-gray-700">
-                      <span className="font-semibold">{t.operatingHours}</span> {t.breakfastHours}
+                      {t.breakfastPrice}
                     </div>
-                    <ul className="text-sm text-gray-600 space-y-1">
-                      <li>{t.breakfastNote1}</li>
-                      <li>{t.breakfastNote2}</li>
-                    </ul>
+                    <div>
+                      <div className="text-xl font-bold text-gray-900">{t.breakfastVenue}</div>
+                      <div className="text-gray-700">{t.breakfastFloor}</div>
+                    </div>
+                    <div className="text-gray-700">
+                      <span className="font-semibold">{t.breakfastTime}</span> {t.breakfastTimeDetail}
+                    </div>
                   </div>
                   {/* 朝食の画像 */}
                   <div className="mb-4 rounded-lg overflow-hidden">
                     <div className="relative w-full h-64">
                       <Image
-                        src="/mornig.png"
+                        src={breakfastImages[breakfastImageIndex]}
                         alt={selectedLanguage === 'ja' ? '朝食' : selectedLanguage === 'en' ? 'Breakfast' : selectedLanguage === 'zh' ? '早餐' : selectedLanguage === 'ko' ? '조식' : 'Breakfast'}
                         fill
                         className="object-cover"
                         sizes="(max-width: 768px) 100vw, 672px"
                         unoptimized
                       />
-                    </div>
-                  </div>
-                </div>
 
-                {/* 夜鳴きそばセクション */}
-                <div className="mb-6">
-                  <h4 className="text-xl font-bold text-gray-900 mb-3">{t.sobaTitle}</h4>
-                  <div className="space-y-2 mb-4">
-                    <div className="text-gray-700">
-                      <span className="font-semibold">{t.operatingHours}</span> {t.sobaHours}
+                      <button
+                        type="button"
+                        aria-label="Previous photo"
+                        onClick={() =>
+                          setBreakfastImageIndex(
+                            (prevIndex) =>
+                              (prevIndex - 1 + breakfastImages.length) % breakfastImages.length
+                          )
+                        }
+                        className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/55 text-white rounded-full w-10 h-10 flex items-center justify-center backdrop-blur-sm transition-colors"
+                      >
+                        <span className="text-2xl leading-none">‹</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        aria-label="Next photo"
+                        onClick={() =>
+                          setBreakfastImageIndex(
+                            (prevIndex) => (prevIndex + 1) % breakfastImages.length
+                          )
+                        }
+                        className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/55 text-white rounded-full w-10 h-10 flex items-center justify-center backdrop-blur-sm transition-colors"
+                      >
+                        <span className="text-2xl leading-none">›</span>
+                      </button>
                     </div>
-                    <p className="text-sm text-gray-600">
-                      {t.sobaNote}
-                    </p>
                   </div>
-                  {/* 夜鳴きそばの画像 */}
-                  <div className="mb-4 rounded-lg overflow-hidden">
-                    <div className="relative w-full h-64">
-                      <Image
-                        src="/night-food.png"
-                        alt={selectedLanguage === 'ja' ? '夜鳴きそば' : selectedLanguage === 'en' ? 'Late Night Soba' : selectedLanguage === 'zh' ? '夜鸣荞麦面' : selectedLanguage === 'ko' ? '야나키소바' : 'Late Night Soba'}
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 768px) 100vw, 672px"
-                        unoptimized
-                      />
-                    </div>
+                  <div className="space-y-2 text-gray-700">
+                    <p>{t.breakfastDesc}</p>
+                    <p className="text-sm text-gray-600">{t.breakfastNotice}</p>
                   </div>
                 </div>
 
                 <button
                   onClick={() => setSelectedService(null)}
-                  className="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
+                  className="w-full bg-white hover:bg-gray-50 text-gray-600 border border-gray-300 px-4 py-2 rounded-lg font-medium transition-colors"
                 >
                   {t.close}
                 </button>
@@ -1684,14 +1894,14 @@ export default function Home() {
                 <div className="border-t border-gray-200 pt-4">
                   <ul className="space-y-3 text-gray-700">
                     <li>
-                      <span className="font-semibold">{t.vendingMachine}</span>: 1・5・9F
+                      <span className="font-semibold">{t.vendingMachine}</span>: 5・7・9F
                       <span className="text-sm text-gray-600 ml-2">{t.alcoholNote}</span>
                     </li>
                     <li>
-                      <span className="font-semibold">{t.microwave}</span>: 5・9F
+                      <span className="font-semibold">{t.microwave}</span>: 10F
                     </li>
                     <li>
-                      <span className="font-semibold">{t.iceMaker}</span>: 5F
+                      <span className="font-semibold">{t.iceMaker}</span>: 7・9F
                     </li>
                     <li>
                       <span className="font-semibold">{t.smoking}</span>: 9F
@@ -1700,7 +1910,7 @@ export default function Home() {
                       <span className="font-semibold">{t.trouserPress}</span>: {t.trouserPressLocation}
                     </li>
                     <li>
-                      <span className="font-semibold">{t.laundry}</span>: 9F
+                      <span className="font-semibold">{t.laundry}</span>: 5F
                       <p className="text-sm text-gray-600 mt-1 ml-4">
                         {t.laundryNote}
                       </p>
@@ -1709,7 +1919,7 @@ export default function Home() {
                 </div>
                 <button
                   onClick={() => setSelectedService(null)}
-                  className="mt-6 w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
+                  className="mt-6 w-full bg-white hover:bg-gray-50 text-gray-600 border border-gray-300 px-4 py-2 rounded-lg font-medium transition-colors"
                 >
                   {t.close}
                 </button>
@@ -1719,20 +1929,17 @@ export default function Home() {
               <>
                 <h3 className="text-2xl font-bold text-gray-900 mb-4 text-center">{t.wifiTitle}</h3>
                 <div className="border-t border-gray-200 pt-4">
-                  <div className="space-y-4">
-                    <div>
-                      <span className="font-bold text-gray-900">SSID:</span>
-                      <span className="font-bold text-gray-900 ml-2">DORMYINN</span>
-                    </div>
-                    <div>
-                      <span className="font-bold text-gray-900">{t.password}</span>
-                      <span className="font-bold text-gray-900 ml-2">dormyinn1234</span>
-                    </div>
+                  <p className="text-sm text-gray-700 mb-4">
+                    アクセスポイントはお部屋に設置の「客室インターネットのご案内」をご覧くださいませ。
+                  </p>
+                  <div className="rounded-lg bg-red-50 border border-red-200 px-4 py-3 inline-flex items-center">
+                    <span className="font-bold text-gray-900">{t.password}</span>
+                    <span className="font-bold text-red-700 ml-2">hgts7755</span>
                   </div>
                 </div>
                 <button
                   onClick={() => setSelectedService(null)}
-                  className="mt-6 w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
+                  className="mt-6 w-full bg-white hover:bg-gray-50 text-gray-600 border border-gray-300 px-4 py-2 rounded-lg font-medium transition-colors"
                 >
                   {t.close}
                 </button>
@@ -1756,7 +1963,7 @@ export default function Home() {
                 </div>
                 <button
                   onClick={() => setSelectedService(null)}
-                  className="mt-6 w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
+                  className="mt-6 w-full bg-white hover:bg-gray-50 text-gray-600 border border-gray-300 px-4 py-2 rounded-lg font-medium transition-colors"
                 >
                   {t.close}
                 </button>
@@ -1771,10 +1978,10 @@ export default function Home() {
                   </p>
                   
                   {/* 図解の画像 */}
-                  <div className="mb-6 rounded-lg overflow-hidden">
+                  <div className="rounded-lg overflow-hidden border border-gray-200">
                     <div className="relative w-full h-auto">
                       <Image
-                        src="/key.png"
+                        src={encodeURI("/icon-matome/スクリーンショット 2026-02-06 2.56.04.png")}
                         alt={t.lightingTitle}
                         width={800}
                         height={600}
@@ -1790,7 +1997,7 @@ export default function Home() {
                 </div>
                 <button
                   onClick={() => setSelectedService(null)}
-                  className="mt-6 w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
+                  className="mt-6 w-full bg-white hover:bg-gray-50 text-gray-600 border border-gray-300 px-4 py-2 rounded-lg font-medium transition-colors"
                 >
                   {t.close}
                 </button>
@@ -1840,7 +2047,7 @@ export default function Home() {
 
                 <button
                   onClick={() => setSelectedService(null)}
-                  className="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
+                  className="w-full bg-white hover:bg-gray-50 text-gray-600 border border-gray-300 px-4 py-2 rounded-lg font-medium transition-colors"
                 >
                   {t.close}
                 </button>
@@ -1856,7 +2063,7 @@ export default function Home() {
                 </p>
                 <button
                   onClick={() => setSelectedService(null)}
-                  className="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
+                  className="w-full bg-white hover:bg-gray-50 text-gray-600 border border-gray-300 px-4 py-2 rounded-lg font-medium transition-colors"
                 >
                   {t.close}
                 </button>
@@ -1873,22 +2080,28 @@ export default function Home() {
             {/* 左側：ホテル情報 */}
             <div className="md:col-span-2 flex flex-col items-center text-center">
               <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
-                {t.hotelName}<br />{t.hotelTitle}
+                {t.hotelName ? (
+                  <>
+                    {t.hotelName}<br />{t.hotelTitle}
+                  </>
+                ) : (
+                  <>{t.hotelTitle}</>
+                )}
               </h3>
               <div className="space-y-2 text-sm text-gray-700 mb-6">
-                <p>〒980-0021<br />{selectedLanguage === 'ja' ? '宮城県仙台市青葉区中央2丁目11-26' : selectedLanguage === 'en' ? '2-11-26 Chuo, Aoba-ku, Sendai, Miyagi 980-0021' : selectedLanguage === 'zh' ? '宫城县仙台市青叶区中央2丁目11-26' : '미야기현 센다이시 아오바구 주오 2-11-26'}</p>
-                <p>TEL 022-715-7333</p>
+                <p>〒980-0803<br />{selectedLanguage === 'ja' ? '宮城県仙台市青葉区国分町2-2-2' : selectedLanguage === 'en' ? '2-2-2 Kokubuncho, Aoba-ku, Sendai, Miyagi 980-0803' : selectedLanguage === 'zh' ? '宫城县仙台市青叶区国分町2-2-2' : '미야기현 센다이시 아오바구 고쿠분초 2-2-2'}</p>
+                <p>TEL 022-262-7755</p>
               </div>
               <div className="mt-6">
                 <Link
-                  href="https://dormy-hotels.com/dormyinn/hotels/sendaiekimae/"
+                  href="https://breezbay-group.com/hgt-s-kokubuncho/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex flex-col items-center space-y-2 hover:opacity-80 transition-opacity"
                 >
                   <div className="relative w-20 h-20">
                     <Image
-                      src="/bird.png"
+                      src={encodeURI('/スクリーンショット 2026-02-06 1.21.09.png')}
                       alt={selectedLanguage === 'ja' ? '鳥のキャラクター' : selectedLanguage === 'en' ? 'Bird Character' : selectedLanguage === 'zh' ? '鸟角色' : selectedLanguage === 'ko' ? '새 캐릭터' : 'Bird Character'}
                       fill
                       className="object-contain"
@@ -1905,7 +2118,7 @@ export default function Home() {
             <div className="md:col-span-3">
               <div className="w-full h-64 sm:h-80 bg-gray-200 rounded-lg overflow-hidden border border-gray-300 shadow-sm">
                 <iframe
-                  src={`https://www.google.com/maps?q=${encodeURIComponent('宮城県仙台市青葉区中央2丁目11-26 ドーミーイン仙台ANNEX')}&output=embed&hl=ja&z=17`}
+                  src={`https://www.google.com/maps?q=${encodeURIComponent('宮城県仙台市青葉区国分町2-2-2 ホテルグランテラス仙台国分町')}&output=embed&hl=ja&z=17`}
                   width="100%"
                   height="100%"
                   style={{ border: 0 }}
@@ -1913,7 +2126,7 @@ export default function Home() {
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
                   className="w-full h-full"
-                  title="天然温泉 青葉の湯 ドーミーイン仙台ANNEX"
+                  title="ホテルグランテラス仙台国分町"
                 ></iframe>
               </div>
             </div>
@@ -1922,7 +2135,7 @@ export default function Home() {
           {/* コピーライト */}
           <div className="border-t border-gray-200 pt-8 text-center">
             <p className="text-xs text-gray-500">
-              © kyoritsugroup.co.jp All rights reserved.
+              Copyright © BREEZBAY HOTEL All Rights Reserved.
             </p>
           </div>
         </div>

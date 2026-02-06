@@ -1,20 +1,26 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import ChatBot from "@/components/ChatBot";
+import { LanguageProvider } from "@/contexts/LanguageContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  display: "swap",
+  fallback: ["-apple-system", "BlinkMacSystemFont", "Segoe UI", "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Meiryo", "sans-serif"],
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: "swap",
+  fallback: ["monospace"],
 });
 
 export const metadata: Metadata = {
-  title: "天然温泉 青葉の湯 ドーミーイン仙台ANNEX - ホテル館内のご案内",
-  description: "天然温泉 青葉の湯 ドーミーイン仙台ANNEXの館内案内サイトです",
+  title: "ホテルグランテラス仙台国分町 - ホテル館内のご案内",
+  description: "ホテルグランテラス仙台国分町の館内案内サイトです",
   viewport: {
     width: "device-width",
     initialScale: 1,
@@ -32,7 +38,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <LanguageProvider>
+          {children}
+          <ChatBot />
+        </LanguageProvider>
       </body>
     </html>
   );
