@@ -19,11 +19,10 @@ const MAP_BTN_BG = "#F5A623";
 const COUPON_SITE = "/coupon-site";
 const bannerImage = `${COUPON_SITE}/スクリーンショット 2026-02-06 5.10.38.png`;
 const parkingImage = `${COUPON_SITE}/スクリーンショット 2026-02-06 3.15.05.png`;
-const shop3Image = `${COUPON_SITE}/スクリーンショット 2026-02-07 20.26.38.png`;
 const shopImages = [
-  `${COUPON_SITE}/スクリーンショット 2026-02-07 20.26.24.png`,
-  `${COUPON_SITE}/スクリーンショット 2026-02-07 20.26.06.png`,
-  shop3Image,
+  `${COUPON_SITE}/unnamed.jpg`, // とり鉄
+  `${COUPON_SITE}/Gemini_Generated_Image_ps8193ps8193ps81.png`, // 利久
+  `${COUPON_SITE}/unnamed-1.jpg`, // たま（暫定）
 ];
 
 /** モーダル用の店舗詳細画像（MAP押下時に表示） */
@@ -66,7 +65,7 @@ const couponTranslations: Record<
   ja: {
     pageTitle: "飲食店クーポン",
     backToGuide: "館内案内へ戻る",
-    usageMessage: "配布のクーポン券を持参、またはこの画面の提示を注文時にスタッフへしてください。",
+    usageMessage: "配布のクーポン券を持参、またはこの画面の提示を注文時にスタッフへ渡してください。",
     usageNote: "※利用条件等は配布のクーポン券をご確認ください。",
     bringCoupon: "配布のクーポン券持参または、この画面の提示で",
     shop1Offer: "全品半額!!",
