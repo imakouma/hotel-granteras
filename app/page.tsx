@@ -34,7 +34,7 @@ const translations = {
     earlyCheckinFee: '1時間につき1,000円（最大14:00まで）',
     lobbyDesc1: 'ヨーロピアン・アンティークの調度品が優雅なロビー。',
     lobbyDesc2: '都会の謙遜を忘れる落ち着いた空間です。',
-    lobbyDesc3: '「スターバックス コーヒー」へはロビーから直接お入りいただけます。',
+    lobbyDesc3: '「スターバックス コーヒー」はロビーから直接お入りいただけます。',
     breakfastVenue: '朝食会場',
     breakfastFloor: '10階',
     breakfastTime: '営業時間',
@@ -81,6 +81,18 @@ const translations = {
     longstayTitle: '連泊のお客様へ',
     sheetExchange: '清掃をご希望の方は緑のマグネット「清掃してください」を明朝9時までに入口ドア廊下側へ貼付してください。',
     noCleaning: '清掃不要の方は青のマグネット「起こさないでください」を入口ドア廊下側へ貼付してください。マグネットが貼られていない場合は清掃を行わず、タオル類のみドア前にご用意いたします。衛生面の観点から清掃は3日に1回（2泊目まではタオル類のみ交換、3泊目は清掃、4泊目以降は繰り返し）となります。',
+    parking: '提携駐車場のご案内',
+    parkingFee: '駐車料金',
+    heightLimit: '高さ制限',
+    hours24: '24h営業',
+    discountTime: '割引適用時間',
+    parkingNote1: '※ワゴン車・RV車・ルーフキャリアをお付けの車等は、こちらをご利用下さい。',
+    parkingDiscount1: '入庫から24h',
+    parkingDiscount2: '入庫から24h（出し入れOK。申告制）',
+    parkingDiscount3: '入庫から最大36h（電話予約、出し入れOK。）',
+    parkingNote2: '※入庫から翌日19時までが1泊計算となります。（入庫は朝7時より可）',
+    parkingNote3: '※バイク（事前予約）1泊600円。',
+    parkingNote4: '※カーナビ検索の場合は022-223-3863の番号を入力して下さい。',
     officialHP: '公式HPはこちら',
     preparing: '詳細情報は準備中です。',
   },
@@ -156,6 +168,18 @@ const translations = {
     longstayTitle: 'For Long-term Guests',
     sheetExchange: 'Guests who wish to exchange sheets, futon covers, and pillowcases, please display the \"WECO Card\" on the bed. We will not exchange them if the card is not displayed. (We will exchange towels and room wear.)',
     noCleaning: 'Guests who do not need cleaning, please display the green \"WECO\" card on the corridor side, which is located on the inside of the entrance door. In that case, we will not clean or enter the room.',
+    parking: 'Partner Parking Information',
+    parkingFee: 'Parking Fee',
+    heightLimit: 'Height Limit',
+    hours24: 'Open 24h',
+    discountTime: 'Discount Period',
+    parkingNote1: '*Please use this for wagons, RVs, and vehicles with roof carriers.',
+    parkingDiscount1: '24h from entry',
+    parkingDiscount2: '24h from entry (In/out OK, declaration required)',
+    parkingDiscount3: 'Up to 36h from entry (Phone reservation, in/out OK)',
+    parkingNote2: '*One night is calculated from entry until 7PM the next day (Entry available from 7AM)',
+    parkingNote3: '*Motorcycle (advance reservation) 600 yen per night.',
+    parkingNote4: '*For car navigation search, please enter 022-223-3863.',
     officialHP: 'Official Website',
     preparing: 'Detailed information is being prepared.',
   },
@@ -231,6 +255,18 @@ const translations = {
     longstayTitle: '连住客人须知',
     sheetExchange: '如需清扫，请在早上9点前将绿色磁铁"请打扫"贴在门外走廊侧。',
     noCleaning: '如不需要清扫，请将蓝色磁铁"请勿打扰"贴在门外走廊侧。如果没有贴磁铁，我们将不进行清扫，仅在门前准备毛巾类物品。出于卫生考虑，清扫为每3天1次（前2晚仅更换毛巾类，第3晚清扫，第4晚以后重复）。',
+    parking: '合作停车场信息',
+    parkingFee: '停车费',
+    heightLimit: '高度限制',
+    hours24: '24小时营业',
+    discountTime: '折扣适用时间',
+    parkingNote1: '※货车、RV车、带车顶行李架的车辆等，请使用此处。',
+    parkingDiscount1: '入库后24小时',
+    parkingDiscount2: '入库后24小时（可出入。需申报）',
+    parkingDiscount3: '入库后最多36小时（电话预约、可出入）',
+    parkingNote2: '※从入库到次日19点为一晚计算。（入库可从早上7点开始）',
+    parkingNote3: '※摩托车（需提前预约）一晚600日元。',
+    parkingNote4: '※导航搜索时请输入022-223-3863。',
     officialHP: '官方网站',
     preparing: '详细信息正在准备中。',
   },
@@ -306,6 +342,18 @@ const translations = {
     longstayTitle: '연박 고객 안내',
     sheetExchange: '청소를 희망하시는 분은 초록색 마그넷 "청소해 주세요"를 아침 9시까지 입구 도어 복도 쪽에 부착해 주세요.',
     noCleaning: '청소가 필요 없으신 분은 파란색 마그넷 "깨우지 마세요"를 입구 도어 복도 쪽에 부착해 주세요. 마그넷이 부착되지 않은 경우 청소를 하지 않고 타월류만 도어 앞에 준비합니다. 위생상의 관점에서 청소는 3일에 1회(2박까지는 타월류만 교환, 3박째는 청소, 4박째 이후는 반복)입니다.',
+    parking: '제휴 주차장 안내',
+    parkingFee: '주차 요금',
+    heightLimit: '높이 제한',
+    hours24: '24시간 영업',
+    discountTime: '할인 적용 시간',
+    parkingNote1: '※왜건, RV차, 루프 캐리어를 부착한 차량 등은 이곳을 이용해 주세요.',
+    parkingDiscount1: '입고 후 24시간',
+    parkingDiscount2: '입고 후 24시간 (출입 가능. 신고제)',
+    parkingDiscount3: '입고 후 최대 36시간 (전화 예약, 출입 가능)',
+    parkingNote2: '※입고 후 다음날 19시까지가 1박 계산입니다. (입고는 아침 7시부터 가능)',
+    parkingNote3: '※오토바이 (사전 예약) 1박 600엔.',
+    parkingNote4: '※내비게이션 검색 시 022-223-3863 번호를 입력하세요.',
     officialHP: '공식 홈페이지',
     preparing: '상세 정보를 준비 중입니다.',
   },
@@ -381,6 +429,7 @@ const translations = {
     longstayTitle: 'Pour les clients longue durée',
     sheetExchange: 'Les clients qui souhaitent échanger les draps, housses de futon et taies d\'oreiller, veuillez afficher la \"Carte WECO\" sur le lit. Nous ne les échangerons pas si la carte n\'est pas affichée. (Nous échangerons les serviettes et les vêtements de chambre.)',
     noCleaning: 'Les clients qui n\'ont pas besoin de nettoyage, veuillez afficher la carte verte \"WECO\" du côté du couloir, qui se trouve à l\'intérieur de la porte d\'entrée. Dans ce cas, nous ne nettoierons pas et n\'entrerons pas dans la chambre.',
+    parking: 'Informations sur les parkings partenaires',
     officialHP: 'Site Web officiel',
     preparing: 'Les informations détaillées sont en cours de préparation.',
   },
@@ -456,6 +505,7 @@ const translations = {
     longstayTitle: 'Für Langzeitgäste',
     sheetExchange: 'Gäste, die Bettwäsche, Futonbezüge und Kissenbezüge wechseln möchten, bitte zeigen Sie die \"WECO-Karte\" auf dem Bett. Wir tauschen sie nicht aus, wenn die Karte nicht angezeigt wird. (Wir tauschen Handtücher und Nachtwäsche aus.)',
     noCleaning: 'Gäste, die keine Reinigung benötigen, bitte zeigen Sie die grüne \"WECO\"-Karte auf der Korridorseite, die sich an der Innenseite der Eingangstür befindet. In diesem Fall reinigen wir nicht und betreten das Zimmer nicht.',
+    parking: 'Informationen zu Partnerparkhäusern',
     officialHP: 'Offizielle Website',
     preparing: 'Detaillierte Informationen werden vorbereitet.',
   },
@@ -531,6 +581,7 @@ const translations = {
     longstayTitle: 'Para huéspedes de larga estancia',
     sheetExchange: 'Los huéspedes que deseen cambiar las sábanas, fundas de futón y fundas de almohada, por favor muestren la \"Tarjeta WECO\" en la cama. No las cambiaremos si la tarjeta no se muestra. (Cambiaremos toallas y ropa de habitación.)',
     noCleaning: 'Los huéspedes que no necesiten limpieza, por favor muestren la tarjeta verde \"WECO\" en el lado del pasillo, que se encuentra en el interior de la puerta de entrada. En ese caso, no limpiaremos ni entraremos en la habitación.',
+    parking: 'Información de aparcamientos asociados',
     officialHP: 'Sitio web oficial',
     preparing: 'La información detallada se está preparando.',
   },
@@ -606,6 +657,7 @@ const translations = {
     longstayTitle: 'Per ospiti soggiorno prolungato',
     sheetExchange: 'Gli ospiti che desiderano cambiare lenzuola, coperture futon e federe, si prega di mostrare la \"Carta WECO\" sul letto. Non le cambieremo se la carta non viene mostrata. (Cambieremo asciugamani e abbigliamento da camera.)',
     noCleaning: 'Gli ospiti che non necessitano di pulizia, si prega di mostrare la carta verde \"WECO\" sul lato del corridoio, che si trova all\'interno della porta d\'ingresso. In tal caso, non puliremo né entreremo nella camera.',
+    parking: 'Informazioni sui parcheggi partner',
     officialHP: 'Sito web ufficiale',
     preparing: 'Le informazioni dettagliate sono in preparazione.',
   },
@@ -681,6 +733,7 @@ const translations = {
     longstayTitle: 'สำหรับแขกพักหลายคืน',
     sheetExchange: 'หากต้องการบริการทำความสะอาด กรุณาติดแม่เหล็กสีเขียว "กรุณาทำความสะอาด" ที่ด้านนอกประตูห้องทางด้านทางเดินก่อน 9:00 น. ของเช้าวันถัดไป',
     noCleaning: 'หากไม่ต้องการทำความสะอาด กรุณาติดแม่เหล็กสีน้ำเงิน "ห้ามรบกวน" ที่ด้านนอกประตูห้องทางด้านทางเดิน หากไม่มีการติดแม่เหล็ก เราจะไม่ทำความสะอาดและจะวางผ้าเช็ดตัวไว้หน้าประตูเท่านั้น จากมุมมองด้านสุขอนามัย การทำความสะอาดจะเป็นทุก 3 วัน (2 คืนแรกเปลี่ยนผ้าเช็ดตัวเท่านั้น คืนที่ 3 ทำความสะอาด คืนที่ 4 เป็นต้นไปวนซ้ำ)',
+    parking: 'ข้อมูลที่จอดรถพันธมิตร',
     officialHP: 'เว็บไซต์อย่างเป็นทางการ',
     preparing: 'ข้อมูลรายละเอียดกำลังเตรียมการ',
   },
@@ -756,6 +809,7 @@ const translations = {
     longstayTitle: 'Dành cho khách lưu trú dài hạn',
     sheetExchange: 'Nếu muốn dọn phòng, vui lòng dán nam châm màu xanh lá "Vui lòng dọn phòng" ở phía hành lang cửa ra vào trước 9 giờ sáng mai.',
     noCleaning: 'Nếu không cần dọn phòng, vui lòng dán nam châm màu xanh dương "Xin đừng làm phiền" ở phía hành lang cửa ra vào. Nếu không có nam châm, chúng tôi sẽ không dọn phòng và chỉ chuẩn bị khăn trước cửa. Vì lý do vệ sinh, việc dọn phòng sẽ là 3 ngày một lần (2 đêm đầu chỉ thay khăn, đêm thứ 3 dọn phòng, từ đêm thứ 4 trở đi lặp lại).',
+    parking: 'Thông tin bãi đỗ xe đối tác',
     officialHP: 'Trang web chính thức',
     preparing: 'Thông tin chi tiết đang được chuẩn bị.',
   },
@@ -831,6 +885,7 @@ const translations = {
     longstayTitle: 'Untuk tamu menginap jangka panjang',
     sheetExchange: 'Jika ingin pembersihan, silakan tempel magnet hijau "Silakan bersihkan" di sisi koridor pintu masuk sebelum jam 9 pagi besok.',
     noCleaning: 'Jika tidak perlu pembersihan, silakan tempel magnet biru "Jangan ganggu" di sisi koridor pintu masuk. Jika tidak ada magnet, kami tidak akan membersihkan dan hanya menyiapkan handuk di depan pintu. Dari sudut pandang kebersihan, pembersihan dilakukan 3 hari sekali (2 malam pertama hanya ganti handuk, malam ke-3 pembersihan, malam ke-4 dan seterusnya berulang).',
+    parking: 'Informasi parkir mitra',
     officialHP: 'Situs web resmi',
     preparing: 'Informasi detail sedang disiapkan.',
   },
@@ -906,6 +961,7 @@ const translations = {
     longstayTitle: 'Para sa mga long-term guests',
     sheetExchange: 'Kung nais ng linis, mangyaring idikit ang berdeng magnet na "Mangyaring linisin" sa gilid ng hallway ng entrance door bago mag-9:00 ng umaga bukas.',
     noCleaning: 'Kung hindi kailangan ng linis, mangyaring idikit ang asul na magnet na "Huwag guluhin" sa gilid ng hallway ng entrance door. Kung walang magnet, hindi kami maglilinis at maghahanda lang ng tuwalya sa harap ng pinto. Para sa kalinisan, ang linis ay bawat 3 araw (2 unang gabi ay palit ng tuwalya lang, 3rd gabi ay linis, 4th gabi pataas ay ulitin).',
+    parking: 'Impormasyon sa partner parking',
     officialHP: 'Official website',
     preparing: 'Ang detalyadong impormasyon ay inihahanda.',
   },
@@ -981,6 +1037,7 @@ const translations = {
     longstayTitle: 'Untuk tetamu jangka panjang',
     sheetExchange: 'Jika mahu pembersihan, sila lekatkan magnet hijau "Sila bersihkan" di bahagian koridor pintu masuk sebelum jam 9 pagi esok.',
     noCleaning: 'Jika tidak perlukan pembersihan, sila lekatkan magnet biru "Jangan ganggu" di bahagian koridor pintu masuk. Jika tiada magnet, kami tidak akan membersihkan dan hanya menyediakan tuala di hadapan pintu. Dari segi kebersihan, pembersihan adalah setiap 3 hari (2 malam pertama hanya tukar tuala, malam ke-3 pembersihan, malam ke-4 dan seterusnya ulang).',
+    parking: 'Maklumat tempat letak kereta rakan kongsi',
     officialHP: 'Laman web rasmi',
     preparing: 'Maklumat terperinci sedang disediakan.',
   },
@@ -1056,6 +1113,7 @@ const translations = {
     longstayTitle: 'Para hóspedes de longa estadia',
     sheetExchange: 'Se desejar limpeza, por favor cole o ímã verde "Por favor limpe" no lado do corredor da porta de entrada antes das 9h da manhã seguinte.',
     noCleaning: 'Se não precisar de limpeza, por favor cole o ímã azul "Não perturbe" no lado do corredor da porta de entrada. Se não houver ímã, não faremos limpeza e apenas prepararemos toalhas na frente da porta. Do ponto de vista de higiene, a limpeza é a cada 3 dias (2 primeiras noites apenas troca de toalhas, 3ª noite limpeza, da 4ª noite em diante repete).',
+    parking: 'Informações de estacionamento parceiro',
     officialHP: 'Site oficial',
     preparing: 'Informações detalhadas estão sendo preparadas.',
   },
@@ -1131,6 +1189,18 @@ const translations = {
     longstayTitle: '連住客人須知',
     sheetExchange: '如需清掃，請在早上9點前將綠色磁鐵「請打掃」貼在門外走廊側。',
     noCleaning: '如不需要清掃，請將藍色磁鐵「請勿打擾」貼在門外走廊側。如果沒有貼磁鐵，我們將不進行清掃，僅在門前準備毛巾類物品。出於衛生考慮，清掃為每3天1次（前2晚僅更換毛巾類，第3晚清掃，第4晚以後重複）。',
+    parking: '合作停車場資訊',
+    parkingFee: '停車費',
+    heightLimit: '高度限制',
+    hours24: '24小時營業',
+    discountTime: '折扣適用時間',
+    parkingNote1: '※貨車、RV車、帶車頂行李架的車輛等，請使用此處。',
+    parkingDiscount1: '入庫後24小時',
+    parkingDiscount2: '入庫後24小時（可出入。需申報）',
+    parkingDiscount3: '入庫後最多36小時（電話預約、可出入）',
+    parkingNote2: '※從入庫到次日19點為一晚計算。（入庫可從早上7點開始）',
+    parkingNote3: '※摩托車（需提前預約）一晚600日元。',
+    parkingNote4: '※導航搜索時請輸入022-223-3863。',
     officialHP: '官方網站',
     preparing: '詳細信息正在準備中。',
   },
@@ -1162,13 +1232,13 @@ export default function Home() {
   const [visibleServices, setVisibleServices] = useState<Set<string>>(new Set());
 
   const heroImages = [
-    '/title-picture/top_main_img01.jpg',
-    '/title-picture/top_main_img02.jpg',
-    '/title-picture/top_main_img03.jpg',
-    '/title-picture/top_main_img04.jpg',
-    '/title-picture/top_main_img05.jpg',
-    '/title-picture/top_main_img06.jpg',
-    '/title-picture/top_main_img07.jpg',
+    '/hero-picture/top_main_img01.jpg',
+    '/hero-picture/top_main_img02.jpg',
+    '/hero-picture/top_main_img03.jpg',
+    '/hero-picture/top_main_img04.jpg',
+    '/hero-picture/top_main_img05.jpg',
+    '/hero-picture/top_main_img06.jpg',
+    '/hero-picture/top_main_img07.jpg',
   ];
 
   const breakfastImages = [
@@ -1404,6 +1474,23 @@ export default function Home() {
       ), 
       titleKey: 'lost' as const,
       id: 'lost',
+      textColor: 'text-[#A387]'
+    },
+    { 
+      icon: (
+        <div className="relative w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 flex items-center justify-center">
+          <Image
+            src="/icon-matome/icon-parking.svg"
+            alt={t.parking}
+            width={112}
+            height={112}
+            className="w-full h-full object-contain"
+            unoptimized
+          />
+        </div>
+      ), 
+      titleKey: 'parking' as const,
+      id: 'parking',
       textColor: 'text-[#A387]'
     },
   ];
@@ -1771,10 +1858,10 @@ return (
             {selectedService === 'bath' && (
               <>
                 <h3 className="text-2xl font-bold text-gray-900 mb-4 text-center">{t.bathTitle}</h3>
+                
                 <div className="border-t border-gray-200 pt-4 mb-4">
                   <div className="space-y-1 text-gray-700 leading-relaxed">
                     <p>{t.lobbyDesc1}</p>
-                    <p>{t.lobbyDesc2}</p>
                     <p>{t.lobbyDesc3}</p>
                   </div>
                 </div>
@@ -1784,19 +1871,7 @@ return (
                     <div className="relative w-full h-64">
                       <Image
                         src="/facility001.jpg"
-                        alt={t.bathTitle}
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 768px) 100vw, 672px"
-                        unoptimized
-                      />
-                    </div>
-                  </div>
-                  <div className="rounded-lg overflow-hidden">
-                    <div className="relative w-full h-64">
-                      <Image
-                        src="/facility002.jpg"
-                        alt={t.bathTitle}
+                        alt="Facility"
                         fill
                         className="object-cover"
                         sizes="(max-width: 768px) 100vw, 672px"
@@ -1932,9 +2007,28 @@ return (
                   <p className="text-sm text-gray-700 mb-4">
                     アクセスポイントはお部屋に設置の「客室インターネットのご案内」をご覧くださいませ。
                   </p>
-                  <div className="rounded-lg bg-red-50 border border-red-200 px-4 py-3 inline-flex items-center">
-                    <span className="font-bold text-gray-900">{t.password}</span>
-                    <span className="font-bold text-red-700 ml-2">hgts7755</span>
+                  <div className="space-y-3">
+                    <div className="rounded-lg bg-pink-50 border border-pink-200 px-4 py-3 flex items-center justify-between">
+                      <div className="flex items-center">
+                        <span className="font-bold text-gray-900">{t.password}</span>
+                        <span className="font-bold text-[#A4879D] ml-2">hgts7755</span>
+                      </div>
+                      <button
+                        onClick={() => {
+                          navigator.clipboard.writeText('hgts7755');
+                          alert('パスワードをコピーしました！');
+                        }}
+                        className="ml-4 bg-[#A4879D] hover:bg-[#8B6E83] text-white px-3 py-1.5 rounded-md text-sm font-medium transition-colors flex items-center gap-1 shrink-0"
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                        </svg>
+                        コピー
+                      </button>
+                    </div>
+                    <p className="text-xs text-gray-600 text-center">
+                      ※ボタンをタップするとパスワードをコピーできます
+                    </p>
                   </div>
                 </div>
                 <button
@@ -1981,7 +2075,7 @@ return (
                   <div className="rounded-lg overflow-hidden border border-gray-200">
                     <div className="relative w-full h-auto">
                       <Image
-                        src={encodeURI("/icon-matome/スクリーンショット 2026-02-06 2.56.04.png")}
+                        src={encodeURI("/icon-matome/81DA2A29-508F-4CE2-A164-50487C07036A.PNG")}
                         alt={t.lightingTitle}
                         width={800}
                         height={600}
@@ -1990,10 +2084,6 @@ return (
                       />
                     </div>
                   </div>
-                  
-                  <p className="text-sm text-gray-600 text-center">
-                    {t.lightingNote}
-                  </p>
                 </div>
                 <button
                   onClick={() => setSelectedService(null)}
@@ -2007,53 +2097,157 @@ return (
               <>
                 <h3 className="text-2xl font-bold text-gray-900 mb-4 text-center">{t.longstayTitle}</h3>
                 
-                {/* シーツ交換について */}
-                <div className="mb-6">
-                  <div className="mb-4 rounded-lg overflow-hidden flex justify-center">
-                    <div className="relative w-64 h-auto max-w-full">
-                      <Image
-                        src="/shirts.png"
-                        alt={selectedLanguage === 'ja' ? 'シーツ交換用WECOカード' : selectedLanguage === 'en' ? 'WECO Card for Sheet Exchange' : selectedLanguage === 'zh' ? '床单更换用WECO卡' : selectedLanguage === 'ko' ? '시트 교체용 WECO 카드' : 'WECO Card for Sheet Exchange'}
-                        width={400}
-                        height={600}
-                        className="w-full h-auto object-contain"
-                        unoptimized
-                      />
-                    </div>
+                {/* 説明画像 */}
+                <div className="mb-6 rounded-lg overflow-hidden border border-gray-200">
+                  <div className="relative w-full h-auto">
+                    <Image
+                      src="/unnamed.jpg"
+                      alt="連泊のお客様へ - エコプランのご案内"
+                      width={1000}
+                      height={800}
+                      className="w-full h-auto object-contain"
+                      unoptimized
+                    />
                   </div>
-                  <p className="text-sm text-gray-700 leading-relaxed">
-                    {t.sheetExchange}
-                  </p>
                 </div>
 
-                {/* 清掃不要について */}
-                <div className="mb-6">
-                  <div className="mb-4 rounded-lg overflow-hidden flex justify-center">
-                    <div className="relative w-64 h-auto max-w-full">
-                      <Image
-                        src="/room-clean.png"
-                        alt={selectedLanguage === 'ja' ? '清掃不要用WECOカード' : selectedLanguage === 'en' ? 'WECO Card for No Cleaning' : selectedLanguage === 'zh' ? '不需要清洁用WECO卡' : selectedLanguage === 'ko' ? '청소 불필요용 WECO 카드' : 'WECO Card for No Cleaning'}
-                        width={400}
-                        height={600}
-                        className="w-full h-auto object-contain"
-                        unoptimized
-                      />
-                    </div>
+                <div className="space-y-6">
+                  {/* 清掃について */}
+                  <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                    <h4 className="font-bold text-lg text-gray-900 mb-3">清掃ご希望の方へ</h4>
+                    <p className="text-sm text-gray-700 leading-relaxed mb-2">
+                      清掃ご希望の方は緑のマグネット<span className="font-semibold text-green-700">「清掃してください」</span>を<span className="font-semibold text-red-600">朝9時まで</span>に入口ドア廊下側にお貼りください。
+                    </p>
+                    <p className="text-xs text-gray-600 mt-2">
+                      ※朝9時以降にお貼りいただいても清掃には入りませんのでご注意ください。
+                    </p>
+                    <p className="text-xs text-gray-600">
+                      ※清掃ご希望の方は11:00～14:00は清掃のお時間の為ご在室できませんのでご注意ください。
+                    </p>
                   </div>
-                  <p className="text-sm text-gray-700 leading-relaxed">
-                    {t.noCleaning}
-                  </p>
+
+                  {/* 清掃不要の場合 */}
+                  <div className="bg-blue-50 rounded-lg p-4 border border-blue-200">
+                    <h4 className="font-bold text-lg text-gray-900 mb-3">緑マグネット「清掃してください」が貼られていない場合</h4>
+                    <p className="text-sm text-gray-700 leading-relaxed">
+                      部屋の前に新しいタオルのみ置かせていただきます。
+                    </p>
+                    <p className="text-xs text-gray-600 mt-2">
+                      ※使用済みタオル、ゴミ箱を<span className="font-semibold">13時まで</span>に部屋の外へ出して頂ければ回収致します。
+                    </p>
+                  </div>
+
+                  {/* エコプランの説明 */}
+                  <div className="bg-green-50 rounded-lg p-4 border border-green-200">
+                    <h4 className="font-bold text-lg text-gray-900 mb-3">※連泊エコプランのお客様へ</h4>
+                    <p className="text-sm text-gray-700 leading-relaxed mb-2">
+                      連泊エコプランのお客様は清掃は3日に1回となります。
+                    </p>
+                    <p className="text-sm text-gray-700">
+                      （2泊目までは使用済みタオル、ゴミ箱を部屋の外へお出しください。備品のみ交換します。3泊目は通常清掃を致します。4泊目以降はその繰り返しです。）
+                    </p>
+                    <p className="text-xs text-gray-600 mt-2">
+                      通常清掃への変更をご希望の場合はフロントまでご連絡下さい。1回につき500円にて承ります。
+                    </p>
+                  </div>
+
+                  {/* ミネラルウォータープレゼント */}
+                  <div className="bg-pink-50 rounded-lg p-4 border border-pink-200">
+                    <p className="text-sm text-gray-700 leading-relaxed">
+                      ※滞在中、<span className="font-semibold">「清掃してください」マグネットを朝9時までに入口ドアに貼らずエコ清掃にご協力いただいたお客様</span>へは<span className="font-semibold text-[#A4879D] text-base">ミネラルウォーター500mlを1本プレゼント</span>いたします。
+                    </p>
+                  </div>
                 </div>
 
                 <button
                   onClick={() => setSelectedService(null)}
-                  className="w-full bg-white hover:bg-gray-50 text-gray-600 border border-gray-300 px-4 py-2 rounded-lg font-medium transition-colors"
+                  className="mt-6 w-full bg-white hover:bg-gray-50 text-gray-600 border border-gray-300 px-4 py-2 rounded-lg font-medium transition-colors"
                 >
                   {t.close}
                 </button>
               </>
             )}
-            {selectedService !== 'checkin' && selectedService !== 'bath' && selectedService !== 'breakfast' && selectedService !== 'service' && selectedService !== 'wifi' && selectedService !== 'lost' && selectedService !== 'lighting' && selectedService !== 'longstay' && (
+            {selectedService === 'parking' && (
+              <>
+                <h3 className="text-2xl font-bold text-gray-900 mb-4 text-center">{t.parking}</h3>
+                
+                {/* 駐車場画像 */}
+                <div className="mb-6 rounded-lg overflow-hidden border border-gray-200 bg-gray-100">
+                  <div className="relative w-full" style={{ aspectRatio: "16/9" }}>
+                    <Image
+                      src="/coupon-site/スクリーンショット 2026-02-06 3.15.05.png"
+                      alt={t.parking}
+                      fill
+                      className="object-contain"
+                      sizes="(max-width: 768px) 100vw, 768px"
+                      unoptimized
+                    />
+                  </div>
+                </div>
+
+                {/* 駐車場情報 */}
+                <div className="space-y-6 text-sm text-gray-800">
+                  <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                    <div className="font-semibold text-lg mb-2">1. パーキングタウンマギー</div>
+                    <div className="space-y-1 text-sm">
+                      <p>仙台市青葉区国分町1丁目7-22</p>
+                      <p>TEL: 022-261-3750</p>
+                      <p className="font-semibold">■{t.parkingFee}：2,000円</p>
+                      <p>■{t.heightLimit}：2.40m</p>
+                      <p>■{t.hours24}</p>
+                      <p>■{t.discountTime}：{t.parkingDiscount1}</p>
+                      <p className="text-xs text-gray-600 mt-2">
+                        {t.parkingNote1}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                    <div className="font-semibold text-lg mb-2">2. いなりパーキング</div>
+                    <div className="space-y-1 text-sm">
+                      <p>仙台市青葉区国分町2丁目2-9</p>
+                      <p>TEL: 090-3120-2011</p>
+                      <p className="font-semibold">■{t.parkingFee}：1,200円</p>
+                      <p>■{t.heightLimit}：1.78m</p>
+                      <p>■{t.hours24}</p>
+                      <p>■{t.discountTime}：{t.parkingDiscount2}</p>
+                    </div>
+                  </div>
+
+                  <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                    <div className="font-semibold text-lg mb-2">3. 大仙台駐車場</div>
+                    <div className="space-y-1 text-sm">
+                      <p>仙台市青葉区立町1-23</p>
+                      <p>TEL: 022-222-7643</p>
+                      <p className="font-semibold">■{t.parkingFee}：1,200円</p>
+                      <p>■{t.heightLimit}：2.40m</p>
+                      <p>■{t.hours24}</p>
+                      <p>■{t.discountTime}：{t.parkingDiscount3}</p>
+                      <p className="text-xs text-gray-600 mt-2">
+                        {t.parkingNote2}
+                      </p>
+                      <p className="text-xs text-gray-600">
+                        {t.parkingNote1}
+                      </p>
+                      <p className="text-xs text-gray-600">
+                        {t.parkingNote3}
+                      </p>
+                      <p className="text-xs text-gray-600">
+                        {t.parkingNote4}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <button
+                  onClick={() => setSelectedService(null)}
+                  className="mt-6 w-full bg-white hover:bg-gray-50 text-gray-600 border border-gray-300 px-4 py-2 rounded-lg font-medium transition-colors"
+                >
+                  {t.close}
+                </button>
+              </>
+            )}
+            {selectedService !== 'checkin' && selectedService !== 'bath' && selectedService !== 'breakfast' && selectedService !== 'service' && selectedService !== 'wifi' && selectedService !== 'lost' && selectedService !== 'lighting' && selectedService !== 'longstay' && selectedService !== 'parking' && (
               <>
                 <h3 className="text-xl font-bold text-gray-900 mb-4">
                   {services.find(s => s.id === selectedService) ? t[services.find(s => s.id === selectedService)!.titleKey] : ''}
