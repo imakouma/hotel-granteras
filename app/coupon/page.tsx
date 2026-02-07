@@ -698,63 +698,6 @@ export default function CouponPage() {
           })}
         </section>
 
-        <section className="mt-10 rounded-lg border border-gray-200 bg-white p-4 shadow-sm sm:p-6">
-          <h2 className="text-base font-bold text-gray-900 sm:text-lg">提携駐車場のご案内</h2>
-          <div className="mt-4 overflow-hidden rounded-lg border border-gray-200 bg-gray-100">
-            <div className="relative w-full" style={{ aspectRatio: "16/9" }}>
-              <Image
-                src={encodeURI(parkingImage)}
-                alt="提携駐車場案内"
-                fill
-                className="object-contain"
-                sizes="(max-width: 768px) 100vw, 768px"
-                unoptimized
-              />
-            </div>
-          </div>
-          <div className="mt-4 space-y-6 text-sm text-gray-800">
-            <div>
-              <div className="font-semibold">1. パーキングタウンマギー</div>
-              <div className="mt-1 whitespace-pre-line">
-                仙台市青葉区国分町1丁目7-22
-                2022-261-3750
-                ■駐車料金2,000円
-                ■高さ制限2.40m
-                ■24h営業
-                ■割引適用時間 入庫から24h
-                ※ワゴン車・RV車・ルーフキャリアをお付けの車等は、こちらをご利用下さい。
-              </div>
-            </div>
-
-            <div>
-              <div className="font-semibold">2. いなりパーキング</div>
-              <div className="mt-1 whitespace-pre-line">
-                仙台市青葉区国分町2丁目2-9
-                2090-3120-2011
-                ■駐車料金1200円
-                ■高さ制限1.78m
-                ■24h営業
-                ■割引適用時間 入庫から24h（出し入れOK。申告制）
-              </div>
-            </div>
-
-            <div>
-              <div className="font-semibold">3. 大仙台駐車場</div>
-              <div className="mt-1 whitespace-pre-line">
-                仙台市青葉区立町1-23
-                8022-222-7643
-                ■駐車料金1,200円
-                ■高さ制限2.40m
-                ■24h営業
-                ■割引適用時間 入庫から最大36h（電話予約、出し入れOK。）
-                ※入庫から翌日19時までが1泊計算となります。（入庫は朝7時より可）
-                ※ワゴン車・AV車・ルーフキャリアをお付けの車等は、こちらをご利用下さい。
-                ※バイク（車前予約）1泊600円。
-                ※カーナビ検索の場合は022-223-3863の番号を入力して下さい。
-              </div>
-            </div>
-          </div>
-        </section>
 
       </main>
 
