@@ -19,10 +19,10 @@ const MAP_BTN_BG = "#F5A623";
 const COUPON_SITE = "/coupon-site";
 const bannerImage = `${COUPON_SITE}/スクリーンショット 2026-02-06 5.10.38.png`;
 const parkingImage = `${COUPON_SITE}/スクリーンショット 2026-02-06 3.15.05.png`;
-const shop3Image = `${COUPON_SITE}/スクリーンショット 2026-02-06 13.20.08.png`;
+const shop3Image = `${COUPON_SITE}/スクリーンショット 2026-02-07 20.26.38.png`;
 const shopImages = [
-  `${COUPON_SITE}/スクリーンショット 2026-02-06 13.19.39.png`,
-  `${COUPON_SITE}/スクリーンショット 2026-02-06 13.19.54.png`,
+  `${COUPON_SITE}/スクリーンショット 2026-02-07 20.26.24.png`,
+  `${COUPON_SITE}/スクリーンショット 2026-02-07 20.26.06.png`,
   shop3Image,
 ];
 
