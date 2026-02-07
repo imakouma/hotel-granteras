@@ -332,8 +332,8 @@ const shopsBase = [
         holiday: "年中無休",
         validity: "チェックアウト当日まで有効",
         distance: "ホテルより徒歩4分",
-        lat: 0,
-        lng: 0,
+        lat: 38.2616247,
+        lng: 140.8715841,
         placeUrl: "https://www.google.com/maps/search/?api=1&query=%E3%81%A8%E3%82%8A%E9%89%84%20%E4%BB%99%E5%8F%B0%E5%9B%BD%E5%88%86%E7%94%BA%E5%BA%97",
       },
     ],
@@ -350,8 +350,8 @@ const shopsBase = [
         address: "仙台市青葉区一番町4-4-32",
         tel: "022-217-3270",
         hours: "昼 11:30~15:00（L.O.14:30）\n夜 17:00～23:00（L.O.22:30）",
-        lat: 0,
-        lng: 0,
+        lat: 38.2614856,
+        lng: 140.8717123,
         holiday: undefined,
         placeUrl: "https://www.google.com/maps/search/?api=1&query=%E5%88%A9%E4%B9%85%20%E4%B8%80%E7%95%AA%E7%94%BA%E5%BA%97%20%E4%BB%99%E5%8F%B0",
       },
@@ -360,8 +360,8 @@ const shopsBase = [
         address: "仙台市青葉区国分町2-10-1 袋ビル1F",
         tel: "022-398-4855",
         hours: "11:30〜22:30（L.O.22:00）",
-        lat: 0,
-        lng: 0,
+        lat: 38.2603145,
+        lng: 140.8716892,
         holiday: undefined,
         placeUrl: "https://www.google.com/maps/search/?api=1&query=%E5%88%A9%E4%B9%85%E9%A3%9F%E5%A0%82%20%E4%BB%99%E5%8F%B0",
       },
@@ -380,8 +380,8 @@ const shopsBase = [
         tel: "022-797-3199",
         hours: "日〜木・祝日 16:00～翌1:00（L.O.料理20:15、ドリンク翌0:30）\n金・土・祝前日 16:00～翌3:00（料理L.O.2:15、ドリンクL.O.2:30）",
         holiday: "年中無休",
-        lat: 0,
-        lng: 0,
+        lat: 38.2614284,
+        lng: 140.8713438,
         placeUrl:
           "https://www.google.com/maps/search/?api=1&query=%E3%81%9F%E3%81%BE%20%E5%9B%BD%E5%88%86%E7%94%BA%E5%BA%97%20%E4%BB%99%E5%8F%B0",
       },
@@ -814,7 +814,12 @@ export default function CouponPage() {
                       "placeUrl" in branch && typeof branch.placeUrl === "string"
                         ? branch.placeUrl
                         : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(branchAddress)}`;
-                    const branchMapEmbedUrl = `https://www.google.com/maps?q=${encodeURIComponent(branchAddress)}&z=17&output=embed`;
+                    
+                    // 緯度経度がある場合はそれを使用、ない場合は住所で検索
+                    const branchMapEmbedUrl = ("lat" in branch && "lng" in branch && branch.lat !== 0 && branch.lng !== 0)
+                      ? `https://www.google.com/maps?q=${branch.lat},${branch.lng}&z=17&output=embed`
+                      : `https://www.google.com/maps?q=${encodeURIComponent(branchAddress)}&z=17&output=embed`;
+                    
                     const branchLabel = "name" in branch && branch.name != null ? branch.name : `${modalName} ${branchIndex + 1}`;
                     return (
                       <div
