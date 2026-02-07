@@ -1517,34 +1517,34 @@ export default function Home() {
   ];
 
 return (
-  <div className="min-h-screen bg-[#f9f2d4]">
+    <div className="min-h-screen bg-[#f9f2d4] overflow-x-hidden">
     {/* ヘッダー */}
     <header className="bg-white/98 backdrop-blur-sm sticky top-0 z-50 shadow-sm">
-      <div className="max-w-7xl mx-auto px-2 sm:px-4 md:px-6 lg:px-8">
-        <div className="flex items-center justify-between gap-1 py-1.5 sm:gap-2 sm:py-2">
+        <div className="max-w-7xl mx-auto px-1.5 sm:px-4 md:px-6 lg:px-8">
+          <div className="flex items-center justify-between gap-1 py-1.5 sm:gap-2 sm:py-2">
           {/* 左側：ロゴとホテル名 */}
-          <div className="flex items-center gap-1 sm:gap-2 shrink-0 min-w-0">
-            <div className="relative w-8 h-8 sm:w-12 sm:h-12 md:w-14 md:h-14 shrink-0">
+            <div className="flex items-center gap-1 sm:gap-2 shrink min-w-0 flex-1">
+              <div className="relative w-7 h-7 sm:w-12 sm:h-12 md:w-14 md:h-14 shrink-0">
               <Image
                 src={encodeURI('/スクリーンショット 2026-02-06 1.21.09.png')}
                 alt="GH"
                 fill
                 className="object-contain"
-                sizes="(max-width: 640px) 32px, (max-width: 768px) 48px, 56px"
+                  sizes="(max-width: 640px) 28px, (max-width: 768px) 48px, 56px"
                 unoptimized
               />
             </div>
-            <div className="min-w-0">
+              <div className="min-w-0 flex-1 overflow-hidden">
               <h1 className="sr-only">
                 {t.hotelName} {t.hotelTitle}
               </h1>
-              <div className="relative h-5 w-[160px] sm:h-7 sm:w-[240px] md:h-9 md:w-[320px]">
+                <div className="relative h-5 w-full max-w-[140px] sm:h-7 sm:max-w-[240px] md:h-9 md:max-w-[320px]">
                 <Image
                   src={encodeURI('/スクリーンショット 2026-02-06 1.21.18.png')}
                   alt={`${t.hotelName} ${t.hotelTitle}`}
                   fill
                   className="object-contain object-left"
-                  sizes="(max-width: 640px) 160px, (max-width: 768px) 240px, 320px"
+                    sizes="(max-width: 640px) 140px, (max-width: 768px) 240px, 320px"
                   unoptimized
                 />
               </div>
@@ -1552,7 +1552,7 @@ return (
           </div>
 
             {/* 右側：言語選択と飲食店クーポンボタン */}
-            <div className="flex items-center justify-end shrink-0 space-x-0.5 sm:space-x-1 md:space-x-2 flex-nowrap">
+            <div className="flex items-center justify-end shrink-0 space-x-0.5 sm:space-x-1 md:space-x-2 flex-nowrap ml-1">
               {/* 言語選択 */}
               <div ref={languageDropdownRef} className="flex items-center space-x-0 sm:space-x-0.5 md:space-x-1 relative flex-nowrap shrink-0">
                 {/* Another Language ボタン */}
@@ -1565,8 +1565,8 @@ return (
                   }`}
                   title="Other Languages"
                 >
-                  <span className="flex items-center justify-center w-4 h-4 sm:w-5 sm:h-5 md:w-7 md:h-7 text-sm sm:text-base md:text-xl leading-none">🌐</span>
-                  <span className="text-[7px] sm:text-[8px] md:text-[10px] text-gray-700 leading-tight mt-0.5">Another</span>
+                  <span className="flex items-center justify-center w-3.5 h-3.5 sm:w-5 sm:h-5 md:w-7 md:h-7 text-xs sm:text-base md:text-xl leading-none">🌐</span>
+                  <span className="text-[6px] sm:text-[8px] md:text-[10px] text-gray-700 leading-tight mt-0.5">Another</span>
                 </button>
 
                 {/* 他の言語ドロップダウン */}
@@ -1616,8 +1616,8 @@ return (
                     }`}
                     title={lang.label}
                   >
-                    <span className="flex items-center justify-center w-4 h-4 sm:w-5 sm:h-5 md:w-7 md:h-7 text-sm sm:text-base md:text-xl leading-none">{lang.flag}</span>
-                    <span className="text-[7px] sm:text-[8px] md:text-[10px] text-gray-700 leading-tight mt-0.5">{lang.label}</span>
+                    <span className="flex items-center justify-center w-3.5 h-3.5 sm:w-5 sm:h-5 md:w-7 md:h-7 text-xs sm:text-base md:text-xl leading-none">{lang.flag}</span>
+                    <span className="text-[6px] sm:text-[8px] md:text-[10px] text-gray-700 leading-tight mt-0.5">{lang.label}</span>
                   </button>
                 ))}
               </div>
@@ -1625,7 +1625,7 @@ return (
               {/* 飲食店クーポンボタン（内部ページ） */}
               <Link
                 href="/coupon"
-                className="bg-red-500 hover:bg-red-600 text-white px-1 sm:px-1.5 md:px-2.5 lg:px-3 py-0.5 sm:py-1 md:py-1.5 rounded-md text-[8px] sm:text-[9px] md:text-xs lg:text-sm font-semibold transition-colors whitespace-nowrap shadow-sm inline-block"
+                className="bg-red-500 hover:bg-red-600 text-white px-1 sm:px-1.5 md:px-2.5 lg:px-3 py-0.5 sm:py-1 md:py-1.5 rounded-md text-[7px] sm:text-[9px] md:text-xs lg:text-sm font-semibold transition-colors whitespace-nowrap shadow-sm inline-block"
               >
                 {t.restaurantCoupon}
               </Link>
@@ -1897,18 +1897,18 @@ return (
                 
                 {/* 朝食セクション */}
                 <div className="mb-6">
-                  <div className="space-y-4 mb-4">
-                    <div className="text-gray-700">
-                      {t.breakfastPrice}
-                    </div>
-                    <div>
+                    <div className="space-y-4 mb-4">
+                      <div className="text-gray-700">
+                        {t.breakfastPrice}
+                      </div>
+                      <div>
                       <div className="text-xl font-bold text-gray-900">{t.breakfastVenue}</div>
                       <div className="text-gray-700">{t.breakfastFloor}</div>
-                    </div>
-                    <div className="text-gray-700">
+                      </div>
+                      <div className="text-gray-700">
                       <span className="font-semibold">{t.breakfastTime}</span> {t.breakfastTimeDetail}
+                      </div>
                     </div>
-                  </div>
                   {/* 朝食の画像 */}
                   <div className="mb-4 rounded-lg overflow-hidden">
                     <div className="relative w-full h-64">
@@ -1949,10 +1949,10 @@ return (
                       </button>
                     </div>
                   </div>
-                  <div className="space-y-2 text-gray-700">
+                    <div className="space-y-2 text-gray-700">
                     <p>{t.breakfastDesc}</p>
                     <p className="text-sm text-gray-600">{t.breakfastNotice}</p>
-                  </div>
+                    </div>
                 </div>
 
                 <button
@@ -2010,7 +2010,7 @@ return (
                   <div className="space-y-3">
                     <div className="rounded-lg bg-pink-50 border border-pink-200 px-4 py-3 flex items-center justify-between">
                       <div className="flex items-center">
-                        <span className="font-bold text-gray-900">{t.password}</span>
+                    <span className="font-bold text-gray-900">{t.password}</span>
                         <span className="font-bold text-[#A4879D] ml-2">hgts7755</span>
                       </div>
                       <button
@@ -2100,16 +2100,16 @@ return (
                 {/* 説明画像 */}
                 <div className="mb-6 rounded-lg overflow-hidden border border-gray-200">
                   <div className="relative w-full h-auto">
-                    <Image
+                      <Image
                       src="/unnamed.jpg"
                       alt="連泊のお客様へ - エコプランのご案内"
                       width={1000}
                       height={800}
-                      className="w-full h-auto object-contain"
-                      unoptimized
-                    />
+                        className="w-full h-auto object-contain"
+                        unoptimized
+                      />
+                    </div>
                   </div>
-                </div>
 
                 <div className="space-y-6">
                   {/* 清掃について */}
@@ -2129,13 +2129,13 @@ return (
                   {/* 清掃不要の場合 */}
                   <div className="bg-blue-50 rounded-lg p-4 border border-blue-200">
                     <h4 className="font-bold text-lg text-gray-900 mb-3">緑マグネット「清掃してください」が貼られていない場合</h4>
-                    <p className="text-sm text-gray-700 leading-relaxed">
+                  <p className="text-sm text-gray-700 leading-relaxed">
                       部屋の前に新しいタオルのみ置かせていただきます。
                     </p>
                     <p className="text-xs text-gray-600 mt-2">
                       ※使用済みタオル、ゴミ箱を<span className="font-semibold">13時まで</span>に部屋の外へ出して頂ければ回収致します。
-                    </p>
-                  </div>
+                  </p>
+                </div>
 
                   {/* エコプランの説明 */}
                   <div className="bg-green-50 rounded-lg p-4 border border-green-200">
@@ -2174,16 +2174,16 @@ return (
                 {/* 駐車場画像 */}
                 <div className="mb-6 rounded-lg overflow-hidden border border-gray-200 bg-gray-100">
                   <div className="relative w-full" style={{ aspectRatio: "16/9" }}>
-                    <Image
+                      <Image
                       src="/coupon-site/スクリーンショット 2026-02-06 3.15.05.png"
                       alt={t.parking}
                       fill
                       className="object-contain"
                       sizes="(max-width: 768px) 100vw, 768px"
-                      unoptimized
-                    />
+                        unoptimized
+                      />
+                    </div>
                   </div>
-                </div>
 
                 {/* 駐車場情報 */}
                 <div className="space-y-6 text-sm text-gray-800">
