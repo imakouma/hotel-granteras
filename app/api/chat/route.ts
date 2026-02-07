@@ -17,10 +17,18 @@ let officialSiteCache:
 
 const SYSTEM_PROMPT_PREFIX = `あなたは「ホテルグランテラス仙台国分町」の館内案内アシスタントです。
 以下のホテル情報を参照し、お客様の質問に丁寧かつ正確に答えてください。
-- 館内の基本情報（チェックイン・朝食の時間・料金・設備など）に加え、「近隣のおすすめ」や「独自の特典」についても、知識ベースに記載された範囲で案内してください。
-- 知識ベースに記載されている情報（料金・時間・内容など）は、そのまま具体的に答えてください。料金を聞かれた場合は、記載があれば金額を伝えてください。フロントへ案内するのは、知識ベースに本当に載っていない情報（暗証番号・パスワードなど）を聞かれた場合のみにしてください。
-- Wi-Fiのパスワードは、知識ベースに記載がある場合は回答して問題ありません。
-- 回答は簡潔に、必要な情報だけを伝えてください。観光案内の際は松島観光の拠点としての利便性をアピールしてください。
+
+【重要な回答ルール】
+1. **必ずこのサイト内の「ホテル情報（参照用）」セクションを最優先で参照してください**
+2. サイト内に情報が記載されている場合は、その情報をそのまま正確に伝えてください
+3. 料金・時間・内容など、知識ベースに記載がある情報は具体的に答えてください
+4. **公式HPの情報は、サイト内に情報が無い場合のみ補足として使用してください**
+5. 外部の一般的な情報やネット検索の情報は使用せず、必ず提供された知識ベース内の情報から回答してください
+6. Wi-Fiのパスワードなど、知識ベースに記載がある場合は回答して問題ありません
+7. 知識ベースに本当に載っていない情報を聞かれた場合のみ、フロント（内線9番）へご案内ください
+8. **回答は簡潔に3〜5行程度にまとめてください。詳細は必要な時のみ伝えてください**
+9. 夕食・飲食店について聞かれた場合は、店舗の住所や電話番号などの詳細は省略し、/coupon ページへ誘導してください
+10. 観光案内の際は松島観光の拠点としての利便性をアピールしてください
 
 ## ホテル情報（参照用）
 `;
@@ -135,9 +143,9 @@ export async function POST(request: NextRequest) {
     const genAI = new GoogleGenerativeAI(apiKey);
     const languageInstruction = `【重要】回答は必ず「${responseLang}」で行ってください。お客様がその言語で質問している場合は、同じ言語で簡潔に答えてください。`;
     const officialSiteSection = officialSiteText
-      ? `\n\n## 公式HP（参照用）\nURL: ${OFFICIAL_SITE_URL}\n\n${officialSiteText}\n`
+      ? `\n\n## 公式HP（補足情報・サイト内に情報が無い場合のみ参照）\nURL: ${OFFICIAL_SITE_URL}\n注意: この情報は、上記の「ホテル情報（参照用）」に記載が無い場合のみ使用してください。\n\n${officialSiteText}\n`
       : "";
-    const fullPrompt = `${SYSTEM_PROMPT_PREFIX}\n${hotelInfo}${officialSiteSection}\n\n---\n${languageInstruction}\n\n上記のホテル情報を参照して、以下のお客様の質問に答えてください。\n\n【質問】\n${userMessage.trim()}`;
+    const fullPrompt = `${SYSTEM_PROMPT_PREFIX}\n${hotelInfo}${officialSiteSection}\n\n---\n${languageInstruction}\n\n【回答時の注意】\n- まず「ホテル情報（参照用）」セクションを確認してください\n- そこに情報がある場合は、その情報を優先的に使用してください\n- 公式HPの情報は、サイト内に情報が無い場合の補足としてのみ使用してください\n\n上記のルールに従って、以下のお客様の質問に答えてください。\n\n【質問】\n${userMessage.trim()}`;
 
     const modelIds = ["gemini-1.5-flash", "gemini-1.5-flash-latest", "gemini-2.0-flash"] as const;
     const maxRetries = 3;
