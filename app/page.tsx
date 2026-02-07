@@ -1162,13 +1162,13 @@ export default function Home() {
   const [visibleServices, setVisibleServices] = useState<Set<string>>(new Set());
 
   const heroImages = [
-    '/title-picture/top_main_img01.jpg',
-    '/title-picture/top_main_img02.jpg',
-    '/title-picture/top_main_img03.jpg',
-    '/title-picture/top_main_img04.jpg',
-    '/title-picture/top_main_img05.jpg',
-    '/title-picture/top_main_img06.jpg',
-    '/title-picture/top_main_img07.jpg',
+    '/hero-picture/top_main_img01.jpg',
+    '/hero-picture/top_main_img02.jpg',
+    '/hero-picture/top_main_img03.jpg',
+    '/hero-picture/top_main_img04.jpg',
+    '/hero-picture/top_main_img05.jpg',
+    '/hero-picture/top_main_img06.jpg',
+    '/hero-picture/top_main_img07.jpg',
   ];
 
   const breakfastImages = [
@@ -1919,9 +1919,28 @@ return (
                   <p className="text-sm text-gray-700 mb-4">
                     アクセスポイントはお部屋に設置の「客室インターネットのご案内」をご覧くださいませ。
                   </p>
-                  <div className="rounded-lg bg-red-50 border border-red-200 px-4 py-3 inline-flex items-center">
-                    <span className="font-bold text-gray-900">{t.password}</span>
-                    <span className="font-bold text-red-700 ml-2">hgts7755</span>
+                  <div className="space-y-3">
+                    <div className="rounded-lg bg-pink-50 border border-pink-200 px-4 py-3 flex items-center justify-between">
+                      <div className="flex items-center">
+                        <span className="font-bold text-gray-900">{t.password}</span>
+                        <span className="font-bold text-[#A4879D] ml-2">hgts7755</span>
+                      </div>
+                      <button
+                        onClick={() => {
+                          navigator.clipboard.writeText('hgts7755');
+                          alert('パスワードをコピーしました！');
+                        }}
+                        className="ml-4 bg-[#A4879D] hover:bg-[#8B6E83] text-white px-3 py-1.5 rounded-md text-sm font-medium transition-colors flex items-center gap-1 shrink-0"
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                        </svg>
+                        コピー
+                      </button>
+                    </div>
+                    <p className="text-xs text-gray-600 text-center">
+                      ※ボタンをタップするとパスワードをコピーできます
+                    </p>
                   </div>
                 </div>
                 <button
@@ -1968,7 +1987,7 @@ return (
                   <div className="rounded-lg overflow-hidden border border-gray-200">
                     <div className="relative w-full h-auto">
                       <Image
-                        src={encodeURI("/icon-matome/スクリーンショット 2026-02-06 2.56.04.png")}
+                        src={encodeURI("/icon-matome/81DA2A29-508F-4CE2-A164-50487C07036A.PNG")}
                         alt={t.lightingTitle}
                         width={800}
                         height={600}
@@ -1977,10 +1996,6 @@ return (
                       />
                     </div>
                   </div>
-                  
-                  <p className="text-sm text-gray-600 text-center">
-                    {t.lightingNote}
-                  </p>
                 </div>
                 <button
                   onClick={() => setSelectedService(null)}
@@ -1994,47 +2009,71 @@ return (
               <>
                 <h3 className="text-2xl font-bold text-gray-900 mb-4 text-center">{t.longstayTitle}</h3>
                 
-                {/* シーツ交換について */}
-                <div className="mb-6">
-                  <div className="mb-4 rounded-lg overflow-hidden flex justify-center">
-                    <div className="relative w-64 h-auto max-w-full">
-                      <Image
-                        src="/shirts.png"
-                        alt={selectedLanguage === 'ja' ? 'シーツ交換用WECOカード' : selectedLanguage === 'en' ? 'WECO Card for Sheet Exchange' : selectedLanguage === 'zh' ? '床单更换用WECO卡' : selectedLanguage === 'ko' ? '시트 교체용 WECO 카드' : 'WECO Card for Sheet Exchange'}
-                        width={400}
-                        height={600}
-                        className="w-full h-auto object-contain"
-                        unoptimized
-                      />
-                    </div>
+                {/* 説明画像 */}
+                <div className="mb-6 rounded-lg overflow-hidden border border-gray-200">
+                  <div className="relative w-full h-auto">
+                    <Image
+                      src="/unnamed.jpg"
+                      alt="連泊のお客様へ - エコプランのご案内"
+                      width={1000}
+                      height={800}
+                      className="w-full h-auto object-contain"
+                      unoptimized
+                    />
                   </div>
-                  <p className="text-sm text-gray-700 leading-relaxed">
-                    {t.sheetExchange}
-                  </p>
                 </div>
 
-                {/* 清掃不要について */}
-                <div className="mb-6">
-                  <div className="mb-4 rounded-lg overflow-hidden flex justify-center">
-                    <div className="relative w-64 h-auto max-w-full">
-                      <Image
-                        src="/room-clean.png"
-                        alt={selectedLanguage === 'ja' ? '清掃不要用WECOカード' : selectedLanguage === 'en' ? 'WECO Card for No Cleaning' : selectedLanguage === 'zh' ? '不需要清洁用WECO卡' : selectedLanguage === 'ko' ? '청소 불필요용 WECO 카드' : 'WECO Card for No Cleaning'}
-                        width={400}
-                        height={600}
-                        className="w-full h-auto object-contain"
-                        unoptimized
-                      />
-                    </div>
+                <div className="space-y-6">
+                  {/* 清掃について */}
+                  <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                    <h4 className="font-bold text-lg text-gray-900 mb-3">清掃ご希望の方へ</h4>
+                    <p className="text-sm text-gray-700 leading-relaxed mb-2">
+                      清掃ご希望の方は緑のマグネット<span className="font-semibold text-green-700">「清掃してください」</span>を<span className="font-semibold text-red-600">朝9時まで</span>に入口ドア廊下側にお貼りください。
+                    </p>
+                    <p className="text-xs text-gray-600 mt-2">
+                      ※朝9時以降にお貼りいただいても清掃には入りませんのでご注意ください。
+                    </p>
+                    <p className="text-xs text-gray-600">
+                      ※清掃ご希望の方は11:00～14:00は清掃のお時間の為ご在室できませんのでご注意ください。
+                    </p>
                   </div>
-                  <p className="text-sm text-gray-700 leading-relaxed">
-                    {t.noCleaning}
-                  </p>
+
+                  {/* 清掃不要の場合 */}
+                  <div className="bg-blue-50 rounded-lg p-4 border border-blue-200">
+                    <h4 className="font-bold text-lg text-gray-900 mb-3">緑マグネット「清掃してください」が貼られていない場合</h4>
+                    <p className="text-sm text-gray-700 leading-relaxed">
+                      部屋の前に新しいタオルのみ置かせていただきます。
+                    </p>
+                    <p className="text-xs text-gray-600 mt-2">
+                      ※使用済みタオル、ゴミ箱を<span className="font-semibold">13時まで</span>に部屋の外へ出して頂ければ回収致します。
+                    </p>
+                  </div>
+
+                  {/* エコプランの説明 */}
+                  <div className="bg-green-50 rounded-lg p-4 border border-green-200">
+                    <h4 className="font-bold text-lg text-gray-900 mb-3">※連泊エコプランのお客様へ</h4>
+                    <p className="text-sm text-gray-700 leading-relaxed mb-2">
+                      連泊エコプランのお客様は清掃は3日に1回となります。
+                    </p>
+                    <p className="text-sm text-gray-700">
+                      （2泊目までは使用済みタオル、ゴミ箱を部屋の外へお出しください。備品のみ交換します。3泊目は通常清掃を致します。4泊目以降はその繰り返しです。）
+                    </p>
+                    <p className="text-xs text-gray-600 mt-2">
+                      通常清掃への変更をご希望の場合はフロントまでご連絡下さい。1回につき500円にて承ります。
+                    </p>
+                  </div>
+
+                  {/* ミネラルウォータープレゼント */}
+                  <div className="bg-pink-50 rounded-lg p-4 border border-pink-200">
+                    <p className="text-sm text-gray-700 leading-relaxed">
+                      ※滞在中、<span className="font-semibold">「清掃してください」マグネットを朝9時までに入口ドアに貼らずエコ清掃にご協力いただいたお客様</span>へは<span className="font-semibold text-[#A4879D] text-base">ミネラルウォーター500mlを1本プレゼント</span>いたします。
+                    </p>
+                  </div>
                 </div>
 
                 <button
                   onClick={() => setSelectedService(null)}
-                  className="w-full bg-white hover:bg-gray-50 text-gray-600 border border-gray-300 px-4 py-2 rounded-lg font-medium transition-colors"
+                  className="mt-6 w-full bg-white hover:bg-gray-50 text-gray-600 border border-gray-300 px-4 py-2 rounded-lg font-medium transition-colors"
                 >
                   {t.close}
                 </button>

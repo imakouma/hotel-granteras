@@ -19,10 +19,10 @@ const MAP_BTN_BG = "#F5A623";
 const COUPON_SITE = "/coupon-site";
 const bannerImage = `${COUPON_SITE}/スクリーンショット 2026-02-06 5.10.38.png`;
 const parkingImage = `${COUPON_SITE}/スクリーンショット 2026-02-06 3.15.05.png`;
-const shop3Image = `${COUPON_SITE}/スクリーンショット 2026-02-06 5.42.29.png`;
+const shop3Image = `${COUPON_SITE}/スクリーンショット 2026-02-06 13.20.08.png`;
 const shopImages = [
-  `${COUPON_SITE}/スクリーンショット 2026-02-06 5.32.17.png`,
-  `${COUPON_SITE}/スクリーンショット 2026-02-01 22.43.06.png`,
+  `${COUPON_SITE}/スクリーンショット 2026-02-06 13.19.39.png`,
+  `${COUPON_SITE}/スクリーンショット 2026-02-06 13.19.54.png`,
   shop3Image,
 ];
 
@@ -327,15 +327,19 @@ const shopsBase = [
     branches: [
       {
         name: "とり鉄 仙台国分町店",
-        address: "",
+        address: "宮城県仙台市青葉区一番町4-4-20",
         tel: "022-216-2020",
+        hours: "16:00~23:00（L.O.22:00）",
+        holiday: "年中無休",
+        validity: "チェックアウト当日まで有効",
+        distance: "ホテルより徒歩4分",
         lat: 0,
         lng: 0,
         placeUrl: "https://www.google.com/maps/search/?api=1&query=%E3%81%A8%E3%82%8A%E9%89%84%20%E4%BB%99%E5%8F%B0%E5%9B%BD%E5%88%86%E7%94%BA%E5%BA%97",
       },
     ],
-    hours: undefined,
-    holiday: undefined,
+    hours: "16:00~23:00（L.O.22:00）",
+    holiday: "年中無休",
     mapUrl: "https://www.google.com/maps/search/?api=1&query=%E3%81%A8%E3%82%8A%E9%89%84%20%E4%BB%99%E5%8F%B0%E5%9B%BD%E5%88%86%E7%94%BA%E5%BA%97",
   },
   {
@@ -344,21 +348,21 @@ const shopsBase = [
     branches: [
       {
         name: "利久 一番町店",
-        address: "",
+        address: "仙台市青葉区一番町4-4-32",
         tel: "022-217-3270",
+        hours: "昼 11:30~15:00（L.O.14:30）\n夜 17:00～23:00（L.O.22:30）",
         lat: 0,
         lng: 0,
-        hours: undefined,
         holiday: undefined,
         placeUrl: "https://www.google.com/maps/search/?api=1&query=%E5%88%A9%E4%B9%85%20%E4%B8%80%E7%95%AA%E7%94%BA%E5%BA%97%20%E4%BB%99%E5%8F%B0",
       },
       {
-        name: "利久食堂",
-        address: "",
+        name: "利久食堂 国分町店",
+        address: "仙台市青葉区国分町2-10-1 袋ビル1F",
         tel: "022-398-4855",
+        hours: "11:30〜22:30（L.O.22:00）",
         lat: 0,
         lng: 0,
-        hours: undefined,
         holiday: undefined,
         placeUrl: "https://www.google.com/maps/search/?api=1&query=%E5%88%A9%E4%B9%85%E9%A3%9F%E5%A0%82%20%E4%BB%99%E5%8F%B0",
       },
@@ -373,8 +377,10 @@ const shopsBase = [
     branches: [
       {
         name: "たま 国分町店",
-        address: "仙台市青葉区国分町2丁目1-3 エニークス国分町ビル2F",
+        address: "仙台市青葉区国分町2丁目1-3 エニークス国分町ビル5F",
         tel: "022-797-3199",
+        hours: "日〜木・祝日 16:00～翌1:00（L.O.料理20:15、ドリンク翌0:30）\n金・土・祝前日 16:00～翌3:00（料理L.O.2:15、ドリンクL.O.2:30）",
+        holiday: "年中無休",
         lat: 0,
         lng: 0,
         placeUrl:
@@ -382,7 +388,7 @@ const shopsBase = [
       },
     ],
     hours: undefined,
-    holiday: undefined,
+    holiday: "年中無休",
     mapUrl: "https://www.google.com/maps/search/?api=1&query=%E3%81%9F%E3%81%BE%20%E5%9B%BD%E5%88%86%E7%94%BA%E5%BA%97%20%E4%BB%99%E5%8F%B0",
   },
 ];
@@ -650,13 +656,19 @@ export default function CouponPage() {
                         {"name" in b && b.name != null && (
                           <p className="font-semibold text-gray-900">{b.name}</p>
                         )}
-                        <p className="mt-0.5">{b.address}</p>
-                        <p className="mt-0.5">{t.tel} {b.tel}</p>
                         {"hours" in b && b.hours != null && (
-                          <p className="mt-1 text-xs whitespace-pre-line">{b.hours}</p>
+                          <p className="mt-1 text-xs">{b.hours}</p>
                         )}
                         {"holiday" in b && b.holiday != null && (
-                          <p className="mt-0.5 text-xs whitespace-pre-line">{b.holiday}</p>
+                          <p className="mt-0.5 text-xs">定休日：{b.holiday}</p>
+                        )}
+                        <p className="mt-1">{b.address}</p>
+                        <p className="mt-0.5">{t.tel} {b.tel}</p>
+                        {"validity" in b && b.validity != null && (
+                          <p className="mt-1 text-xs">{b.validity}</p>
+                        )}
+                        {"distance" in b && b.distance != null && (
+                          <p className="mt-0.5 text-xs">{b.distance}</p>
                         )}
                       </div>
                     ))}
