@@ -66,9 +66,9 @@ const couponTranslations: Record<
   ja: {
     pageTitle: "飲食店クーポン",
     backToGuide: "館内案内へ戻る",
-    usageMessage: "チェックイン時にお渡ししたクーポン券を必ずご持参の上、ご注文時にスタッフへお渡しください。",
+    usageMessage: "配布のクーポン券を持参、またはこの画面の提示を注文時にスタッフへしてください。",
     usageNote: "※利用条件等は配布のクーポン券をご確認ください。",
-    bringCoupon: "配布のクーポン券を持参で",
+    bringCoupon: "配布のクーポン券持参または、この画面の提示で",
     shop1Offer: "全品半額!!",
     shop2Offer1: "店内おまかせ一品料理無料",
     shop2Or: "",
