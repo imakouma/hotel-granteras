@@ -22,7 +22,7 @@ const parkingImage = `${COUPON_SITE}/スクリーンショット 2026-02-06 3.15
 const shopImages = [
   `${COUPON_SITE}/unnamed.jpg`, // とり鉄
   `${COUPON_SITE}/Gemini_Generated_Image_ps8193ps8193ps81.png`, // 利久
-  `${COUPON_SITE}/unnamed-1.jpg`, // たま（暫定）
+  `${COUPON_SITE}/スクリーンショット 2026-02-08 23.47.10.png`, // たま
 ];
 
 /** モーダル用の店舗詳細画像（MAP押下時に表示） */
