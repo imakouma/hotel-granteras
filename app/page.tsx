@@ -1815,23 +1815,6 @@ return (
                 {t.restaurantCoupon}
               </Link>
             </div>
-            <div className="w-full">
-              <a
-                href="https://share.google/07ahmvGKgGyn44mSQ"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center h-20 sm:h-24 md:h-24 w-full bg-[#00823E] hover:bg-[#006b32] text-white px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 rounded-xl transition-colors shadow-lg hover:shadow-xl overflow-hidden"
-              >
-                <Image
-                  src="/icon-matome/logo.svg"
-                  alt="アウトドアグッズ"
-                  width={120}
-                  height={60}
-                  className="max-h-full max-w-full w-auto h-auto object-contain shrink-0"
-                  unoptimized
-                />
-              </a>
-            </div>
           </div>
         </div>
       </section>
