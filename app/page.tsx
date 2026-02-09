@@ -12,7 +12,7 @@ const translations = {
     heroTitle: 'ホテル館内のご案内',
     welcomeMessage: '本日は「ホテルグランテラス仙台国分町」をご利用いただき誠にありがとうございます。',
     welcomeMessage2: 'ご不明な点がございましたらフロントスタッフまでお気軽にお尋ねください。',
-    restaurantCoupon: '飲食店クーポン',
+    restaurantCoupon: '今夜のご夕食にどうぞ\nお得な飲食店クーポン',
     checkInOut: '入退館時間',
     bath: 'ロビー・施設',
     breakfast: '朝食',
@@ -1551,7 +1551,7 @@ return (
             </div>
           </div>
 
-            {/* 右側：言語選択と飲食店クーポンボタン */}
+            {/* 右側：言語選択 */}
             <div className="flex items-center justify-end shrink-0 space-x-0.5 sm:space-x-1 md:space-x-2 flex-nowrap ml-1">
               {/* 言語選択 */}
               <div ref={languageDropdownRef} className="flex items-center space-x-0 sm:space-x-0.5 md:space-x-1 relative flex-nowrap shrink-0">
@@ -1621,14 +1621,6 @@ return (
                   </button>
                 ))}
               </div>
-
-              {/* 飲食店クーポンボタン（内部ページ） */}
-              <Link
-                href="/coupon"
-                className="bg-red-500 hover:bg-red-600 text-white px-1 sm:px-1.5 md:px-2.5 lg:px-3 py-0.5 sm:py-1 md:py-1.5 rounded-md text-[7px] sm:text-[9px] md:text-xs lg:text-sm font-semibold transition-colors whitespace-nowrap shadow-sm inline-block"
-              >
-                {t.restaurantCoupon}
-              </Link>
             </div>
           </div>
         </div>
@@ -1679,8 +1671,8 @@ return (
 
       {/* サービスグリッド */}
       <section className="bg-white py-12">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div ref={servicesGridRef} className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
+        <div ref={servicesGridRef} className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
             {services.map((service, index) => (
               service.id === 'dinner' ? (
                 <Link
@@ -1802,6 +1794,44 @@ return (
                 </button>
               )
             ))}
+          </div>
+          {/* 飲食店クーポン・アウトドアグッズ（同じサイズで縦並び） */}
+          <div className="mt-6 sm:mt-8 flex flex-col items-center gap-4 sm:gap-5 w-full max-w-xl mx-auto">
+            <div
+              data-service-id="coupon"
+              className={`w-full transition-all duration-700 ease-out ${
+                visibleServices.has('coupon')
+                  ? 'opacity-100 translate-y-0'
+                  : 'opacity-0 translate-y-6'
+              }`}
+              style={{
+                transitionDelay: visibleServices.has('coupon') ? '450ms' : '0ms',
+              }}
+            >
+              <Link
+                href="/coupon"
+                className="flex items-center justify-center h-20 sm:h-24 md:h-24 w-full bg-red-500 hover:bg-red-600 text-white px-6 sm:px-10 md:px-12 py-4 sm:py-5 md:py-6 rounded-xl text-lg sm:text-xl md:text-2xl font-semibold transition-colors shadow-lg hover:shadow-xl text-center whitespace-pre-line leading-snug"
+              >
+                {t.restaurantCoupon}
+              </Link>
+            </div>
+            <div className="w-full">
+              <a
+                href="https://share.google/07ahmvGKgGyn44mSQ"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center h-20 sm:h-24 md:h-24 w-full bg-[#00823E] hover:bg-[#006b32] text-white px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 rounded-xl transition-colors shadow-lg hover:shadow-xl overflow-hidden"
+              >
+                <Image
+                  src="/icon-matome/logo.svg"
+                  alt="アウトドアグッズ"
+                  width={120}
+                  height={60}
+                  className="max-h-full max-w-full w-auto h-auto object-contain shrink-0"
+                  unoptimized
+                />
+              </a>
+            </div>
           </div>
         </div>
       </section>
