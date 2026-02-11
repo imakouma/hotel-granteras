@@ -1810,9 +1810,59 @@ return (
             >
               <Link
                 href="/coupon"
-                className="flex items-center justify-center h-20 sm:h-24 md:h-24 w-full bg-red-500 hover:bg-red-600 text-white px-6 sm:px-10 md:px-12 py-4 sm:py-5 md:py-6 rounded-xl text-lg sm:text-xl md:text-2xl font-semibold transition-colors shadow-lg hover:shadow-xl text-center whitespace-pre-line leading-snug"
+                className="relative flex items-center justify-center h-[7.8rem] sm:h-[9.1rem] md:h-[9.1rem] w-full rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
               >
-                {t.restaurantCoupon}
+                {/* 3枚の料理画像を横並びで背景 */}
+                <div className="absolute inset-0 flex">
+                  <div className="relative flex-1 min-w-0">
+                    <Image
+                      src={encodeURI('/coupon-site/スクリーンショット 2026-02-06 5.32.17.png')}
+                      alt=""
+                      fill
+                      className="object-cover"
+                      sizes="33vw"
+                      unoptimized
+                    />
+                  </div>
+                  <div className="relative flex-1 min-w-0">
+                    <Image
+                      src={encodeURI('/coupon-site/スクリーンショット 2026-02-06 5.42.52.png')}
+                      alt=""
+                      fill
+                      className="object-cover"
+                      sizes="33vw"
+                      unoptimized
+                    />
+                  </div>
+                  <div className="relative flex-1 min-w-0">
+                    <Image
+                      src={encodeURI('/coupon-site/スクリーンショット 2026-02-06 5.32.43.png')}
+                      alt=""
+                      fill
+                      className="object-cover"
+                      sizes="33vw"
+                      unoptimized
+                    />
+                  </div>
+                </div>
+                {/* 暗いオーバーレイで文字を読みやすく */}
+                <div className="absolute inset-0 bg-black/50" aria-hidden />
+                {/* 参照画像に寄せたフォント：丸ゴシック・光沢グラデ・太い黒縁・落ち影 */}
+                {(() => {
+                  const [line1, line2] = (t.restaurantCoupon as string).split('\n');
+                  return (
+                    <span className="coupon-btn-text relative z-10 flex flex-col items-center justify-center gap-0.5 sm:gap-1 text-center drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
+                      <span className="coupon-btn-line1 text-xl sm:text-2xl md:text-3xl">
+                        {line1}
+                      </span>
+                      {line2 ? (
+                        <span className="coupon-btn-line2 text-base sm:text-lg md:text-xl">
+                          {line2}
+                        </span>
+                      ) : null}
+                    </span>
+                  );
+                })()}
               </Link>
             </div>
           </div>
